@@ -1,0 +1,264 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>4. Documentation &mdash; Turbine_CostSE 0.1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/nrel.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Turbine_CostSE 0.1.0 documentation" href="index.html" />
+    <link rel="next" title="5. Theory" href="theory.html" />
+    <link rel="prev" title="3. Tutorial" href="tutorial.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="theory.html" title="5. Theory"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="tutorial.html" title="3. Tutorial"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Turbine_CostSE 0.1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="documentation">
+<span id="documentation-label"></span><h1>4. Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h1>
+<p>The following inputs and outputs are defined for Turbine_CostsSE:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Turbine_CostsSE</span><span class="p">(</span><span class="n">Assembly</span><span class="p">):</span>
+
+    <span class="c"># variables</span>
+    <span class="n">blade_mass</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;kg&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;component mass [kg]&#39;</span><span class="p">)</span>
+    <span class="n">hub_mass</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;kg&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;component mass [kg]&#39;</span><span class="p">)</span>
+    <span class="n">pitch_system_mass</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;kg&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;component mass [kg]&#39;</span><span class="p">)</span>
+    <span class="n">spinner_mass</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;kg&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;component mass [kg]&#39;</span><span class="p">)</span>
+    <span class="n">low_speed_shaft_mass</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;kg&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;component mass&#39;</span><span class="p">)</span>
+    <span class="n">main_bearing_mass</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;kg&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;component mass&#39;</span><span class="p">)</span>
+    <span class="n">second_bearing_mass</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;kg&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;component mass&#39;</span><span class="p">)</span>
+    <span class="n">gearbox_mass</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;kg&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;component mass&#39;</span><span class="p">)</span>
+    <span class="n">high_speed_side_mass</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;kg&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;component mass&#39;</span><span class="p">)</span>
+    <span class="n">generator_mass</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;kg&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;component mass&#39;</span><span class="p">)</span>
+    <span class="n">bedplate_mass</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;kg&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;component mass&#39;</span><span class="p">)</span>
+    <span class="n">yaw_system_mass</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;kg&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;component mass&#39;</span><span class="p">)</span>
+    <span class="n">tower_mass</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;kg&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;tower mass [kg]&#39;</span><span class="p">)</span>
+    <span class="n">machine_rating</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;kW&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;machine rating&#39;</span><span class="p">)</span>
+
+    <span class="c"># parameters</span>
+    <span class="n">blade_number</span> <span class="o">=</span> <span class="n">Int</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;number of rotor blades&#39;</span><span class="p">)</span>
+    <span class="n">advanced_blade</span> <span class="o">=</span> <span class="n">Bool</span><span class="p">(</span><span class="bp">True</span><span class="p">,</span> <span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;advanced (True) or traditional (False) blade design&#39;</span><span class="p">)</span>
+    <span class="n">drivetrain_design</span> <span class="o">=</span> <span class="n">Int</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;type of gearbox based on drivetrain type: 1 = standard 3-stage gearbox, 2 = single-stage, 3 = multi-gen, 4 = direct drive&#39;</span><span class="p">)</span>
+    <span class="n">crane</span> <span class="o">=</span> <span class="n">Bool</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;flag for presence of onboard crane&#39;</span><span class="p">)</span>
+    <span class="n">offshore</span> <span class="o">=</span> <span class="n">Bool</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;flag for offshore site&#39;</span><span class="p">)</span>
+    <span class="n">year</span> <span class="o">=</span> <span class="n">Int</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Current Year&#39;</span><span class="p">)</span>
+    <span class="n">month</span> <span class="o">=</span> <span class="n">Int</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Current Month&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="section" id="module-turbine_costsse.turbine_costsse.rotor_costsSE">
+<span id="referenced-sub-system-modules-rotor"></span><h2>4.1. Referenced Sub-System Modules (Rotor)<a class="headerlink" href="#module-turbine_costsse.turbine_costsse.rotor_costsSE" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="turbine_costsse.turbine_costsse.rotor_costsSE.BladeCost">
+<em class="property">class </em><tt class="descclassname">turbine_costsse.turbine_costsse.rotor_costsSE.</tt><tt class="descname">BladeCost</tt><a class="headerlink" href="#turbine_costsse.turbine_costsse.rotor_costsSE.BladeCost" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="turbine_costsse.turbine_costsse.rotor_costsSE.HubCost">
+<em class="property">class </em><tt class="descclassname">turbine_costsse.turbine_costsse.rotor_costsSE.</tt><tt class="descname">HubCost</tt><a class="headerlink" href="#turbine_costsse.turbine_costsse.rotor_costsSE.HubCost" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="turbine_costsse.turbine_costsse.rotor_costsSE.PitchSystemCost">
+<em class="property">class </em><tt class="descclassname">turbine_costsse.turbine_costsse.rotor_costsSE.</tt><tt class="descname">PitchSystemCost</tt><a class="headerlink" href="#turbine_costsse.turbine_costsse.rotor_costsSE.PitchSystemCost" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="turbine_costsse.turbine_costsse.rotor_costsSE.SpinnerCost">
+<em class="property">class </em><tt class="descclassname">turbine_costsse.turbine_costsse.rotor_costsSE.</tt><tt class="descname">SpinnerCost</tt><a class="headerlink" href="#turbine_costsse.turbine_costsse.rotor_costsSE.SpinnerCost" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="turbine_costsse.turbine_costsse.rotor_costsSE.HubSystemCostAdder">
+<em class="property">class </em><tt class="descclassname">turbine_costsse.turbine_costsse.rotor_costsSE.</tt><tt class="descname">HubSystemCostAdder</tt><a class="headerlink" href="#turbine_costsse.turbine_costsse.rotor_costsSE.HubSystemCostAdder" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="turbine_costsse.turbine_costsse.rotor_costsSE.RotorCostAdder">
+<em class="property">class </em><tt class="descclassname">turbine_costsse.turbine_costsse.rotor_costsSE.</tt><tt class="descname">RotorCostAdder</tt><a class="headerlink" href="#turbine_costsse.turbine_costsse.rotor_costsSE.RotorCostAdder" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="turbine_costsse.turbine_costsse.rotor_costsSE.Rotor_CostsSE">
+<em class="property">class </em><tt class="descclassname">turbine_costsse.turbine_costsse.rotor_costsSE.</tt><tt class="descname">Rotor_CostsSE</tt><a class="headerlink" href="#turbine_costsse.turbine_costsse.rotor_costsSE.Rotor_CostsSE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-turbine_costsse.turbine_costsse.nacelle_costsSE">
+<span id="referenced-sub-system-modules-nacelle"></span><h2>4.2. Referenced Sub-System Modules (Nacelle)<a class="headerlink" href="#module-turbine_costsse.turbine_costsse.nacelle_costsSE" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="turbine_costsse.turbine_costsse.nacelle_costsSE.LowSpeedShaftCost">
+<em class="property">class </em><tt class="descclassname">turbine_costsse.turbine_costsse.nacelle_costsSE.</tt><tt class="descname">LowSpeedShaftCost</tt><a class="headerlink" href="#turbine_costsse.turbine_costsse.nacelle_costsSE.LowSpeedShaftCost" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="turbine_costsse.turbine_costsse.nacelle_costsSE.BearingsCost">
+<em class="property">class </em><tt class="descclassname">turbine_costsse.turbine_costsse.nacelle_costsSE.</tt><tt class="descname">BearingsCost</tt><a class="headerlink" href="#turbine_costsse.turbine_costsse.nacelle_costsSE.BearingsCost" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="turbine_costsse.turbine_costsse.nacelle_costsSE.GearboxCost">
+<em class="property">class </em><tt class="descclassname">turbine_costsse.turbine_costsse.nacelle_costsSE.</tt><tt class="descname">GearboxCost</tt><a class="headerlink" href="#turbine_costsse.turbine_costsse.nacelle_costsSE.GearboxCost" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="turbine_costsse.turbine_costsse.nacelle_costsSE.HighSpeedSideCost">
+<em class="property">class </em><tt class="descclassname">turbine_costsse.turbine_costsse.nacelle_costsSE.</tt><tt class="descname">HighSpeedSideCost</tt><a class="headerlink" href="#turbine_costsse.turbine_costsse.nacelle_costsSE.HighSpeedSideCost" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="turbine_costsse.turbine_costsse.nacelle_costsSE.GeneratorCost">
+<em class="property">class </em><tt class="descclassname">turbine_costsse.turbine_costsse.nacelle_costsSE.</tt><tt class="descname">GeneratorCost</tt><a class="headerlink" href="#turbine_costsse.turbine_costsse.nacelle_costsSE.GeneratorCost" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="turbine_costsse.turbine_costsse.nacelle_costsSE.BedplateCost">
+<em class="property">class </em><tt class="descclassname">turbine_costsse.turbine_costsse.nacelle_costsSE.</tt><tt class="descname">BedplateCost</tt><a class="headerlink" href="#turbine_costsse.turbine_costsse.nacelle_costsSE.BedplateCost" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="turbine_costsse.turbine_costsse.nacelle_costsSE.NacelleSystemCostAdder">
+<em class="property">class </em><tt class="descclassname">turbine_costsse.turbine_costsse.nacelle_costsSE.</tt><tt class="descname">NacelleSystemCostAdder</tt><a class="headerlink" href="#turbine_costsse.turbine_costsse.nacelle_costsSE.NacelleSystemCostAdder" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="turbine_costsse.turbine_costsse.nacelle_costsSE.Nacelle_CostsSE">
+<em class="property">class </em><tt class="descclassname">turbine_costsse.turbine_costsse.nacelle_costsSE.</tt><tt class="descname">Nacelle_CostsSE</tt><a class="headerlink" href="#turbine_costsse.turbine_costsse.nacelle_costsSE.Nacelle_CostsSE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-turbine_costsse.turbine_costsse.tower_costsSE">
+<span id="referenced-sub-system-modules-tower"></span><h2>4.3. Referenced Sub-System Modules (Tower)<a class="headerlink" href="#module-turbine_costsse.turbine_costsse.tower_costsSE" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="turbine_costsse.turbine_costsse.tower_costsSE.TowerCost">
+<em class="property">class </em><tt class="descclassname">turbine_costsse.turbine_costsse.tower_costsSE.</tt><tt class="descname">TowerCost</tt><a class="headerlink" href="#turbine_costsse.turbine_costsse.tower_costsSE.TowerCost" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="turbine_costsse.turbine_costsse.tower_costsSE.TowerCostAdder">
+<em class="property">class </em><tt class="descclassname">turbine_costsse.turbine_costsse.tower_costsSE.</tt><tt class="descname">TowerCostAdder</tt><a class="headerlink" href="#turbine_costsse.turbine_costsse.tower_costsSE.TowerCostAdder" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="turbine_costsse.turbine_costsse.tower_costsSE.Tower_CostsSE">
+<em class="property">class </em><tt class="descclassname">turbine_costsse.turbine_costsse.tower_costsSE.</tt><tt class="descname">Tower_CostsSE</tt><a class="headerlink" href="#turbine_costsse.turbine_costsse.tower_costsSE.Tower_CostsSE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-turbine_costsse.turbine_costsse.turbine_costsSE">
+<span id="referenced-turbine-cost-modules"></span><h2>4.4. Referenced Turbine Cost Modules<a class="headerlink" href="#module-turbine_costsse.turbine_costsse.turbine_costsSE" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="turbine_costsse.turbine_costsse.turbine_costsSE.Turbine_CostsSE">
+<em class="property">class </em><tt class="descclassname">turbine_costsse.turbine_costsse.turbine_costsSE.</tt><tt class="descname">Turbine_CostsSE</tt><a class="headerlink" href="#turbine_costsse.turbine_costsse.turbine_costsSE.Turbine_CostsSE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="turbine_costsse.turbine_costsse.turbine_costsSE.TurbineCostAdder">
+<em class="property">class </em><tt class="descclassname">turbine_costsse.turbine_costsse.turbine_costsSE.</tt><tt class="descname">TurbineCostAdder</tt><a class="headerlink" href="#turbine_costsse.turbine_costsse.turbine_costsSE.TurbineCostAdder" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">4. Documentation</a><ul>
+<li><a class="reference internal" href="#module-turbine_costsse.turbine_costsse.rotor_costsSE">4.1. Referenced Sub-System Modules (Rotor)</a></li>
+<li><a class="reference internal" href="#module-turbine_costsse.turbine_costsse.nacelle_costsSE">4.2. Referenced Sub-System Modules (Nacelle)</a></li>
+<li><a class="reference internal" href="#module-turbine_costsse.turbine_costsse.tower_costsSE">4.3. Referenced Sub-System Modules (Tower)</a></li>
+<li><a class="reference internal" href="#module-turbine_costsse.turbine_costsse.turbine_costsSE">4.4. Referenced Turbine Cost Modules</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="tutorial.html"
+                        title="previous chapter">3. Tutorial</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="theory.html"
+                        title="next chapter">5. Theory</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/documentation.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="theory.html" title="5. Theory"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="tutorial.html" title="3. Tutorial"
+             >previous</a> |</li>
+        <li><a href="index.html">Turbine_CostSE 0.1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, NREL.
+      Last updated on Aug 26, 2014.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.1.
+    </div>
+  </body>
+</html>

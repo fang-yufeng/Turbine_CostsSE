@@ -1,6 +1,6 @@
 .. _tutorial-label:
 
-.. currentmodule:: masstocost.docs.examples.example
+.. currentmodule:: turbine_costsse.docs.examples.example
 
 
 Tutorial

@@ -1,13 +1,13 @@
 .. _documentation-label:
 
-.. currentmodule:: turbine_costsse.turbine_costsse.turbine_costsse
+.. currentmodule:: Turbine_CostsSE.turbine_costsse
 
 Documentation
 -------------
 
 The following inputs and outputs are defined for Turbine_CostsSE:
 
-.. literalinclude:: ../src/turbine_costsse/turbine_costsse/turbine_costsse.py
+.. literalinclude:: ../src/turbine_costsse/turbine_costsse.py
     :language: python
     :start-after: Turbine_CostsSE(FullTurbineCapitalCostModel)
     :end-before: def __init__(self)
@@ -16,7 +16,7 @@ The following inputs and outputs are defined for Turbine_CostsSE:
 
 Referenced Sub-System Modules (Rotor)
 =====================================
-.. module:: Turbine_CostsSE.Turbine_CostsSE.rotor_costsSE
+.. module:: Turbine_CostsSE.rotor_costsSE
 .. class:: BladeCost
 .. class:: HubCost
 .. class:: PitchSystemCost
@@ -27,7 +27,7 @@ Referenced Sub-System Modules (Rotor)
 
 Referenced Sub-System Modules (Nacelle)
 =======================================
-.. module:: Turbine_CostsSE.Turbine_CostsSE.nacelle_costsSE
+.. module:: Turbine_CostsSE.nacelle_costsSE
 .. class:: LowSpeedShaftCost
 .. class:: BearingsCost
 .. class:: GearboxCost
@@ -39,13 +39,13 @@ Referenced Sub-System Modules (Nacelle)
 
 Referenced Sub-System Modules (Tower)
 =====================================
-.. module:: Turbine_CostsSE.Turbine_CostsSE.tower_costsSE
+.. module:: Turbine_CostsSE.tower_costsSE
 .. class:: TowerCost
 .. class:: TowerCostAdder
 .. class:: Tower_CostsSE
 
 Referenced Turbine Cost Modules
 ===============================
-.. module:: Turbine_CostsSE.Turbine_CostsSE.turbine_costsSE
+.. module:: Turbine_CostsSE.turbine_costsSE
 .. class:: Turbine_CostsSE
 .. class:: TurbineCostAdder

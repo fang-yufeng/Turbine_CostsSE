@@ -1,0 +1,243 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>nrel_csm_tcc.hub_csm_component &mdash; Turbine_CostsSE 0.1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/nrel.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Turbine_CostsSE 0.1.0 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="../../index.html">Turbine_CostsSE 0.1.0 documentation</a> &raquo;</li>
+          <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for nrel_csm_tcc.hub_csm_component</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">hub_csm_component.py</span>
+
+<span class="sd">Created by NWTC Systems Engineering Sub-Task on 2012-08-01.</span>
+<span class="sd">Copyright (c) NREL. All rights reserved.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">openmdao.main.api</span> <span class="kn">import</span> <span class="n">Component</span><span class="p">,</span> <span class="n">Assembly</span><span class="p">,</span> <span class="n">set_as_top</span><span class="p">,</span> <span class="n">VariableTree</span>
+<span class="kn">from</span> <span class="nn">openmdao.main.datatypes.api</span> <span class="kn">import</span> <span class="n">Int</span><span class="p">,</span> <span class="n">Bool</span><span class="p">,</span> <span class="n">Float</span><span class="p">,</span> <span class="n">Array</span><span class="p">,</span> <span class="n">VarTree</span>
+
+<span class="kn">from</span> <span class="nn">commonse.config</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+<div class="viewcode-block" id="hub_csm_component"><a class="viewcode-back" href="../../documentation.html#nrel_csm_tcc.hub_csm_component.hub_csm_component">[docs]</a><span class="k">class</span> <span class="nc">hub_csm_component</span><span class="p">(</span><span class="n">Component</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">       Component to wrap python code for NREL cost and scaling model for a wind turbine hub</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c"># Variables</span>
+    <span class="n">rotor_diameter</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="mf">126.0</span><span class="p">,</span> <span class="n">units</span> <span class="o">=</span> <span class="s">&#39;m&#39;</span><span class="p">,</span> <span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span> <span class="s">&#39;rotor diameter of the machine&#39;</span><span class="p">)</span> 
+    <span class="n">blade_mass</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="mf">17650.67</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;kg&#39;</span><span class="p">,</span> <span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;mass of an individual blade&#39;</span><span class="p">)</span>
+    
+    <span class="c"># Parameters</span>
+    <span class="n">year</span> <span class="o">=</span> <span class="n">Int</span><span class="p">(</span><span class="mi">2009</span><span class="p">,</span> <span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span> <span class="o">=</span> <span class="s">&#39;year of project start&#39;</span><span class="p">)</span>
+    <span class="n">month</span> <span class="o">=</span> <span class="n">Int</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span> <span class="o">=</span> <span class="s">&#39;month of project start&#39;</span><span class="p">)</span>
+    <span class="n">blade_number</span> <span class="o">=</span> <span class="n">Int</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span> <span class="s">&#39;number of rotor blades&#39;</span><span class="p">)</span>
+
+    <span class="c"># Outputs</span>
+    <span class="n">hub_system_cost</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;USD&#39;</span><span class="p">,</span> <span class="n">iotype</span><span class="o">=</span><span class="s">&#39;out&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;hub system cost&#39;</span><span class="p">)</span>
+    <span class="n">hub_system_mass</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;kg&#39;</span><span class="p">,</span> <span class="n">iotype</span><span class="o">=</span><span class="s">&#39;out&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;hub system mass&#39;</span><span class="p">)</span>
+    <span class="n">hub_cost</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;USD&#39;</span><span class="p">,</span> <span class="n">iotype</span><span class="o">=</span><span class="s">&#39;out&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;hub cost&#39;</span><span class="p">)</span>
+    <span class="n">hub_mass</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;kg&#39;</span><span class="p">,</span> <span class="n">iotype</span><span class="o">=</span><span class="s">&#39;out&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;hub mass&#39;</span><span class="p">)</span>
+    <span class="n">pitch_system_cost</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;USD&#39;</span><span class="p">,</span> <span class="n">iotype</span><span class="o">=</span><span class="s">&#39;out&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;pitch system cost&#39;</span><span class="p">)</span>
+    <span class="n">pitch_system_mass</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;kg&#39;</span><span class="p">,</span> <span class="n">iotype</span><span class="o">=</span><span class="s">&#39;out&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;pitch system mass&#39;</span><span class="p">)</span>
+    <span class="n">spinner_cost</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;USD&#39;</span><span class="p">,</span> <span class="n">iotype</span><span class="o">=</span><span class="s">&#39;out&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;spinner / nose cone cost&#39;</span><span class="p">)</span>
+    <span class="n">spinner_mass</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;kg&#39;</span><span class="p">,</span> <span class="n">iotype</span><span class="o">=</span><span class="s">&#39;out&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;spinner / nose cone mass&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        OpenMDAO component to wrap hub model of the NREL _cost and Scaling Model (csmHub.py)  </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">hub_csm_component</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
+
+        <span class="c">#controls what happens if derivatives are missing</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">missing_deriv_policy</span> <span class="o">=</span> <span class="s">&#39;assume_zero&#39;</span>
+
+    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Executes hub model of the NREL _cost and Scaling model to compute hub system component masses and costs.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">print</span> <span class="s">&quot;In {0}.execute()...&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="p">)</span>
+
+        <span class="c">#*** Pitch bearing and mechanism</span>
+        <span class="n">pitchBearingMass</span> <span class="o">=</span> <span class="mf">0.1295</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">blade_mass</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">blade_number</span> <span class="o">+</span> <span class="mf">491.31</span>  <span class="c"># slope*BldMass3 + int</span>
+        <span class="n">bearingHousingPct</span> <span class="o">=</span> <span class="mf">32.80</span> <span class="o">/</span> <span class="mf">100.0</span>
+        <span class="n">massSysOffset</span> <span class="o">=</span> <span class="mf">555.0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pitch_system_mass</span> <span class="o">=</span> <span class="n">pitchBearingMass</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">bearingHousingPct</span><span class="p">)</span> <span class="o">+</span> <span class="n">massSysOffset</span>
+    
+        <span class="c">#*** Hub</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hub_mass</span> <span class="o">=</span> <span class="mf">0.95402537</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">blade_mass</span> <span class="o">+</span> <span class="mf">5680.272238</span>
+    
+        <span class="c">#*** NoseCone/Spinner</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">spinner_mass</span> <span class="o">=</span> <span class="mf">18.5</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">rotor_diameter</span> <span class="o">+</span><span class="p">(</span><span class="o">-</span><span class="mf">520.5</span><span class="p">)</span>   <span class="c"># GNS</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">hub_system_mass</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">hub_mass</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">pitch_system_mass</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">spinner_mass</span>
+
+        <span class="n">ppi</span><span class="o">.</span><span class="n">curr_yr</span> <span class="o">=</span> <span class="n">curr_yr</span>
+        <span class="n">ppi</span><span class="o">.</span><span class="n">curr_mon</span> <span class="o">=</span> <span class="n">curr_mon</span>
+
+        <span class="c">#*** Pitch bearing and mechanism    </span>
+        <span class="n">bearingCost</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.2106</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">rotor_diameter</span><span class="o">**</span><span class="mf">2.6576</span><span class="p">)</span>
+        <span class="n">bearingCostEscalator</span> <span class="o">=</span> <span class="n">ppi</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="s">&#39;IPPI_PMB&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pitch_system_cost</span> <span class="o">=</span> <span class="n">bearingCostEscalator</span> <span class="o">*</span> <span class="p">(</span> <span class="n">bearingCost</span> <span class="o">+</span> <span class="n">bearingCost</span> <span class="o">*</span> <span class="mf">1.28</span> <span class="p">)</span>
+    
+        <span class="c">#*** Hub</span>
+        <span class="n">hubCost2002</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">hub_mass</span> <span class="o">*</span> <span class="mf">4.25</span> <span class="c"># $/kg       </span>
+        <span class="n">hubCostEscalator</span> <span class="o">=</span> <span class="n">ppi</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="s">&#39;IPPI_HUB&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hub_cost</span> <span class="o">=</span> <span class="n">hubCost2002</span> <span class="o">*</span> <span class="n">hubCostEscalator</span>
+    
+        <span class="c">#*** NoseCone/Spinner</span>
+        <span class="n">spinnerCostEscalator</span> <span class="o">=</span> <span class="n">ppi</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="s">&#39;IPPI_NAC&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">spinner_cost</span> <span class="o">=</span> <span class="n">spinnerCostEscalator</span> <span class="o">*</span> <span class="p">(</span><span class="mf">5.57</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">spinner_mass</span><span class="p">)</span>         
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">hub_system_cost</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">hub_cost</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">pitch_system_cost</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">spinner_cost</span>
+        
+        <span class="c"># derivatives</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">d_hub_mass_d_diameter</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">d_pitch_mass_d_diameter</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">d_spinner_mass_d_diameter</span> <span class="o">=</span> <span class="mf">18.5</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">d_system_mass_d_diameter</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">d_hub_mass_d_diameter</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">d_pitch_mass_d_diameter</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">d_spinner_mass_d_diameter</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">d_hub_cost_d_diameter</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">d_pitch_cost_d_diameter</span> <span class="o">=</span> <span class="n">bearingCostEscalator</span> <span class="o">*</span> <span class="mf">2.28</span> <span class="o">*</span> <span class="mf">2.6576</span> <span class="o">*</span> <span class="p">(</span><span class="mf">0.2106</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">rotor_diameter</span><span class="o">**</span><span class="mf">1.6576</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">d_spinner_cost_d_diameter</span> <span class="o">=</span> <span class="n">spinnerCostEscalator</span> <span class="o">*</span> <span class="p">(</span><span class="mf">5.57</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">d_spinner_mass_d_diameter</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">d_system_cost_d_diameter</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">d_hub_cost_d_diameter</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">d_pitch_cost_d_diameter</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">d_spinner_cost_d_diameter</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">d_hub_mass_d_blade_mass</span> <span class="o">=</span> <span class="mf">0.95402537</span> 
+        <span class="bp">self</span><span class="o">.</span><span class="n">d_pitch_mass_d_blade_mass</span> <span class="o">=</span> <span class="mf">0.1295</span> <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">blade_number</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">bearingHousingPct</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">d_spinner_mass_d_blade_mass</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">d_system_mass_d_blade_mass</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">d_hub_mass_d_blade_mass</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">d_pitch_mass_d_blade_mass</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">d_spinner_mass_d_blade_mass</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">d_hub_cost_d_blade_mass</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">d_hub_mass_d_blade_mass</span> <span class="o">*</span> <span class="mf">4.25</span> <span class="o">*</span> <span class="n">hubCostEscalator</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">d_pitch_cost_d_blade_mass</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">d_spinner_cost_d_blade_mass</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">d_system_cost_d_blade_mass</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">d_hub_cost_d_blade_mass</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">d_pitch_cost_d_blade_mass</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">d_spinner_cost_d_blade_mass</span>
+        
+    <span class="k">def</span> <span class="nf">list_deriv_vars</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="n">inputs</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;rotor_diameter&#39;</span><span class="p">,</span> <span class="s">&#39;blade_mass&#39;</span><span class="p">]</span>
+        <span class="n">outputs</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;hub_mass&#39;</span><span class="p">,</span> <span class="s">&#39;pitch_system_mass&#39;</span><span class="p">,</span> <span class="s">&#39;spinner_mass&#39;</span><span class="p">,</span> <span class="s">&#39;hub_system_mass&#39;</span><span class="p">,</span> \
+                   <span class="s">&#39;hub_cost&#39;</span><span class="p">,</span> <span class="s">&#39;pitch_system_cost&#39;</span><span class="p">,</span> <span class="s">&#39;spinner_cost&#39;</span><span class="p">,</span> <span class="s">&#39;hub_system_cost&#39;</span><span class="p">]</span>
+        
+        <span class="k">return</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span>
+    
+    <span class="k">def</span> <span class="nf">provideJ</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">J</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="bp">self</span><span class="o">.</span><span class="n">d_hub_mass_d_diameter</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">d_hub_mass_d_blade_mass</span><span class="p">],</span>\
+                           <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">d_pitch_mass_d_diameter</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">d_pitch_mass_d_blade_mass</span><span class="p">],</span>\
+                           <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">d_spinner_mass_d_diameter</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">d_spinner_mass_d_blade_mass</span><span class="p">],</span>\
+                           <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">d_system_mass_d_diameter</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">d_system_mass_d_blade_mass</span><span class="p">],</span>\
+                           <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">d_hub_cost_d_diameter</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">d_hub_cost_d_blade_mass</span><span class="p">],</span>\
+                           <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">d_pitch_cost_d_diameter</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">d_pitch_cost_d_blade_mass</span><span class="p">],</span>\
+                           <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">d_spinner_cost_d_diameter</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">d_spinner_cost_d_blade_mass</span><span class="p">],</span>\
+                           <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">d_system_cost_d_diameter</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">d_system_cost_d_blade_mass</span><span class="p">]])</span>
+        
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">J</span>
+        
+<span class="c">#-----------------------------------------------------------------</span>
+</div>
+<span class="k">def</span> <span class="nf">example</span><span class="p">():</span>
+
+    <span class="c"># simple test of module</span>
+
+    <span class="n">hub</span> <span class="o">=</span> <span class="n">hub_csm_component</span><span class="p">()</span>
+        
+    <span class="c"># First test</span>
+    <span class="n">hub</span><span class="o">.</span><span class="n">blade_mass</span> <span class="o">=</span> <span class="mf">25614.377</span>
+    <span class="n">hub</span><span class="o">.</span><span class="n">rotor_diameter</span> <span class="o">=</span> <span class="mf">126.0</span>
+    <span class="n">hub</span><span class="o">.</span><span class="n">blade_number</span> <span class="o">=</span> <span class="mi">3</span>
+    <span class="n">hub</span><span class="o">.</span><span class="n">year</span> <span class="o">=</span> <span class="mi">2009</span>
+    <span class="n">hub</span><span class="o">.</span><span class="n">month</span> <span class="o">=</span> <span class="mi">12</span>
+    
+    <span class="n">hub</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>
+    
+    <span class="k">print</span> <span class="s">&quot;Hub csm component&quot;</span>
+    <span class="k">print</span> <span class="s">&quot;Hub system mass: {0}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">hub</span><span class="o">.</span><span class="n">hub_system_mass</span><span class="p">)</span>
+    <span class="k">print</span> <span class="s">&quot;Hub mass: {0}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">hub</span><span class="o">.</span><span class="n">hub_mass</span><span class="p">)</span>
+    <span class="k">print</span> <span class="s">&quot;pitch system mass: {0}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">hub</span><span class="o">.</span><span class="n">pitch_system_mass</span><span class="p">)</span>
+    <span class="k">print</span> <span class="s">&quot;spinner mass: {0}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">hub</span><span class="o">.</span><span class="n">spinner_mass</span><span class="p">)</span>
+    <span class="k">print</span> <span class="s">&quot;Hub system cost: {0}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">hub</span><span class="o">.</span><span class="n">hub_system_cost</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+
+    <span class="n">example</span><span class="p">()</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="../../index.html">Turbine_CostsSE 0.1.0 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, NREL.
+      Last updated on Aug 28, 2014.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>

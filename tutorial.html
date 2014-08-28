@@ -52,76 +52,77 @@
             
   <div class="section" id="tutorial">
 <span id="tutorial-label"></span><h1>3. Tutorial<a class="headerlink" href="#tutorial" title="Permalink to this headline">¶</a></h1>
-<p>As an example, let us simulate using masses for major wind turbine components for the NREL 5MW Reference Model [Jonkman2009] using the overall turbine cost model.  The hub and drivetrain component masses must also be provided and are calculated from Sunderland Model <a class="reference internal" href="theory.html#sunderland1993" id="id2">[3]</a>.</p>
-<p>The first step is to import the relevant files and set up the PPI indices based on the years of interest (reference and current).</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">turbine_costSE.src.turbine_costSE</span> <span class="kn">import</span> <span class="n">TurbineCost</span>
-<span class="kn">from</span> <span class="nn">turbine_costSE.src.config</span> <span class="kn">import</span> <span class="o">*</span>
+<div class="section" id="tutorial-for-turbine-costsse">
+<h2>3.1. Tutorial for Turbine_CostsSE<a class="headerlink" href="#tutorial-for-turbine-costsse" title="Permalink to this headline">¶</a></h2>
+<p>As an example of Turbine_CostsSE, let us simulate using masses for major wind turbine components for the NREL 5MW Reference Model [FAST2009] using the overall turbine cost model.  The hub and drivetrain component masses must also be provided and are calculated from Sunderland Model <a class="reference internal" href="theory.html#sunderland1993" id="id2">[3]</a>.</p>
+<p>The first step is to import the relevant files and set up the component.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># A simple test of turbine_costsse model</span>
+<span class="kn">from</span> <span class="nn">turbine_costsse.turbine_costsse</span> <span class="kn">import</span> <span class="n">Turbine_CostsSE</span>
 
-<span class="c"># simple example of the turbine cost model</span>
-
-<span class="n">ref_yr</span>  <span class="o">=</span> <span class="mi">2002</span>
-<span class="n">ref_mon</span> <span class="o">=</span>    <span class="mi">9</span>
-<span class="n">curr_yr</span> <span class="o">=</span> <span class="mi">2009</span>
-<span class="n">curr_mon</span> <span class="o">=</span>  <span class="mi">12</span>
-
-<span class="n">ppi</span><span class="o">.</span><span class="n">ref_yr</span>   <span class="o">=</span> <span class="n">ref_yr</span>
-<span class="n">ppi</span><span class="o">.</span><span class="n">ref_mon</span>  <span class="o">=</span> <span class="n">ref_mon</span>
+<span class="n">turbine</span> <span class="o">=</span> <span class="n">Turbine_CostsSE</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>The turbine cost model relies on the mass inputs of all major turbine components.  These filter down to the individual component models through the rotor, nacelle and tower.</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="c"># NREL 5 MW turbine component masses based on Sunderland model approach</span>
-<span class="n">bladeMass</span> <span class="o">=</span> <span class="mf">17650.67</span>  
-<span class="n">hubMass</span> <span class="o">=</span> <span class="mf">31644.5</span>
-<span class="n">pitchSystemMass</span> <span class="o">=</span> <span class="mf">17004.0</span>
-<span class="n">spinnerMass</span> <span class="o">=</span> <span class="mf">1810.5</span>
 
-<span class="n">lssMass</span> <span class="o">=</span> <span class="mf">31257.3</span>
-<span class="n">bearingsMass</span> <span class="o">=</span> <span class="mf">9731.41</span>
-<span class="n">gearboxMass</span> <span class="o">=</span> <span class="mf">30237.60</span>
-<span class="n">hssMass</span> <span class="o">=</span> <span class="mf">1492.45</span>
-<span class="n">generatorMass</span> <span class="o">=</span> <span class="mf">16699.85</span>
-<span class="n">bedplateMass</span> <span class="o">=</span> <span class="mf">93090.6</span>
-<span class="n">yawSystemMass</span> <span class="o">=</span> <span class="mf">11878.24</span>
+<span class="c"># Rotor</span>
+<span class="n">turbine</span><span class="o">.</span><span class="n">blade_mass</span> <span class="o">=</span> <span class="mf">17650.67</span>  <span class="c"># inline with the windpact estimates</span>
+<span class="n">turbine</span><span class="o">.</span><span class="n">hub_mass</span> <span class="o">=</span> <span class="mf">31644.5</span>
+<span class="n">turbine</span><span class="o">.</span><span class="n">pitch_system_mass</span> <span class="o">=</span> <span class="mf">17004.0</span>
+<span class="n">turbine</span><span class="o">.</span><span class="n">spinner_mass</span> <span class="o">=</span> <span class="mf">1810.5</span>
 
-<span class="n">towerMass</span> <span class="o">=</span> <span class="mf">434559.0</span>
+<span class="c"># Drivetrain and Nacelle</span>
+<span class="n">turbine</span><span class="o">.</span><span class="n">low_speed_shaft_mass</span> <span class="o">=</span> <span class="mf">31257.3</span>
+<span class="c">#bearingsMass = 9731.41</span>
+<span class="n">turbine</span><span class="o">.</span><span class="n">main_bearing_mass</span> <span class="o">=</span> <span class="mf">9731.41</span> <span class="o">/</span> <span class="mi">2</span>
+<span class="n">turbine</span><span class="o">.</span><span class="n">second_bearing_mass</span> <span class="o">=</span> <span class="mf">9731.41</span> <span class="o">/</span> <span class="mi">2</span>
+<span class="n">turbine</span><span class="o">.</span><span class="n">gearbox_mass</span> <span class="o">=</span> <span class="mf">30237.60</span>
+<span class="n">turbine</span><span class="o">.</span><span class="n">high_speed_side_mass</span> <span class="o">=</span> <span class="mf">1492.45</span>
+<span class="n">turbine</span><span class="o">.</span><span class="n">generator_mass</span> <span class="o">=</span> <span class="mf">16699.85</span>
+<span class="n">turbine</span><span class="o">.</span><span class="n">bedplate_mass</span> <span class="o">=</span> <span class="mf">93090.6</span>
+<span class="n">turbine</span><span class="o">.</span><span class="n">yaw_system_mass</span> <span class="o">=</span> <span class="mf">11878.24</span>
+
+<span class="c"># Tower</span>
+<span class="n">turbine</span><span class="o">.</span><span class="n">tower_mass</span> <span class="o">=</span> <span class="mf">434559.0</span>
 </pre></div>
 </div>
-<p>Next, we need to set additional inputs to the model.  The blade number must be known to get the total cost for the blade set; the advanced Boolean for the blade must be set to select which mass-cost curve for the blade to use (normal or advanced blade).  We set this to advanced to be in line with the FAST 5 MW reference model.  The machine rating and boolean flags for onboard crane and offshore project must also be set.  These are used in the determination of costs for auxiliary system components.  Finally, the drivetrain configuration (iDesign) is specified so that the proper gearbox and generator coefficients will be used.  This should always be set to 1 for the current model.</p>
+<p>Next, we need to set additional inputs to the model.  The blade number must be known to get the total cost for the blade set; the advanced Boolean for the blade must be set to select which mass-cost curve for the blade to use (normal or advanced blade).  We set this to advanced to be in line with the FAST 5 MW reference model.  The machine rating and boolean flags for onboard crane and offshore project must also be set.  These are used in the determination of costs for auxiliary system components.  Finally, the drivetrain configuration is specified so that the proper gearbox and generator coefficients will be used.  This should always be set to 1 for the current model.</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="c"># Additional non-mass cost model input variables</span>
-<span class="n">bladeNum</span> <span class="o">=</span> <span class="mi">3</span>
-<span class="n">advanced</span> <span class="o">=</span> <span class="bp">True</span> <span class="c"># use advanced blade mass-cost curve</span>
-<span class="n">machineRating</span> <span class="o">=</span> <span class="mf">5000.0</span>
-<span class="n">iDesign</span> <span class="o">=</span> <span class="mi">1</span> <span class="c"># conventional 3-stage geared drivetrain system</span>
-<span class="n">crane</span> <span class="o">=</span> <span class="bp">True</span> <span class="c"># onboard crane is present</span>
-<span class="n">offshore</span> <span class="o">=</span> <span class="bp">True</span> <span class="c"># turbine is for an offshore application</span>
+<span class="n">turbine</span><span class="o">.</span><span class="n">machine_rating</span> <span class="o">=</span> <span class="mf">5000.0</span>
+<span class="n">turbine</span><span class="o">.</span><span class="n">advanced</span> <span class="o">=</span> <span class="bp">True</span>
+<span class="n">turbine</span><span class="o">.</span><span class="n">blade_number</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">turbine</span><span class="o">.</span><span class="n">drivetrain_design</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">turbine</span><span class="o">.</span><span class="n">crane</span> <span class="o">=</span> <span class="bp">True</span>
+<span class="n">turbine</span><span class="o">.</span><span class="n">offshore</span> <span class="o">=</span> <span class="bp">True</span>
+
+<span class="c"># Target year for analysis results</span>
+<span class="n">turbine</span><span class="o">.</span><span class="n">year</span> <span class="o">=</span> <span class="mi">2010</span>
+<span class="n">turbine</span><span class="o">.</span><span class="n">month</span> <span class="o">=</span>  <span class="mi">12</span>
 </pre></div>
 </div>
-<p>We can now create and evaluate the cost for the turbine and its components.</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">turbine</span> <span class="o">=</span> <span class="n">TurbineCost</span><span class="p">(</span><span class="n">bladeMass</span><span class="p">,</span> <span class="n">bladeNum</span><span class="p">,</span> <span class="n">hubMass</span><span class="p">,</span> <span class="n">pitchSystemMass</span><span class="p">,</span> <span class="n">spinnerMass</span><span class="p">,</span> <span class="n">towerMass</span><span class="p">,</span> <span class="n">lssMass</span><span class="p">,</span> \
-                     <span class="n">bearingsMass</span><span class="p">,</span> <span class="n">gearboxMass</span><span class="p">,</span> <span class="n">hssMass</span><span class="p">,</span> <span class="n">generatorMass</span><span class="p">,</span> <span class="n">bedplateMass</span><span class="p">,</span> <span class="n">yawSystemMass</span><span class="p">,</span> \
-                     <span class="n">machineRating</span><span class="p">,</span> <span class="n">iDesign</span><span class="p">,</span> <span class="n">offshore</span><span class="p">,</span> <span class="n">curr_yr</span><span class="p">,</span> <span class="n">curr_mon</span><span class="p">,</span> <span class="n">crane</span><span class="p">,</span> <span class="n">advanced</span><span class="p">)</span>
+<p>We can now evaluate the cost for the turbine and its components.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">turbine</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>We then print out the resulting cost values</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="s">&quot;Turbine cost is ${0:.2f} USD&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">turbine</span><span class="o">.</span><span class="n">cost</span><span class="p">)</span> 
+<div class="highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="s">&quot;Turbine cost is ${0:.2f} USD&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">turbine</span><span class="o">.</span><span class="n">turbine_cost</span><span class="p">)</span> <span class="c"># $5350414.10</span>
 <span class="k">print</span>
-<span class="k">print</span> <span class="s">&quot;Overall rotor cost with 3 advanced blades is ${0:.2f} USD&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">turbine</span><span class="o">.</span><span class="n">rotor</span><span class="o">.</span><span class="n">cost</span><span class="p">)</span>
-<span class="k">print</span> <span class="s">&quot;Advanced blade cost is ${0:.2f} USD&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">turbine</span><span class="o">.</span><span class="n">rotor</span><span class="o">.</span><span class="n">blade</span><span class="o">.</span><span class="n">cost</span><span class="p">)</span>
-<span class="k">print</span> <span class="s">&quot;Cost of 3 blades is ${0:.2f} USD&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">turbine</span><span class="o">.</span><span class="n">rotor</span><span class="o">.</span><span class="n">blade</span><span class="o">.</span><span class="n">cost</span> <span class="o">*</span> <span class="mi">3</span><span class="p">)</span>
-<span class="k">print</span> <span class="s">&quot;Hub cost is ${0:.2f} USD&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">turbine</span><span class="o">.</span><span class="n">rotor</span><span class="o">.</span><span class="n">hub</span><span class="o">.</span><span class="n">cost</span><span class="p">)</span>  
-<span class="k">print</span> <span class="s">&quot;Pitch cost is ${0:.2f} USD&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">turbine</span><span class="o">.</span><span class="n">rotor</span><span class="o">.</span><span class="n">pitch</span><span class="o">.</span><span class="n">cost</span><span class="p">)</span> 
-<span class="k">print</span> <span class="s">&quot;Spinner cost is ${0:.2f} USD&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">turbine</span><span class="o">.</span><span class="n">rotor</span><span class="o">.</span><span class="n">spinner</span><span class="o">.</span><span class="n">cost</span><span class="p">)</span> 
+<span class="k">print</span> <span class="s">&quot;Overall rotor cost with 3 advanced blades is ${0:.2f} USD&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">turbine</span><span class="o">.</span><span class="n">rotorCC</span><span class="o">.</span><span class="n">cost</span><span class="p">)</span>
+<span class="k">print</span> <span class="s">&quot;Blade cost is ${0:.2f} USD&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">turbine</span><span class="o">.</span><span class="n">rotorCC</span><span class="o">.</span><span class="n">bladeCC</span><span class="o">.</span><span class="n">cost</span><span class="p">)</span>
+<span class="k">print</span> <span class="s">&quot;Hub cost is ${0:.2f} USD&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">turbine</span><span class="o">.</span><span class="n">rotorCC</span><span class="o">.</span><span class="n">hubCC</span><span class="o">.</span><span class="n">cost</span><span class="p">)</span>   <span class="c"># $175513.50</span>
+<span class="k">print</span> <span class="s">&quot;Pitch cost is ${0:.2f} USD&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">turbine</span><span class="o">.</span><span class="n">rotorCC</span><span class="o">.</span><span class="n">pitchSysCC</span><span class="o">.</span><span class="n">cost</span><span class="p">)</span>  <span class="c"># $535075.0</span>
+<span class="k">print</span> <span class="s">&quot;Spinner cost is ${0:.2f} USD&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">turbine</span><span class="o">.</span><span class="n">rotorCC</span><span class="o">.</span><span class="n">spinnerCC</span><span class="o">.</span><span class="n">cost</span><span class="p">)</span>  <span class="c"># $10509.00</span>
 <span class="k">print</span>
-<span class="k">print</span> <span class="s">&quot;Overall nacelle cost is ${0:.2f} USD&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">turbine</span><span class="o">.</span><span class="n">nacelle</span><span class="o">.</span><span class="n">cost</span><span class="p">)</span>
-<span class="k">print</span> <span class="s">&quot;LSS cost is ${0:.2f} USD&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">turbine</span><span class="o">.</span><span class="n">nacelle</span><span class="o">.</span><span class="n">lss</span><span class="o">.</span><span class="n">cost</span><span class="p">)</span>
-<span class="k">print</span> <span class="s">&quot;Main bearings cost is ${0:.2f} USD&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">turbine</span><span class="o">.</span><span class="n">nacelle</span><span class="o">.</span><span class="n">bearings</span><span class="o">.</span><span class="n">cost</span><span class="p">)</span> 
-<span class="k">print</span> <span class="s">&quot;Gearbox cost is ${0:.2f} USD&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">turbine</span><span class="o">.</span><span class="n">nacelle</span><span class="o">.</span><span class="n">gearbox</span><span class="o">.</span><span class="n">cost</span><span class="p">)</span> 
-<span class="k">print</span> <span class="s">&quot;HSS cost is ${0:.2f} USD&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">turbine</span><span class="o">.</span><span class="n">nacelle</span><span class="o">.</span><span class="n">hss</span><span class="o">.</span><span class="n">cost</span><span class="p">)</span> 
-<span class="k">print</span> <span class="s">&quot;Generator cost is ${0:.2f} USD&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">turbine</span><span class="o">.</span><span class="n">nacelle</span><span class="o">.</span><span class="n">generator</span><span class="o">.</span><span class="n">cost</span><span class="p">)</span> 
-<span class="k">print</span> <span class="s">&quot;Bedplate cost is ${0:.2f} USD&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">turbine</span><span class="o">.</span><span class="n">nacelle</span><span class="o">.</span><span class="n">bedplate</span><span class="o">.</span><span class="n">cost</span><span class="p">)</span>
-<span class="k">print</span> <span class="s">&quot;Yaw system cost is ${0:.2f} USD&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">turbine</span><span class="o">.</span><span class="n">nacelle</span><span class="o">.</span><span class="n">yawsystem</span><span class="o">.</span><span class="n">cost</span><span class="p">)</span> 
+<span class="k">print</span> <span class="s">&quot;Overall nacelle cost is ${0:.2f} USD&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">turbine</span><span class="o">.</span><span class="n">nacelleCC</span><span class="o">.</span><span class="n">cost</span><span class="p">)</span> <span class="c"># $2884227.08</span>
+<span class="k">print</span> <span class="s">&quot;LSS cost is ${0:.2f} USD&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">turbine</span><span class="o">.</span><span class="n">nacelleCC</span><span class="o">.</span><span class="n">lssCC</span><span class="o">.</span><span class="n">cost</span><span class="p">)</span> <span class="c"># $183363.52</span>
+<span class="k">print</span> <span class="s">&quot;Main bearings cost is ${0:.2f} USD&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">turbine</span><span class="o">.</span><span class="n">nacelleCC</span><span class="o">.</span><span class="n">bearingsCC</span><span class="o">.</span><span class="n">cost</span><span class="p">)</span> <span class="c"># $56660.71</span>
+<span class="k">print</span> <span class="s">&quot;Gearbox cost is ${0:.2f} USD&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">turbine</span><span class="o">.</span><span class="n">nacelleCC</span><span class="o">.</span><span class="n">gearboxCC</span><span class="o">.</span><span class="n">cost</span><span class="p">)</span> <span class="c"># $648030.18</span>
+<span class="k">print</span> <span class="s">&quot;HSS cost is ${0:.2f} USD&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">turbine</span><span class="o">.</span><span class="n">nacelleCC</span><span class="o">.</span><span class="n">hssCC</span><span class="o">.</span><span class="n">cost</span><span class="p">)</span> <span class="c"># $15218.20</span>
+<span class="k">print</span> <span class="s">&quot;Generator cost is ${0:.2f} USD&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">turbine</span><span class="o">.</span><span class="n">nacelleCC</span><span class="o">.</span><span class="n">generatorCC</span><span class="o">.</span><span class="n">cost</span><span class="p">)</span> <span class="c"># $435157.75</span>
+<span class="k">print</span> <span class="s">&quot;Bedplate cost is ${0:.2f} USD&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">turbine</span><span class="o">.</span><span class="n">nacelleCC</span><span class="o">.</span><span class="n">bedplateCC</span><span class="o">.</span><span class="n">cost</span><span class="p">)</span>
+<span class="k">print</span> <span class="s">&quot;Yaw system cost is ${0:.2f} USD&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">turbine</span><span class="o">.</span><span class="n">nacelleCC</span><span class="o">.</span><span class="n">yawSysCC</span><span class="o">.</span><span class="n">cost</span><span class="p">)</span> <span class="c"># $137609.38</span>
 <span class="k">print</span>
-<span class="k">print</span> <span class="s">&quot;Tower cost is ${0:.2f} USD&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">turbine</span><span class="o">.</span><span class="n">tower</span><span class="o">.</span><span class="n">cost</span><span class="p">)</span>
+<span class="k">print</span> <span class="s">&quot;Tower cost is ${0:.2f} USD&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">turbine</span><span class="o">.</span><span class="n">towerCC</span><span class="o">.</span><span class="n">cost</span><span class="p">)</span> <span class="c"># $987180.30</span>
 </pre></div>
 </div>
 <p>The result is</p>
@@ -148,6 +149,60 @@
 </div>
 <p>Note that the output for the individual nacelle components do not sum to the overall nacelle cost.  There are additional costs in the overall nacelle assembly including the onboard crane, electronics and controls, HVAC, other miscellaneous hardware and the nacelle cover.</p>
 </div>
+<div class="section" id="tutorial-for-nrel-csm-tcc">
+<h2>3.2. Tutorial for NREL_CSM_TCC<a class="headerlink" href="#tutorial-for-nrel-csm-tcc" title="Permalink to this headline">¶</a></h2>
+<p>As an example of NREL_CSM_TCC, let us simulate using the key turbine configuration parameters of the NREL 5MW Reference Model as was done above.</p>
+<p>The first step is to again import the relevant files and set up the component.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># A simple test of nrel_csm_tcc model</span>
+<span class="kn">from</span> <span class="nn">nrel_csm_tcc.nrel_csm_tcc</span> <span class="kn">import</span> <span class="n">tcc_csm_assembly</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+<span class="n">trb</span> <span class="o">=</span> <span class="n">tcc_csm_assembly</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The turbine cost model relies on the key turbine configuration parameters.  These filter down to the individual component models through the rotor, nacelle and tower.  The blade number must be known to get the total cost for the blade set; the advanced Boolean for the blade must be set to select which mass-cost curve for the blade to use (normal or advanced blade).  We set this to advanced to be in line with the FAST 5 MW reference model.  The machine rating and boolean flags for onboard crane and offshore project must also be set.  These are used in the determination of costs for auxiliary system components.  Finally, the drivetrain configuration is specified so that the proper gearbox and generator coefficients will be used.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># NREL 5 MW main parameters</span>
+<span class="n">trb</span><span class="o">.</span><span class="n">rotor_diameter</span> <span class="o">=</span> <span class="mf">126.0</span>
+<span class="n">trb</span><span class="o">.</span><span class="n">advanced_blade</span> <span class="o">=</span> <span class="bp">True</span>
+<span class="n">trb</span><span class="o">.</span><span class="n">blade_number</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">trb</span><span class="o">.</span><span class="n">hub_height</span> <span class="o">=</span> <span class="mf">90.0</span>    
+<span class="n">trb</span><span class="o">.</span><span class="n">machine_rating</span> <span class="o">=</span> <span class="mf">5000.0</span>
+<span class="n">trb</span><span class="o">.</span><span class="n">offshore</span> <span class="o">=</span> <span class="bp">True</span>
+<span class="n">trb</span><span class="o">.</span><span class="n">drivetrain_design</span> <span class="o">=</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<p>Next, we need to set additional inputs to the model to estimate the rotor forces on the nacelle.  These can be specified directly if the rotor thrust and rotor torque are known.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># Rotor force calculations for nacelle inputs</span>
+<span class="n">maxTipSpd</span> <span class="o">=</span> <span class="mf">80.0</span>
+<span class="n">maxEfficiency</span> <span class="o">=</span> <span class="mf">0.90201</span>
+<span class="n">ratedWindSpd</span> <span class="o">=</span> <span class="mf">11.5064</span>
+<span class="n">thrustCoeff</span> <span class="o">=</span> <span class="mf">0.50</span>
+<span class="n">airDensity</span> <span class="o">=</span> <span class="mf">1.225</span>
+
+<span class="n">ratedHubPower</span>  <span class="o">=</span> <span class="n">trb</span><span class="o">.</span><span class="n">machine_rating</span> <span class="o">/</span> <span class="n">maxEfficiency</span> 
+<span class="n">rotorSpeed</span>     <span class="o">=</span> <span class="p">(</span><span class="n">maxTipSpd</span><span class="o">/</span><span class="p">(</span><span class="mf">0.5</span><span class="o">*</span><span class="n">trb</span><span class="o">.</span><span class="n">rotor_diameter</span><span class="p">))</span> <span class="o">*</span> <span class="p">(</span><span class="mf">60.0</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">))</span>
+<span class="n">trb</span><span class="o">.</span><span class="n">rotor_thrust</span>  <span class="o">=</span> <span class="n">airDensity</span> <span class="o">*</span> <span class="n">thrustCoeff</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">trb</span><span class="o">.</span><span class="n">rotor_diameter</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">ratedWindSpd</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="mi">8</span>
+<span class="n">trb</span><span class="o">.</span><span class="n">rotor_torque</span> <span class="o">=</span> <span class="n">ratedHubPower</span><span class="o">/</span><span class="p">(</span><span class="n">rotorSpeed</span><span class="o">*</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">30</span><span class="p">))</span><span class="o">*</span><span class="mi">1000</span>
+</pre></div>
+</div>
+<p>We can now evaluate the cost for the turbine and its components.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">trb</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>We then print out the resulting cost values</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="s">&quot;Offshore turbine in 20 m of water&quot;</span>
+<span class="k">print</span> <span class="s">&quot;Turbine mass: {0}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">trb</span><span class="o">.</span><span class="n">turbine_mass</span><span class="p">)</span>
+<span class="k">print</span> <span class="s">&quot;Turbine cost: {0}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">trb</span><span class="o">.</span><span class="n">turbine_cost</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The result is</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">Turbine</span> <span class="n">mass</span><span class="p">:</span> <span class="mf">747191.36</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Turbine</span> <span class="n">cost</span><span class="p">:</span> <span class="mf">5949405.79</span>
+</pre></div>
+</div>
+<p>It is also possible to output individual component masses and cost as in the Turbine_CostsSE model.</p>
+</div>
+</div>
 
 
           </div>
@@ -155,6 +210,15 @@
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">3. Tutorial</a><ul>
+<li><a class="reference internal" href="#tutorial-for-turbine-costsse">3.1. Tutorial for Turbine_CostsSE</a></li>
+<li><a class="reference internal" href="#tutorial-for-nrel-csm-tcc">3.2. Tutorial for NREL_CSM_TCC</a></li>
+</ul>
+</li>
+</ul>
+
   <h4>Previous topic</h4>
   <p class="topless"><a href="installation.html"
                         title="previous chapter">2. Installation</a></p>
@@ -200,8 +264,8 @@
     </div>
     <div class="footer">
         &copy; Copyright 2014, NREL.
-      Last updated on Aug 27, 2014.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.1.
+      Last updated on Aug 28, 2014.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
   </body>
 </html>

@@ -54,7 +54,7 @@
 <span id="tutorial-label"></span><h1>3. Tutorial<a class="headerlink" href="#tutorial" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="tutorial-for-turbine-costsse">
 <h2>3.1. Tutorial for Turbine_CostsSE<a class="headerlink" href="#tutorial-for-turbine-costsse" title="Permalink to this headline">¶</a></h2>
-<p>As an example of Turbine_CostsSE, let us simulate using masses for major wind turbine components for the NREL 5MW Reference Model [FAST2009] using the overall turbine cost model.  The hub and drivetrain component masses must also be provided and are calculated from Sunderland Model <a class="reference internal" href="theory.html#sunderland1993" id="id2">[3]</a>.</p>
+<p>As an example of Turbine_CostsSE, let us simulate using masses for major wind turbine components for the NREL 5MW Reference Model <a class="reference internal" href="#fast2009" id="id1">[8]</a> using the overall turbine cost model.  The hub and drivetrain component masses must also be provided and are calculated from Sunderland Model <a class="reference internal" href="#sunderland1993" id="id2">[3]</a>.</p>
 <p>The first step is to import the relevant files and set up the component.</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="c"># A simple test of turbine_costsse model</span>
 <span class="kn">from</span> <span class="nn">turbine_costsse.turbine_costsse</span> <span class="kn">import</span> <span class="n">Turbine_CostsSE</span>
@@ -201,6 +201,55 @@
 </pre></div>
 </div>
 <p>It is also possible to output individual component masses and cost as in the Turbine_CostsSE model.</p>
+<p id="bibtex-bibliography-tutorial-0"><table class="docutils citation" frame="void" id="fingersh2006" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[1]</td><td>L.&nbsp;Fingersh, M.&nbsp;Hand, and A.&nbsp;Laxson. Wind turbine design cost and scaling model. NREL/TP-500-40566, National Renewable Energy Laboratory, Golden, CO, December 2005.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="windpact" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[2]</td><td>WindPACT. Wind partnerships for advanced component technology (windpact). <span><a class="reference external" href="http://www.nrel.gov/wind/windpact.html">http://www.nrel.gov/wind/windpact.html</a></span>, May 2013.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="sunderland1993" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[3]</a></td><td>R.&nbsp;Harrison and G.&nbsp;Jenkins. Cost modeling of horizontal axis wind turbines. ETSU/W-34-00170-REP, University of Sunderland, School of Environment, Sunderland, UK, December 1993.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="malcolm2002" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[4]</td><td>D.J. Malcolm and A.C. Hansen. Windpact turbine rotor design study. NREL/SR-500-32495, National Renewable Energy Laboratory, Golden, CO, April 2006.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="maples2010" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[5]</td><td>B.&nbsp;Maples, M.&nbsp;Hand, and W.&nbsp;Musial. Comparative assessment of direct drive high temperature superconducting generators in multi-megawatt class wind turbines. NREL/TP-5000-49086, National Renewable Energy Laboratory, Golden, CO, October 2010.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="tpi2003" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[6]</td><td>TPI&nbsp;Composites Inc. Cost study for large wind turbine blades: windpact blade system design studies. SAND/2003-1428, Sandia National Laboratories, Albuquerque, NM, May 2003.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="maples2013" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[7]</td><td>B.&nbsp;Maples. Offshore balance of station model - forthcoming. NREL/TP-5000-xxxxxx, National Renewable Energy Laboratory, Golden, CO, TBD TBD.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="fast2009" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[8]</a></td><td>J.&nbsp;Jonkman, S.&nbsp;Butterfield, W.&nbsp;Musial, and G.&nbsp;Scott. Definition of a 5-mw reference wind turbine for offshore system development. NREL/TP-500-38060, National Renewable Energy Laboratory, Golden, CO, February 2009.</td></tr>
+</tbody>
+</table>
+</p>
 </div>
 </div>
 
@@ -265,7 +314,7 @@
     <div class="footer">
         &copy; Copyright 2014, NREL.
       Last updated on Aug 28, 2014.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.1.
     </div>
   </body>
 </html>

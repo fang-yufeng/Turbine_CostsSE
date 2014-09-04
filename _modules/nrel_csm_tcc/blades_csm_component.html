@@ -1,0 +1,234 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>nrel_csm_tcc.blades_csm_component &mdash; Turbine_CostsSE 0.1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/nrel.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Turbine_CostsSE 0.1.0 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="../../index.html">Turbine_CostsSE 0.1.0 documentation</a> &raquo;</li>
+          <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for nrel_csm_tcc.blades_csm_component</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">blades_csm_component.py</span>
+
+<span class="sd">Created by NWTC Systems Engineering Sub-Task on 2012-08-01.</span>
+<span class="sd">Copyright (c) NREL. All rights reserved.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">openmdao.main.api</span> <span class="kn">import</span> <span class="n">Component</span><span class="p">,</span> <span class="n">Assembly</span><span class="p">,</span> <span class="n">set_as_top</span><span class="p">,</span> <span class="n">VariableTree</span>
+<span class="kn">from</span> <span class="nn">openmdao.main.datatypes.api</span> <span class="kn">import</span> <span class="n">Int</span><span class="p">,</span> <span class="n">Bool</span><span class="p">,</span> <span class="n">Float</span><span class="p">,</span> <span class="n">Array</span><span class="p">,</span> <span class="n">VarTree</span>
+
+<span class="kn">from</span> <span class="nn">commonse.config</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+<div class="viewcode-block" id="blades_csm_component"><a class="viewcode-back" href="../../documentation.html#nrel_csm_tcc.blades_csm_component.blades_csm_component">[docs]</a><span class="k">class</span> <span class="nc">blades_csm_component</span><span class="p">(</span><span class="n">Component</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">       Component to wrap python code for NREL cost and scaling model for a wind turbine blade</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="c"># Variables</span>
+    <span class="n">rotor_diameter</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="mf">126.0</span><span class="p">,</span> <span class="n">units</span> <span class="o">=</span> <span class="s">&#39;m&#39;</span><span class="p">,</span> <span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span> <span class="s">&#39;rotor diameter of the machine&#39;</span><span class="p">)</span> 
+    
+    <span class="c"># Parameters</span>
+    <span class="n">year</span> <span class="o">=</span> <span class="n">Int</span><span class="p">(</span><span class="mi">2009</span><span class="p">,</span> <span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span> <span class="o">=</span> <span class="s">&#39;year of project start&#39;</span><span class="p">)</span>
+    <span class="n">month</span> <span class="o">=</span> <span class="n">Int</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span> <span class="o">=</span> <span class="s">&#39;month of project start&#39;</span><span class="p">)</span>
+    <span class="n">advanced_blade</span> <span class="o">=</span> <span class="n">Bool</span><span class="p">(</span><span class="bp">False</span><span class="p">,</span> <span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span> <span class="o">=</span> <span class="s">&#39;boolean for use of advanced blade curve&#39;</span><span class="p">)</span>
+
+    <span class="c"># Outputs</span>
+    <span class="n">blade_cost</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;USD&#39;</span><span class="p">,</span> <span class="n">iotype</span><span class="o">=</span><span class="s">&#39;out&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;cost for a single wind turbine blade&#39;</span><span class="p">)</span>
+    <span class="n">blade_mass</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;kg&#39;</span><span class="p">,</span> <span class="n">iotype</span><span class="o">=</span><span class="s">&#39;out&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;mass for a single wind turbine blade&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        OpenMDAO component to wrap blade model of the NREL _cost and Scaling Model (csmBlades.py)</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        rotor_diameter : float</span>
+<span class="sd">          rotor diameter of the machine [m]</span>
+<span class="sd">        advanced_blade : bool</span>
+<span class="sd">          boolean for use of advanced blade curve</span>
+<span class="sd">        year : int</span>
+<span class="sd">          year of project start</span>
+<span class="sd">        month : int</span>
+<span class="sd">          month of project start</span>
+<span class="sd">          </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        blade_cost : float</span>
+<span class="sd">          cost for a single wind turbine blade [USD}</span>
+<span class="sd">        blade_mass : float</span>
+<span class="sd">          mass of a single rotor blade [kg]</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">blades_csm_component</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
+
+        <span class="c">#controls what happens if derivatives are missing</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">missing_deriv_policy</span> <span class="o">=</span> <span class="s">&#39;assume_zero&#39;</span>
+
+    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Executes Blade model of the NREL _cost and Scaling Model to estimate wind turbine blade cost and mass.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">print</span> <span class="s">&quot;In {0}.execute()...&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">advanced_blade</span> <span class="o">==</span> <span class="bp">True</span><span class="p">):</span>
+            <span class="n">massCoeff</span> <span class="o">=</span> <span class="mf">0.4948</span>
+            <span class="n">massExp</span>   <span class="o">=</span> <span class="mf">2.5300</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">massCoeff</span> <span class="o">=</span> <span class="mf">0.1452</span> 
+            <span class="n">massExp</span>   <span class="o">=</span> <span class="mf">2.9158</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">blade_mass</span> <span class="o">=</span> <span class="p">(</span><span class="n">massCoeff</span><span class="o">*</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rotor_diameter</span><span class="o">/</span><span class="mf">2.0</span><span class="p">)</span><span class="o">**</span><span class="n">massExp</span><span class="p">)</span>
+
+        <span class="n">ppi</span><span class="o">.</span><span class="n">curr_yr</span> <span class="o">=</span> <span class="n">curr_yr</span>
+        <span class="n">ppi</span><span class="o">.</span><span class="n">curr_mon</span> <span class="o">=</span> <span class="n">curr_mon</span>
+
+        <span class="n">ppi_labor</span>  <span class="o">=</span> <span class="n">ppi</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="s">&#39;IPPI_BLL&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">advanced_blade</span> <span class="o">==</span> <span class="bp">True</span><span class="p">):</span>
+            <span class="n">ref_yr</span> <span class="o">=</span> <span class="n">ppi</span><span class="o">.</span><span class="n">ref_yr</span>
+            <span class="n">ppi</span><span class="o">.</span><span class="n">ref_yr</span> <span class="o">=</span> <span class="mi">2003</span>
+            <span class="n">ppi_mat</span>   <span class="o">=</span> <span class="n">ppi</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="s">&#39;IPPI_BLA&#39;</span><span class="p">)</span>
+            <span class="n">ppi</span><span class="o">.</span><span class="n">ref_yr</span> <span class="o">=</span> <span class="n">ref_yr</span>
+            <span class="n">slopeR3</span>   <span class="o">=</span> <span class="mf">0.4019376</span>
+            <span class="n">intR3</span>     <span class="o">=</span> <span class="o">-</span><span class="mf">21051.045983</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ppi_mat</span>   <span class="o">=</span> <span class="n">ppi</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="s">&#39;IPPI_BLD&#39;</span><span class="p">)</span>
+            <span class="n">slopeR3</span>   <span class="o">=</span> <span class="mf">0.4019376</span>
+            <span class="n">intR3</span>     <span class="o">=</span> <span class="o">-</span><span class="mf">955.24267</span>
+            
+        <span class="n">laborCoeff</span>    <span class="o">=</span> <span class="mf">2.7445</span>
+        <span class="n">laborExp</span>      <span class="o">=</span> <span class="mf">2.5025</span>
+        
+        <span class="n">bladeCostCurrent</span> <span class="o">=</span> <span class="p">(</span> <span class="p">(</span><span class="n">slopeR3</span><span class="o">*</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rotor_diameter</span><span class="o">/</span><span class="mf">2.0</span><span class="p">)</span><span class="o">**</span><span class="mf">3.0</span> <span class="o">+</span> <span class="p">(</span><span class="n">intR3</span><span class="p">))</span><span class="o">*</span><span class="n">ppi_mat</span> <span class="o">+</span> \
+                                  <span class="p">(</span><span class="n">laborCoeff</span><span class="o">*</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rotor_diameter</span><span class="o">/</span><span class="mf">2.0</span><span class="p">)</span><span class="o">**</span><span class="n">laborExp</span><span class="p">)</span><span class="o">*</span><span class="n">ppi_labor</span>    <span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mf">1.0</span><span class="o">-</span><span class="mf">0.28</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">blade_cost</span> <span class="o">=</span> <span class="n">bladeCostCurrent</span>
+    
+        <span class="c"># derivatives</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">d_mass_d_diameter</span> <span class="o">=</span> <span class="n">massExp</span> <span class="o">*</span> <span class="p">(</span><span class="n">massCoeff</span><span class="o">*</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rotor_diameter</span><span class="o">/</span><span class="mf">2.0</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="n">massExp</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span><span class="o">*</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mf">2.</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">d_cost_d_diameter</span> <span class="o">=</span> <span class="p">(</span><span class="mf">3.0</span><span class="o">*</span><span class="p">(</span><span class="n">slopeR3</span><span class="o">*</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rotor_diameter</span><span class="o">/</span><span class="mf">2.0</span><span class="p">)</span><span class="o">**</span><span class="mf">2.0</span> <span class="p">)</span><span class="o">*</span><span class="n">ppi_mat</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mf">2.</span><span class="p">)</span> <span class="o">+</span> \
+                                 <span class="p">(</span><span class="n">laborExp</span> <span class="o">*</span> <span class="n">laborCoeff</span><span class="o">*</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rotor_diameter</span><span class="o">/</span><span class="mf">2.0</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="n">laborExp</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span><span class="o">*</span><span class="n">ppi_labor</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mf">2.</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="mf">1.0</span><span class="o">-</span><span class="mf">0.28</span><span class="p">)</span>
+ 
+    <span class="k">def</span> <span class="nf">list_deriv_vars</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+    	  <span class="n">inputs</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;rotor_diameter&#39;</span><span class="p">]</span>
+    	  <span class="n">outputs</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;blade_mass&#39;</span><span class="p">,</span> <span class="s">&#39;blade_cost&#39;</span><span class="p">]</span>
+    	  
+    	  <span class="k">return</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span>
+    
+    <span class="k">def</span> <span class="nf">provideJ</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    	  
+    	  <span class="bp">self</span><span class="o">.</span><span class="n">J</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="bp">self</span><span class="o">.</span><span class="n">d_mass_d_diameter</span><span class="p">],[</span><span class="bp">self</span><span class="o">.</span><span class="n">d_cost_d_diameter</span><span class="p">]])</span>    	
+    	  
+    	  <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">J</span>
+         
+<span class="c">#-----------------------------------------------------------------</span>
+</div>
+<span class="k">def</span> <span class="nf">example</span><span class="p">():</span>
+  
+    <span class="c"># simple test of module</span>
+
+    <span class="n">blades</span> <span class="o">=</span> <span class="n">blades_csm_component</span><span class="p">()</span>
+        
+    <span class="c"># First test</span>
+    <span class="n">blades</span><span class="o">.</span><span class="n">rotor_diameter</span> <span class="o">=</span> <span class="mf">126.0</span>
+    <span class="n">blades</span><span class="o">.</span><span class="n">advanced_blade</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">blades</span><span class="o">.</span><span class="n">year</span> <span class="o">=</span> <span class="mi">2009</span>
+    <span class="n">blades</span><span class="o">.</span><span class="n">month</span> <span class="o">=</span> <span class="mi">12</span>
+    
+    <span class="n">blades</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>
+    
+    <span class="k">print</span> <span class="s">&quot;Blade csm component&quot;</span>
+    <span class="k">print</span> <span class="s">&quot;Blade mass: {0}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">blades</span><span class="o">.</span><span class="n">blade_mass</span><span class="p">)</span>
+    <span class="k">print</span> <span class="s">&quot;Blade cost: {0}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">blades</span><span class="o">.</span><span class="n">blade_cost</span><span class="p">)</span>
+
+    <span class="n">blades</span><span class="o">.</span><span class="n">advanced_blade</span> <span class="o">=</span> <span class="bp">True</span>
+
+    <span class="n">blades</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>
+    
+    <span class="k">print</span> <span class="s">&quot;Blade csm component, advanced blade&quot;</span>
+    <span class="k">print</span> <span class="s">&quot;Blade mass: {0}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">blades</span><span class="o">.</span><span class="n">blade_mass</span><span class="p">)</span>
+    <span class="k">print</span> <span class="s">&quot;Blade cost: {0}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">blades</span><span class="o">.</span><span class="n">blade_cost</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+
+    <span class="n">example</span><span class="p">()</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="../../index.html">Turbine_CostsSE 0.1.0 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, NREL.
+      Last updated on Sep 04, 2014.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>

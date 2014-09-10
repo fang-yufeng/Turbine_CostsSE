@@ -57,7 +57,8 @@
 <span class="kn">from</span> <span class="nn">openmdao.main.api</span> <span class="kn">import</span> <span class="n">Component</span><span class="p">,</span> <span class="n">Assembly</span><span class="p">,</span> <span class="n">set_as_top</span><span class="p">,</span> <span class="n">VariableTree</span>
 <span class="kn">from</span> <span class="nn">openmdao.main.datatypes.api</span> <span class="kn">import</span> <span class="n">Int</span><span class="p">,</span> <span class="n">Bool</span><span class="p">,</span> <span class="n">Float</span><span class="p">,</span> <span class="n">Array</span><span class="p">,</span> <span class="n">VarTree</span>
 
-<span class="kn">from</span> <span class="nn">fusedwind.plant_cost.fused_tcc_asym</span> <span class="kn">import</span> <span class="n">BaseTurbineCapitalCostModel</span><span class="p">,</span> <span class="n">BaseTCCAggregator</span>
+<span class="kn">from</span> <span class="nn">fusedwind.plant_cost.fused_tcc</span> <span class="kn">import</span> <span class="n">BaseTurbineCostModel</span><span class="p">,</span> <span class="n">BaseTCCAggregator</span><span class="p">,</span> <span class="n">configure_base_tcc</span>
+<span class="kn">from</span> <span class="nn">fusedwind.interface</span> <span class="kn">import</span> <span class="n">implement_base</span>
 
 <span class="kn">from</span> <span class="nn">blades_csm_component</span> <span class="kn">import</span> <span class="n">blades_csm_component</span>
 <span class="kn">from</span> <span class="nn">hub_csm_component</span> <span class="kn">import</span> <span class="n">hub_csm_component</span>
@@ -105,9 +106,9 @@
         
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">J</span>
 
-<span class="c"># --------------------------------------------------------------------</span>
-</div>
-<div class="viewcode-block" id="tcc_csm_assembly"><a class="viewcode-back" href="../../documentation.html#nrel_csm_tcc.nrel_csm_tcc.tcc_csm_assembly">[docs]</a><span class="k">class</span> <span class="nc">tcc_csm_assembly</span><span class="p">(</span><span class="n">BaseTurbineCapitalCostModel</span><span class="p">):</span>
+<span class="c"># --------------------------------------------------------------------</span></div>
+<span class="nd">@implement_base</span><span class="p">(</span><span class="n">BaseTurbineCostModel</span><span class="p">)</span>
+<div class="viewcode-block" id="tcc_csm_assembly"><a class="viewcode-back" href="../../documentation.html#nrel_csm_tcc.nrel_csm_tcc.tcc_csm_assembly">[docs]</a><span class="k">class</span> <span class="nc">tcc_csm_assembly</span><span class="p">(</span><span class="n">Assembly</span><span class="p">):</span>
 
     <span class="c"># Variables</span>
     <span class="n">rotor_diameter</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="mf">126.0</span><span class="p">,</span> <span class="n">units</span> <span class="o">=</span> <span class="s">&#39;m&#39;</span><span class="p">,</span> <span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span> <span class="s">&#39;rotor diameter of the machine&#39;</span><span class="p">)</span> 
@@ -127,13 +128,12 @@
     <span class="n">advanced_bedplate</span> <span class="o">=</span> <span class="n">Int</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span> <span class="s">&#39;indicator for drivetrain bedplate design 0 - conventional&#39;</span><span class="p">)</span>   
     <span class="n">advanced_tower</span> <span class="o">=</span> <span class="n">Bool</span><span class="p">(</span><span class="bp">False</span><span class="p">,</span> <span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span> <span class="o">=</span> <span class="s">&#39;advanced tower configuration&#39;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-
-        <span class="nb">super</span><span class="p">(</span><span class="n">tcc_csm_assembly</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
+    <span class="c"># Outputs</span>
+    <span class="n">turbine_cost</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">iotype</span><span class="o">=</span><span class="s">&#39;out&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Overall wind turbine capial costs including transportation costs&#39;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">configure</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 
-        <span class="nb">super</span><span class="p">(</span><span class="n">tcc_csm_assembly</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">configure</span><span class="p">()</span>
+        <span class="n">configure_base_tcc</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;tcc&#39;</span><span class="p">,</span> <span class="n">tcc_csm_component</span><span class="p">())</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s">&#39;blades&#39;</span><span class="p">,</span> <span class="n">blades_csm_component</span><span class="p">())</span>
@@ -214,9 +214,9 @@
 
         <span class="nb">super</span><span class="p">(</span><span class="n">tcc_csm_assembly</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>  <span class="c"># will actually run the workflow</span>
 
-<span class="c">#------------------------------------------------------------------</span>
-</div>
-<div class="viewcode-block" id="tcc_csm_component"><a class="viewcode-back" href="../../documentation.html#nrel_csm_tcc.nrel_csm_tcc.tcc_csm_component">[docs]</a><span class="k">class</span> <span class="nc">tcc_csm_component</span><span class="p">(</span><span class="n">BaseTCCAggregator</span><span class="p">):</span>
+<span class="c">#------------------------------------------------------------------</span></div>
+<span class="nd">@implement_base</span><span class="p">(</span><span class="n">BaseTCCAggregator</span><span class="p">)</span>
+<div class="viewcode-block" id="tcc_csm_component"><a class="viewcode-back" href="../../documentation.html#nrel_csm_tcc.nrel_csm_tcc.tcc_csm_component">[docs]</a><span class="k">class</span> <span class="nc">tcc_csm_component</span><span class="p">(</span><span class="n">Component</span><span class="p">):</span>
 
     <span class="c"># Variables    </span>
     <span class="n">blade_cost</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;USD&#39;</span><span class="p">,</span> <span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;cost for a single wind turbine blade&#39;</span><span class="p">)</span>
@@ -267,10 +267,11 @@
 
     <span class="c"># Outputs</span>
     <span class="n">turbine_mass</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;kg&#39;</span><span class="p">,</span> <span class="n">iotype</span><span class="o">=</span><span class="s">&#39;out&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;turbine mass&#39;</span><span class="p">)</span>
+    <span class="n">turbine_cost</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">iotype</span><span class="o">=</span><span class="s">&#39;out&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Overall wind turbine capial costs including transportation costs&#39;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>    
 
-        <span class="nb">super</span><span class="p">(</span><span class="n">tcc_csm_component</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="n">Component</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
         <span class="c">#controls what happens if derivatives are missing</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">missing_deriv_policy</span> <span class="o">=</span> <span class="s">&#39;assume_zero&#39;</span>
@@ -394,7 +395,7 @@
     </div>
     <div class="footer">
         &copy; Copyright 2014, NREL.
-      Last updated on Sep 04, 2014.
+      Last updated on Sep 10, 2014.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
   </body>

@@ -58,11 +58,12 @@
 <span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">pi</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 
-<span class="kn">from</span> <span class="nn">fusedwind.plant_cost.fused_tcc_asym</span> <span class="kn">import</span> <span class="n">FullNacelleCostModel</span><span class="p">,</span> <span class="n">BaseComponentCostModel</span><span class="p">,</span> <span class="n">FullNacelleCostAggregator</span>
+<span class="kn">from</span> <span class="nn">fusedwind.plant_cost.fused_tcc</span> <span class="kn">import</span> <span class="n">FullNacelleCostModel</span><span class="p">,</span> <span class="n">BaseComponentCostModel</span><span class="p">,</span> <span class="n">FullNacelleCostAggregator</span><span class="p">,</span> <span class="n">configure_full_ncc</span>
+<span class="kn">from</span> <span class="nn">fusedwind.interface</span> <span class="kn">import</span> <span class="n">implement_base</span>
 
 <span class="c"># -------------------------------------------------</span>
-
-<div class="viewcode-block" id="LowSpeedShaftCost"><a class="viewcode-back" href="../../documentation.html#turbine_costsse.nacelle_costsse.LowSpeedShaftCost">[docs]</a><span class="k">class</span> <span class="nc">LowSpeedShaftCost</span><span class="p">(</span><span class="n">BaseComponentCostModel</span><span class="p">):</span>
+<span class="nd">@implement_base</span><span class="p">(</span><span class="n">BaseComponentCostModel</span><span class="p">)</span>
+<div class="viewcode-block" id="LowSpeedShaftCost"><a class="viewcode-back" href="../../documentation.html#turbine_costsse.nacelle_costsse.LowSpeedShaftCost">[docs]</a><span class="k">class</span> <span class="nc">LowSpeedShaftCost</span><span class="p">(</span><span class="n">Component</span><span class="p">):</span>
 
     <span class="c"># variables</span>
     <span class="n">low_speed_shaft_mass</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;kg&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;component mass [kg]&#39;</span><span class="p">)</span>
@@ -71,13 +72,16 @@
     <span class="n">year</span> <span class="o">=</span> <span class="n">Int</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Current Year&#39;</span><span class="p">)</span>
     <span class="n">month</span> <span class="o">=</span> <span class="n">Int</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Current Month&#39;</span><span class="p">)</span>
 
+    <span class="c"># Outputs</span>
+    <span class="n">cost</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">iotype</span><span class="o">=</span><span class="s">&#39;out&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Overall wind turbine component capial costs excluding transportation costs&#39;</span><span class="p">)</span>
+
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Initial computation of the costs for the wind turbine low speed shaft component.</span>
 
 <span class="sd">        &#39;&#39;&#39;</span>
 
-        <span class="nb">super</span><span class="p">(</span><span class="n">LowSpeedShaftCost</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="n">Component</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
         <span class="c">#controls what happens if derivatives are missing</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">missing_deriv_policy</span> <span class="o">=</span> <span class="s">&#39;assume_zero&#39;</span>
@@ -110,9 +114,9 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">J</span>
 
-<span class="c">#-------------------------------------------------------------------------------</span>
-</div>
-<div class="viewcode-block" id="BearingsCost"><a class="viewcode-back" href="../../documentation.html#turbine_costsse.nacelle_costsse.BearingsCost">[docs]</a><span class="k">class</span> <span class="nc">BearingsCost</span><span class="p">(</span><span class="n">BaseComponentCostModel</span><span class="p">):</span>
+<span class="c">#-------------------------------------------------------------------------------</span></div>
+<span class="nd">@implement_base</span><span class="p">(</span><span class="n">BaseComponentCostModel</span><span class="p">)</span>
+<div class="viewcode-block" id="BearingsCost"><a class="viewcode-back" href="../../documentation.html#turbine_costsse.nacelle_costsse.BearingsCost">[docs]</a><span class="k">class</span> <span class="nc">BearingsCost</span><span class="p">(</span><span class="n">Component</span><span class="p">):</span>
 
     <span class="c"># variables</span>
     <span class="n">main_bearing_mass</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;kg&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;component mass [kg]&#39;</span><span class="p">)</span>
@@ -122,28 +126,16 @@
     <span class="n">year</span> <span class="o">=</span> <span class="n">Int</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Current Year&#39;</span><span class="p">)</span>
     <span class="n">month</span> <span class="o">=</span> <span class="n">Int</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Current Month&#39;</span><span class="p">)</span>
 
+    <span class="c"># Outputs</span>
+    <span class="n">cost</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">iotype</span><span class="o">=</span><span class="s">&#39;out&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Overall wind turbine component capial costs excluding transportation costs&#39;</span><span class="p">)</span>
+
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Initial computation of the costs for the wind turbine maing bearings.</span>
 
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        main_bearing_mass : float</span>
-<span class="sd">          bearing mass [kg]</span>
-<span class="sd">        second_bearing_mass : float</span>
-<span class="sd">          bearing mass [kg]</span>
-<span class="sd">        curr_yr : int</span>
-<span class="sd">          Project start year</span>
-<span class="sd">        curr_mon : int</span>
-<span class="sd">          Project start month</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        cost : float</span>
-<span class="sd">          component cost [USD]</span>
 <span class="sd">        &#39;&#39;&#39;</span>
 
-        <span class="nb">super</span><span class="p">(</span><span class="n">BearingsCost</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="n">Component</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
         <span class="c">#controls what happens if derivatives are missing</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">missing_deriv_policy</span> <span class="o">=</span> <span class="s">&#39;assume_zero&#39;</span>
@@ -180,9 +172,9 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">J</span>
 
-<span class="c">#-------------------------------------------------------------------------------</span>
-</div>
-<div class="viewcode-block" id="GearboxCost"><a class="viewcode-back" href="../../documentation.html#turbine_costsse.nacelle_costsse.GearboxCost">[docs]</a><span class="k">class</span> <span class="nc">GearboxCost</span><span class="p">(</span><span class="n">BaseComponentCostModel</span><span class="p">):</span>
+<span class="c">#-------------------------------------------------------------------------------</span></div>
+<span class="nd">@implement_base</span><span class="p">(</span><span class="n">BaseComponentCostModel</span><span class="p">)</span>
+<div class="viewcode-block" id="GearboxCost"><a class="viewcode-back" href="../../documentation.html#turbine_costsse.nacelle_costsse.GearboxCost">[docs]</a><span class="k">class</span> <span class="nc">GearboxCost</span><span class="p">(</span><span class="n">Component</span><span class="p">):</span>
 
     <span class="c"># variables</span>
     <span class="n">gearbox_mass</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;kg&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;component mass&#39;</span><span class="p">)</span>
@@ -193,30 +185,16 @@
     <span class="n">year</span> <span class="o">=</span> <span class="n">Int</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Current Year&#39;</span><span class="p">)</span>
     <span class="n">month</span> <span class="o">=</span> <span class="n">Int</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Current Month&#39;</span><span class="p">)</span>
 
+    <span class="c"># Outputs</span>
+    <span class="n">cost</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">iotype</span><span class="o">=</span><span class="s">&#39;out&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Overall wind turbine component capial costs excluding transportation costs&#39;</span><span class="p">)</span>
+
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Initial computation of the costs for the wind turbine gearbox component.</span>
 
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        gearbox_mass : float</span>
-<span class="sd">          gearbox mass [kg]</span>
-<span class="sd">        machine_rating : float</span>
-<span class="sd">          machine rating [kW]</span>
-<span class="sd">        drivetrain_design : int</span>
-<span class="sd">          machine configuration 1 conventional, 2 medium speed, 3 multi-gen, 4 direct-drive</span>
-<span class="sd">        curr_yr : int</span>
-<span class="sd">          Project start year</span>
-<span class="sd">        curr_mon : int</span>
-<span class="sd">          Project start month</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        cost : float</span>
-<span class="sd">          component cost [USD]</span>
 <span class="sd">        &#39;&#39;&#39;</span>
 
-        <span class="nb">super</span><span class="p">(</span><span class="n">GearboxCost</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="n">Component</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
         <span class="c">#controls what happens if derivatives are missing</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">missing_deriv_policy</span> <span class="o">=</span> <span class="s">&#39;assume_zero&#39;</span>
@@ -261,9 +239,9 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">J</span>
 
-<span class="c">#-------------------------------------------------------------------------------</span>
-</div>
-<div class="viewcode-block" id="HighSpeedSideCost"><a class="viewcode-back" href="../../documentation.html#turbine_costsse.nacelle_costsse.HighSpeedSideCost">[docs]</a><span class="k">class</span> <span class="nc">HighSpeedSideCost</span><span class="p">(</span><span class="n">BaseComponentCostModel</span><span class="p">):</span>
+<span class="c">#-------------------------------------------------------------------------------</span></div>
+<span class="nd">@implement_base</span><span class="p">(</span><span class="n">BaseComponentCostModel</span><span class="p">)</span>
+<div class="viewcode-block" id="HighSpeedSideCost"><a class="viewcode-back" href="../../documentation.html#turbine_costsse.nacelle_costsse.HighSpeedSideCost">[docs]</a><span class="k">class</span> <span class="nc">HighSpeedSideCost</span><span class="p">(</span><span class="n">Component</span><span class="p">):</span>
 
     <span class="c"># variables</span>
     <span class="n">high_speed_side_mass</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;kg&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;component mass [kg]&#39;</span><span class="p">)</span>
@@ -272,26 +250,16 @@
     <span class="n">year</span> <span class="o">=</span> <span class="n">Int</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Current Year&#39;</span><span class="p">)</span>
     <span class="n">month</span> <span class="o">=</span> <span class="n">Int</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Current Month&#39;</span><span class="p">)</span>
 
+    <span class="c"># Outputs</span>
+    <span class="n">cost</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">iotype</span><span class="o">=</span><span class="s">&#39;out&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Overall wind turbine component capial costs excluding transportation costs&#39;</span><span class="p">)</span>
+
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Initial computation of the costs for the wind turbine mechanical brake and HSS component.</span>
 
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        high_speed_side_mass : float</span>
-<span class="sd">          mechBrake mass [kg]</span>
-<span class="sd">        curr_yr : int</span>
-<span class="sd">          Project start year</span>
-<span class="sd">        curr_mon : int</span>
-<span class="sd">          Project start month</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        cost : float</span>
-<span class="sd">          component cost [USD]</span>
 <span class="sd">        &#39;&#39;&#39;</span>
 
-        <span class="nb">super</span><span class="p">(</span><span class="n">HighSpeedSideCost</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="n">Component</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
         <span class="c">#controls what happens if derivatives are missing</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">missing_deriv_policy</span> <span class="o">=</span> <span class="s">&#39;assume_zero&#39;</span>
@@ -323,9 +291,9 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">J</span>
 
-<span class="c">#-------------------------------------------------------------------------------</span>
-</div>
-<div class="viewcode-block" id="GeneratorCost"><a class="viewcode-back" href="../../documentation.html#turbine_costsse.nacelle_costsse.GeneratorCost">[docs]</a><span class="k">class</span> <span class="nc">GeneratorCost</span><span class="p">(</span><span class="n">BaseComponentCostModel</span><span class="p">):</span>
+<span class="c">#-------------------------------------------------------------------------------</span></div>
+<span class="nd">@implement_base</span><span class="p">(</span><span class="n">BaseComponentCostModel</span><span class="p">)</span>
+<div class="viewcode-block" id="GeneratorCost"><a class="viewcode-back" href="../../documentation.html#turbine_costsse.nacelle_costsse.GeneratorCost">[docs]</a><span class="k">class</span> <span class="nc">GeneratorCost</span><span class="p">(</span><span class="n">Component</span><span class="p">):</span>
 
     <span class="c"># variables</span>
     <span class="n">generator_mass</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;kg&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;component mass [kg]&#39;</span><span class="p">)</span>
@@ -336,28 +304,16 @@
     <span class="n">year</span> <span class="o">=</span> <span class="n">Int</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Current Year&#39;</span><span class="p">)</span>
     <span class="n">month</span> <span class="o">=</span> <span class="n">Int</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Current Month&#39;</span><span class="p">)</span>
 
+    <span class="c"># Outputs</span>
+    <span class="n">cost</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">iotype</span><span class="o">=</span><span class="s">&#39;out&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Overall wind turbine component capial costs excluding transportation costs&#39;</span><span class="p">)</span>
+
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Initial computation of the costs for the wind turbine generator component.</span>
 
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        generator_mass : float</span>
-<span class="sd">          generator mass [kg]</span>
-<span class="sd">        drivetrain_design : int</span>
-<span class="sd">          machine configuration 1 conventional, 2 medium speed, 3 multi-gen, 4 direct-drive</span>
-<span class="sd">        curr_yr : int</span>
-<span class="sd">          Project start year</span>
-<span class="sd">        curr_mon : int</span>
-<span class="sd">          Project start month</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        cost : float</span>
-<span class="sd">          component cost [USD]</span>
 <span class="sd">        &#39;&#39;&#39;</span>
 
-        <span class="nb">super</span><span class="p">(</span><span class="n">GeneratorCost</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="n">Component</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
         <span class="c">#controls what happens if derivatives are missing</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">missing_deriv_policy</span> <span class="o">=</span> <span class="s">&#39;assume_zero&#39;</span>
@@ -402,9 +358,9 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">J</span>
 
-<span class="c">#-------------------------------------------------------------------------------</span>
-</div>
-<div class="viewcode-block" id="BedplateCost"><a class="viewcode-back" href="../../documentation.html#turbine_costsse.nacelle_costsse.BedplateCost">[docs]</a><span class="k">class</span> <span class="nc">BedplateCost</span><span class="p">(</span><span class="n">BaseComponentCostModel</span><span class="p">):</span>
+<span class="c">#-------------------------------------------------------------------------------</span></div>
+<span class="nd">@implement_base</span><span class="p">(</span><span class="n">BaseComponentCostModel</span><span class="p">)</span>
+<div class="viewcode-block" id="BedplateCost"><a class="viewcode-back" href="../../documentation.html#turbine_costsse.nacelle_costsse.BedplateCost">[docs]</a><span class="k">class</span> <span class="nc">BedplateCost</span><span class="p">(</span><span class="n">Component</span><span class="p">):</span>
 
     <span class="c"># variables</span>
     <span class="n">bedplate_mass</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;kg&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;component mass [kg]&#39;</span><span class="p">)</span>
@@ -414,31 +370,17 @@
     <span class="n">month</span> <span class="o">=</span> <span class="n">Int</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Current Month&#39;</span><span class="p">)</span>
     <span class="n">drivetrain_design</span> <span class="o">=</span> <span class="n">Int</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;type of drivetrain&#39;</span><span class="p">)</span>
 
-    <span class="c"># returns</span>
+    <span class="c"># Outputs</span>
     <span class="n">cost2002</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;out&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;USD&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;component cost in 2002 USD&#39;</span><span class="p">)</span>
+    <span class="n">cost</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">iotype</span><span class="o">=</span><span class="s">&#39;out&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Overall wind turbine component capial costs excluding transportation costs&#39;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Initial computation of the costs for the wind turbine bedplate component.</span>
 
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        bedplate_mass : float</span>
-<span class="sd">          bedplate mass [kg]</span>
-<span class="sd">        curr_yr : int</span>
-<span class="sd">          Project start year</span>
-<span class="sd">        curr_mon : int</span>
-<span class="sd">          Project start month</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        cost : float</span>
-<span class="sd">          component cost [USD]</span>
-<span class="sd">        cost2002 : float</span>
-<span class="sd">          componet 2002 cost [USD]</span>
 <span class="sd">        &#39;&#39;&#39;</span>
 
-        <span class="nb">super</span><span class="p">(</span><span class="n">BedplateCost</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="n">Component</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
         <span class="c">#controls what happens if derivatives are missing</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">missing_deriv_policy</span> <span class="o">=</span> <span class="s">&#39;assume_zero&#39;</span>
@@ -477,9 +419,9 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">J</span>
 
-<span class="c">#---------------------------------------------------------------------------------</span>
-</div>
-<span class="k">class</span> <span class="nc">YawSystemCost</span><span class="p">(</span><span class="n">BaseComponentCostModel</span><span class="p">):</span>
+<span class="c">#---------------------------------------------------------------------------------</span></div>
+<span class="nd">@implement_base</span><span class="p">(</span><span class="n">BaseComponentCostModel</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">YawSystemCost</span><span class="p">(</span><span class="n">Component</span><span class="p">):</span>
 
     <span class="c"># variables</span>
     <span class="n">yaw_system_mass</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;kg&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;component mass [kg]&#39;</span><span class="p">)</span>
@@ -488,26 +430,15 @@
     <span class="n">year</span> <span class="o">=</span> <span class="n">Int</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Current Year&#39;</span><span class="p">)</span>
     <span class="n">month</span> <span class="o">=</span> <span class="n">Int</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Current Month&#39;</span><span class="p">)</span>
 
+    <span class="c"># Outputs</span>
+    <span class="n">cost</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">iotype</span><span class="o">=</span><span class="s">&#39;out&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Overall wind turbine component capial costs excluding transportation costs&#39;</span><span class="p">)</span>
+
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Initial computation of the costs for the wind turbine yaw system.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        yaw_system_mass : float</span>
-<span class="sd">          yawSystem mass [kg]</span>
-<span class="sd">        curr_yr : int</span>
-<span class="sd">          Project start year</span>
-<span class="sd">        curr_mon : int</span>
-<span class="sd">          Project start month</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        cost : float</span>
-<span class="sd">          component cost [USD]</span>
 <span class="sd">        &#39;&#39;&#39;</span>
-
-        <span class="nb">super</span><span class="p">(</span><span class="n">YawSystemCost</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
+        
+        <span class="n">Component</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
         <span class="c">#controls what happens if derivatives are missing</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">missing_deriv_policy</span> <span class="o">=</span> <span class="s">&#39;assume_zero&#39;</span>
@@ -542,10 +473,17 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">J</span>
 
 <span class="c">#-------------------------------------------------------------------------------</span>
-
-<div class="viewcode-block" id="NacelleSystemCostAdder"><a class="viewcode-back" href="../../documentation.html#turbine_costsse.nacelle_costsse.NacelleSystemCostAdder">[docs]</a><span class="k">class</span> <span class="nc">NacelleSystemCostAdder</span><span class="p">(</span><span class="n">FullNacelleCostAggregator</span><span class="p">):</span>
+<span class="nd">@implement_base</span><span class="p">(</span><span class="n">FullNacelleCostAggregator</span><span class="p">)</span>
+<div class="viewcode-block" id="NacelleSystemCostAdder"><a class="viewcode-back" href="../../documentation.html#turbine_costsse.nacelle_costsse.NacelleSystemCostAdder">[docs]</a><span class="k">class</span> <span class="nc">NacelleSystemCostAdder</span><span class="p">(</span><span class="n">Component</span><span class="p">):</span>
 
     <span class="c"># variables</span>
+    <span class="n">lss_cost</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;USD&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;component cost&#39;</span><span class="p">)</span>
+    <span class="n">bearings_cost</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;USD&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;component cost&#39;</span><span class="p">)</span>
+    <span class="n">gearbox_cost</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;USD&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;component cost&#39;</span><span class="p">)</span>
+    <span class="n">hss_cost</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;USD&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;component cost&#39;</span><span class="p">)</span>
+    <span class="n">generator_cost</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;USD&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;component cost&#39;</span><span class="p">)</span>
+    <span class="n">bedplate_cost</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;USD&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;component cost&#39;</span><span class="p">)</span>
+    <span class="n">yaw_system_cost</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;USD&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;component cost&#39;</span><span class="p">)</span>
     <span class="n">machine_rating</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;kW&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;machine rating&#39;</span><span class="p">)</span>
     <span class="n">bedplate_mass</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;kg&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;component mass [kg]&#39;</span><span class="p">)</span>
     <span class="n">bedplate_cost</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;USD&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;component cost [USD]&#39;</span><span class="p">)</span>
@@ -556,43 +494,16 @@
     <span class="n">offshore</span> <span class="o">=</span> <span class="n">Bool</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;flag for offshore project&#39;</span><span class="p">)</span>
     <span class="n">year</span> <span class="o">=</span> <span class="n">Int</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Current Year&#39;</span><span class="p">)</span>
     <span class="n">month</span> <span class="o">=</span> <span class="n">Int</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Current Month&#39;</span><span class="p">)</span>
+    
+    <span class="c"># returns</span>
+    <span class="n">cost</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;out&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;USD&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;component cost&#39;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Initial computation of the costs for the wind turbine gearbox component.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        lowSpeedShaftCost : float</span>
-<span class="sd">          component cost [USD]</span>
-<span class="sd">        bearingsCost : float</span>
-<span class="sd">          component cost [USD]</span>
-<span class="sd">        gearboxCost : float</span>
-<span class="sd">          component cost [USD]</span>
-<span class="sd">        highSpeedSideCost : float</span>
-<span class="sd">          component cost [USD]</span>
-<span class="sd">        generatorCost : float</span>
-<span class="sd">          component cost [USD]</span>
-<span class="sd">        mainframeCost : float</span>
-<span class="sd">          component cost [USD]</span>
-<span class="sd">        yawSystemCost : float</span>
-<span class="sd">          component cost [USD]</span>
-<span class="sd">        machine_rating : float</span>
-<span class="sd">          machine rating [kW]</span>
-<span class="sd">        curr_yr : int</span>
-<span class="sd">          Project start year</span>
-<span class="sd">        curr_mon : int</span>
-<span class="sd">          Project start month</span>
-<span class="sd">        offshore : bool</span>
-<span class="sd">          flag for offshore project</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        cost : float</span>
-<span class="sd">          component cost [USD]</span>
 <span class="sd">        &#39;&#39;&#39;</span>
 
-        <span class="nb">super</span><span class="p">(</span><span class="n">NacelleSystemCostAdder</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="n">Component</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
         <span class="c">#controls what happens if derivatives are missing</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">missing_deriv_policy</span> <span class="o">=</span> <span class="s">&#39;assume_zero&#39;</span>
@@ -729,13 +640,12 @@
     <span class="n">year</span> <span class="o">=</span> <span class="n">Int</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Current Year&#39;</span><span class="p">)</span>
     <span class="n">month</span> <span class="o">=</span> <span class="n">Int</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Current Month&#39;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-
-        <span class="nb">super</span><span class="p">(</span><span class="n">Nacelle_CostsSE</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
+    <span class="c"># outputs</span>
+    <span class="n">cost</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;out&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;USD&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;component cost&#39;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">configure</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 
-        <span class="nb">super</span><span class="p">(</span><span class="n">Nacelle_CostsSE</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">configure</span><span class="p">()</span>
+        <span class="n">configure_full_ncc</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
         <span class="c"># select components</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;lssCC&#39;</span><span class="p">,</span> <span class="n">LowSpeedShaftCost</span><span class="p">())</span>
@@ -842,7 +752,7 @@
     </div>
     <div class="footer">
         &copy; Copyright 2014, NREL.
-      Last updated on Sep 04, 2014.
+      Last updated on Sep 10, 2014.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
   </body>

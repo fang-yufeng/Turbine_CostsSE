@@ -56,15 +56,16 @@
 <span class="kn">from</span> <span class="nn">openmdao.main.datatypes.api</span> <span class="kn">import</span> <span class="n">Array</span><span class="p">,</span> <span class="n">Float</span><span class="p">,</span> <span class="n">Bool</span><span class="p">,</span> <span class="n">Int</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 
-<span class="kn">from</span> <span class="nn">fusedwind.plant_cost.fused_tcc_asym</span> <span class="kn">import</span> <span class="n">FullTurbineCapitalCostModel</span><span class="p">,</span> <span class="n">FullTCCAggregator</span>
+<span class="kn">from</span> <span class="nn">fusedwind.plant_cost.fused_tcc</span> <span class="kn">import</span> <span class="n">FullTurbineCostModel</span><span class="p">,</span> <span class="n">FullTCCAggregator</span><span class="p">,</span> <span class="n">configure_full_tcc</span>
+<span class="kn">from</span> <span class="nn">fusedwind.interface</span> <span class="kn">import</span> <span class="n">implement_base</span>
 
 <span class="kn">from</span> <span class="nn">rotor_costsse</span> <span class="kn">import</span> <span class="n">Rotor_CostsSE</span>
 <span class="kn">from</span> <span class="nn">nacelle_costsse</span> <span class="kn">import</span> <span class="n">Nacelle_CostsSE</span>
 <span class="kn">from</span> <span class="nn">tower_costsse</span> <span class="kn">import</span> <span class="n">Tower_CostsSE</span>
 
 <span class="c">#-------------------------------------------------------------------------------</span>
-
-<div class="viewcode-block" id="Turbine_CostsSE"><a class="viewcode-back" href="../../documentation.html#turbine_costsse.turbine_costsse.Turbine_CostsSE">[docs]</a><span class="k">class</span> <span class="nc">Turbine_CostsSE</span><span class="p">(</span><span class="n">FullTurbineCapitalCostModel</span><span class="p">):</span>
+<span class="nd">@implement_base</span><span class="p">(</span><span class="n">FullTurbineCostModel</span><span class="p">)</span>
+<div class="viewcode-block" id="Turbine_CostsSE"><a class="viewcode-back" href="../../documentation.html#turbine_costsse.turbine_costsse.Turbine_CostsSE">[docs]</a><span class="k">class</span> <span class="nc">Turbine_CostsSE</span><span class="p">(</span><span class="n">Assembly</span><span class="p">):</span>
 
     <span class="c"># variables</span>
     <span class="n">blade_mass</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;kg&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;component mass [kg]&#39;</span><span class="p">)</span>
@@ -91,13 +92,12 @@
     <span class="n">year</span> <span class="o">=</span> <span class="n">Int</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Current Year&#39;</span><span class="p">)</span>
     <span class="n">month</span> <span class="o">=</span> <span class="n">Int</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Current Month&#39;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-
-        <span class="nb">super</span><span class="p">(</span><span class="n">Turbine_CostsSE</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
+    <span class="c"># Outputs</span>
+    <span class="n">turbine_cost</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">iotype</span><span class="o">=</span><span class="s">&#39;out&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Overall wind turbine capial costs including transportation costs&#39;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">configure</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 
-        <span class="nb">super</span><span class="p">(</span><span class="n">Turbine_CostsSE</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">configure</span><span class="p">()</span>
+        <span class="n">configure_full_tcc</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
         <span class="c"># select components</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;rotorCC&#39;</span><span class="p">,</span> <span class="n">Rotor_CostsSE</span><span class="p">())</span>
@@ -134,9 +134,14 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">create_passthrough</span><span class="p">(</span><span class="s">&#39;tcc.transportMultiplier&#39;</span><span class="p">)</span>
 
 
-<span class="c">#-------------------------------------------------------------------------------</span>
-</div>
-<div class="viewcode-block" id="TurbineCostAdder"><a class="viewcode-back" href="../../documentation.html#turbine_costsse.turbine_costsse.TurbineCostAdder">[docs]</a><span class="k">class</span> <span class="nc">TurbineCostAdder</span><span class="p">(</span><span class="n">FullTCCAggregator</span><span class="p">):</span>
+<span class="c">#-------------------------------------------------------------------------------</span></div>
+<span class="nd">@implement_base</span><span class="p">(</span><span class="n">FullTCCAggregator</span><span class="p">)</span>
+<div class="viewcode-block" id="TurbineCostAdder"><a class="viewcode-back" href="../../documentation.html#turbine_costsse.turbine_costsse.TurbineCostAdder">[docs]</a><span class="k">class</span> <span class="nc">TurbineCostAdder</span><span class="p">(</span><span class="n">Component</span><span class="p">):</span>
+
+    <span class="c"># Variables</span>
+    <span class="n">rotor_cost</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;USD&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;rotor cost&#39;</span><span class="p">)</span>
+    <span class="n">nacelle_cost</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;USD&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;nacelle cost&#39;</span><span class="p">)</span>
+    <span class="n">tower_cost</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;USD&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;tower cost&#39;</span><span class="p">)</span>
 
     <span class="c"># parameters</span>
     <span class="n">offshore</span> <span class="o">=</span> <span class="n">Bool</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;flag for offshore site&#39;</span><span class="p">)</span>
@@ -145,9 +150,12 @@
     <span class="n">profitMultiplier</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;multiplier for profit markup&#39;</span><span class="p">)</span>
     <span class="n">transportMultiplier</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;multiplier for transport costs&#39;</span><span class="p">)</span>
 
+    <span class="c"># Outputs</span>
+    <span class="n">turbine_cost</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">iotype</span><span class="o">=</span><span class="s">&#39;out&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Overall wind turbine capial costs including transportation costs&#39;</span><span class="p">)</span>
+
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 
-        <span class="nb">super</span><span class="p">(</span><span class="n">TurbineCostAdder</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="n">Component</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
         <span class="c">#controls what happens if derivatives are missing</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">missing_deriv_policy</span> <span class="o">=</span> <span class="s">&#39;assume_zero&#39;</span>
@@ -276,7 +284,7 @@
     </div>
     <div class="footer">
         &copy; Copyright 2014, NREL.
-      Last updated on Sep 04, 2014.
+      Last updated on Sep 10, 2014.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
   </body>

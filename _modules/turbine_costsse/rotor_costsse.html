@@ -58,11 +58,12 @@
 <span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">pi</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 
-<span class="kn">from</span> <span class="nn">fusedwind.plant_cost.fused_tcc_asym</span> <span class="kn">import</span> <span class="n">FullRotorCostModel</span><span class="p">,</span> <span class="n">FullRotorCostAggregator</span><span class="p">,</span> <span class="n">FullHubSystemCostAggregator</span><span class="p">,</span> <span class="n">BaseComponentCostModel</span>
+<span class="kn">from</span> <span class="nn">fusedwind.plant_cost.fused_tcc</span> <span class="kn">import</span> <span class="n">FullRotorCostModel</span><span class="p">,</span> <span class="n">FullRotorCostAggregator</span><span class="p">,</span> <span class="n">FullHubSystemCostAggregator</span><span class="p">,</span> <span class="n">BaseComponentCostModel</span><span class="p">,</span> <span class="n">configure_full_rcc</span>
+<span class="kn">from</span> <span class="nn">fusedwind.interface</span> <span class="kn">import</span> <span class="n">implement_base</span>
 
 <span class="c">#-------------------------------------------------------------------------------</span>
-
-<div class="viewcode-block" id="BladeCost"><a class="viewcode-back" href="../../documentation.html#turbine_costsse.rotor_costsse.BladeCost">[docs]</a><span class="k">class</span> <span class="nc">BladeCost</span><span class="p">(</span><span class="n">BaseComponentCostModel</span><span class="p">):</span>
+<span class="nd">@implement_base</span><span class="p">(</span><span class="n">BaseComponentCostModel</span><span class="p">)</span>
+<div class="viewcode-block" id="BladeCost"><a class="viewcode-back" href="../../documentation.html#turbine_costsse.rotor_costsse.BladeCost">[docs]</a><span class="k">class</span> <span class="nc">BladeCost</span><span class="p">(</span><span class="n">Component</span><span class="p">):</span>
 
     <span class="c"># variables</span>
     <span class="n">blade_mass</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;kg&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;component mass [kg]&#39;</span><span class="p">)</span>
@@ -72,13 +73,16 @@
     <span class="n">month</span> <span class="o">=</span> <span class="n">Int</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Current Month&#39;</span><span class="p">)</span>
     <span class="n">advanced</span> <span class="o">=</span> <span class="n">Bool</span><span class="p">(</span><span class="bp">True</span><span class="p">,</span> <span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;advanced (True) or traditional (False) blade design&#39;</span><span class="p">)</span>
 
+    <span class="c"># Outputs</span>
+    <span class="n">cost</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">iotype</span><span class="o">=</span><span class="s">&#39;out&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Overall wind turbine component capial costs excluding transportation costs&#39;</span><span class="p">)</span>
+
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Initial computation of the costs for the wind turbine blade component.</span>
 
 <span class="sd">        &#39;&#39;&#39;</span>
 
-        <span class="nb">super</span><span class="p">(</span><span class="n">BladeCost</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="n">Component</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
         <span class="c">#controls what happens if derivatives are missing</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">missing_deriv_policy</span> <span class="o">=</span> <span class="s">&#39;assume_zero&#39;</span>
@@ -125,9 +129,9 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">J</span>
 
 
-<span class="c"># -----------------------------------------------------------------------------------------------</span>
-</div>
-<div class="viewcode-block" id="HubCost"><a class="viewcode-back" href="../../documentation.html#turbine_costsse.rotor_costsse.HubCost">[docs]</a><span class="k">class</span> <span class="nc">HubCost</span><span class="p">(</span><span class="n">BaseComponentCostModel</span><span class="p">):</span>
+<span class="c"># -----------------------------------------------------------------------------------------------</span></div>
+<span class="nd">@implement_base</span><span class="p">(</span><span class="n">BaseComponentCostModel</span><span class="p">)</span>
+<div class="viewcode-block" id="HubCost"><a class="viewcode-back" href="../../documentation.html#turbine_costsse.rotor_costsse.HubCost">[docs]</a><span class="k">class</span> <span class="nc">HubCost</span><span class="p">(</span><span class="n">Component</span><span class="p">):</span>
 
     <span class="c"># variables</span>
     <span class="n">hub_mass</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;kg&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;component mass [kg]&#39;</span><span class="p">)</span>
@@ -136,13 +140,16 @@
     <span class="n">year</span> <span class="o">=</span> <span class="n">Int</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Current Year&#39;</span><span class="p">)</span>
     <span class="n">month</span> <span class="o">=</span> <span class="n">Int</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Current Month&#39;</span><span class="p">)</span>
 
+    <span class="c"># Outputs</span>
+    <span class="n">cost</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">iotype</span><span class="o">=</span><span class="s">&#39;out&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Overall wind turbine component capial costs excluding transportation costs&#39;</span><span class="p">)</span>
+
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Initial computation of the costs for the wind turbine hub component.</span>
 
 <span class="sd">        &#39;&#39;&#39;</span>
 
-        <span class="nb">super</span><span class="p">(</span><span class="n">HubCost</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="n">Component</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
         <span class="c">#controls what happens if derivatives are missing</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">missing_deriv_policy</span> <span class="o">=</span> <span class="s">&#39;assume_zero&#39;</span>
@@ -180,9 +187,9 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">J</span>
 
-<span class="c">#-------------------------------------------------------------------------------</span>
-</div>
-<div class="viewcode-block" id="PitchSystemCost"><a class="viewcode-back" href="../../documentation.html#turbine_costsse.rotor_costsse.PitchSystemCost">[docs]</a><span class="k">class</span> <span class="nc">PitchSystemCost</span><span class="p">(</span><span class="n">BaseComponentCostModel</span><span class="p">):</span>
+<span class="c">#-------------------------------------------------------------------------------</span></div>
+<span class="nd">@implement_base</span><span class="p">(</span><span class="n">BaseComponentCostModel</span><span class="p">)</span>
+<div class="viewcode-block" id="PitchSystemCost"><a class="viewcode-back" href="../../documentation.html#turbine_costsse.rotor_costsse.PitchSystemCost">[docs]</a><span class="k">class</span> <span class="nc">PitchSystemCost</span><span class="p">(</span><span class="n">Component</span><span class="p">):</span>
 
     <span class="c"># variables</span>
     <span class="n">pitch_system_mass</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;kg&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;component mass [kg]&#39;</span><span class="p">)</span>
@@ -191,26 +198,16 @@
     <span class="n">year</span> <span class="o">=</span> <span class="n">Int</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Current Year&#39;</span><span class="p">)</span>
     <span class="n">month</span> <span class="o">=</span> <span class="n">Int</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Current Month&#39;</span><span class="p">)</span>
 
+    <span class="c"># Outputs</span>
+    <span class="n">cost</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">iotype</span><span class="o">=</span><span class="s">&#39;out&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Overall wind turbine component capial costs excluding transportation costs&#39;</span><span class="p">)</span>
+
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Initial computation of the costs for the wind turbine pitch system.</span>
 
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        pitch_system_mass : float</span>
-<span class="sd">          pitch system mass [kg]</span>
-<span class="sd">        curr_yr : int</span>
-<span class="sd">          Project start year</span>
-<span class="sd">        curr_mon : int</span>
-<span class="sd">          Project start month</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        cost : float</span>
-<span class="sd">          component cost [USD]</span>
 <span class="sd">        &#39;&#39;&#39;</span>
 
-        <span class="nb">super</span><span class="p">(</span><span class="n">PitchSystemCost</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="n">Component</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
         <span class="c">#controls what happens if derivatives are missing</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">missing_deriv_policy</span> <span class="o">=</span> <span class="s">&#39;assume_zero&#39;</span>
@@ -248,9 +245,9 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">J</span>
 
-<span class="c">#-------------------------------------------------------------------------------</span>
-</div>
-<div class="viewcode-block" id="SpinnerCost"><a class="viewcode-back" href="../../documentation.html#turbine_costsse.rotor_costsse.SpinnerCost">[docs]</a><span class="k">class</span> <span class="nc">SpinnerCost</span><span class="p">(</span><span class="n">BaseComponentCostModel</span><span class="p">):</span>
+<span class="c">#-------------------------------------------------------------------------------</span></div>
+<span class="nd">@implement_base</span><span class="p">(</span><span class="n">BaseComponentCostModel</span><span class="p">)</span>
+<div class="viewcode-block" id="SpinnerCost"><a class="viewcode-back" href="../../documentation.html#turbine_costsse.rotor_costsse.SpinnerCost">[docs]</a><span class="k">class</span> <span class="nc">SpinnerCost</span><span class="p">(</span><span class="n">Component</span><span class="p">):</span>
 
     <span class="c"># variables</span>
     <span class="n">spinner_mass</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;kg&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;component mass [kg]&#39;</span><span class="p">)</span>
@@ -259,25 +256,16 @@
     <span class="n">year</span> <span class="o">=</span> <span class="n">Int</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Current Year&#39;</span><span class="p">)</span>
     <span class="n">month</span> <span class="o">=</span> <span class="n">Int</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Current Month&#39;</span><span class="p">)</span>
 
+    <span class="c"># Outputs</span>
+    <span class="n">cost</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">iotype</span><span class="o">=</span><span class="s">&#39;out&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Overall wind turbine component capial costs excluding transportation costs&#39;</span><span class="p">)</span>
+
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Initial computation of the costs for the wind turbine spinner component.</span>
 
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        spinner_mass : float</span>
-<span class="sd">          spinner mass [kg]</span>
-<span class="sd">        curr_yr : int</span>
-<span class="sd">          Project start year</span>
-<span class="sd">        curr_mon : int</span>
-<span class="sd">          Project start month</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        cost : float</span>
 <span class="sd">        &#39;&#39;&#39;</span>
 
-        <span class="nb">super</span><span class="p">(</span><span class="n">SpinnerCost</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="n">Component</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
         <span class="c">#controls what happens if derivatives are missing</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">missing_deriv_policy</span> <span class="o">=</span> <span class="s">&#39;assume_zero&#39;</span>
@@ -314,30 +302,25 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">J</span>
 
-<span class="c">#-------------------------------------------------------------------------------</span>
-</div>
-<div class="viewcode-block" id="HubSystemCostAdder"><a class="viewcode-back" href="../../documentation.html#turbine_costsse.rotor_costsse.HubSystemCostAdder">[docs]</a><span class="k">class</span> <span class="nc">HubSystemCostAdder</span><span class="p">(</span><span class="n">FullHubSystemCostAggregator</span><span class="p">):</span>
+<span class="c">#-------------------------------------------------------------------------------</span></div>
+<span class="nd">@implement_base</span><span class="p">(</span><span class="n">FullHubSystemCostAggregator</span><span class="p">)</span>
+<div class="viewcode-block" id="HubSystemCostAdder"><a class="viewcode-back" href="../../documentation.html#turbine_costsse.rotor_costsse.HubSystemCostAdder">[docs]</a><span class="k">class</span> <span class="nc">HubSystemCostAdder</span><span class="p">(</span><span class="n">Component</span><span class="p">):</span>
+
+    <span class="c"># variables</span>
+    <span class="n">hub_cost</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;USD&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;hub component cost&#39;</span><span class="p">)</span>
+    <span class="n">pitch_system_cost</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;USD&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;pitch system cost&#39;</span><span class="p">)</span>
+    <span class="n">spinner_cost</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;USD&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;spinner component cost&#39;</span><span class="p">)</span>
+
+    <span class="c"># Outputs</span>
+    <span class="n">cost</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">iotype</span><span class="o">=</span><span class="s">&#39;out&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Overall wind sub-assembly capial costs including transportation costs&#39;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Computation of overall hub system cost.</span>
 
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        hubCost : float</span>
-<span class="sd">          hub component cost [USD]</span>
-<span class="sd">        pitchSystemCost : float</span>
-<span class="sd">          pitch system cost [USD]</span>
-<span class="sd">        spinnerCost : float [USD]</span>
-<span class="sd">          spinner component cost [USD]</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        cost : float</span>
-<span class="sd">          overall hub system cost [USD]</span>
 <span class="sd">        &#39;&#39;&#39;</span>
 
-        <span class="nb">super</span><span class="p">(</span><span class="n">HubSystemCostAdder</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="n">Component</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
         <span class="c">#controls what happens if derivatives are missing</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">missing_deriv_policy</span> <span class="o">=</span> <span class="s">&#39;assume_zero&#39;</span>
@@ -373,33 +356,30 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">J</span>
 
-<span class="c">#-------------------------------------------------------------------------------</span>
-</div>
-<div class="viewcode-block" id="RotorCostAdder"><a class="viewcode-back" href="../../documentation.html#turbine_costsse.rotor_costsse.RotorCostAdder">[docs]</a><span class="k">class</span> <span class="nc">RotorCostAdder</span><span class="p">(</span><span class="n">FullRotorCostAggregator</span><span class="p">):</span>
+<span class="c">#-------------------------------------------------------------------------------</span></div>
+<span class="nd">@implement_base</span><span class="p">(</span><span class="n">FullRotorCostAggregator</span><span class="p">)</span>
+<div class="viewcode-block" id="RotorCostAdder"><a class="viewcode-back" href="../../documentation.html#turbine_costsse.rotor_costsse.RotorCostAdder">[docs]</a><span class="k">class</span> <span class="nc">RotorCostAdder</span><span class="p">(</span><span class="n">Component</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    RotorCostAdder adds up individual rotor system and component costs to get overall rotor cost.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c"># variables</span>
+    <span class="n">blade_cost</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;USD&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;individual blade cost&#39;</span><span class="p">)</span>
+    <span class="n">hub_system_cost</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;USD&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;cost for hub system&#39;</span><span class="p">)</span>
+    
+    <span class="c"># parameters</span>
+    <span class="n">blade_number</span> <span class="o">=</span> <span class="n">Int</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;number of rotor blades&#39;</span><span class="p">)</span>
+
+    <span class="c"># Outputs</span>
+    <span class="n">cost</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">iotype</span><span class="o">=</span><span class="s">&#39;out&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Overall wind sub-assembly capial costs including transportation costs&#39;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Computation of overall hub system cost.</span>
 
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        bladeCost : float</span>
-<span class="sd">          individual blade cost [USD]</span>
-<span class="sd">        hubSystemCost : float</span>
-<span class="sd">          hub system cost [USD]</span>
-<span class="sd">        blade_number : int</span>
-<span class="sd">          number of rotor blades</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        cost : float</span>
-<span class="sd">          overall rotor cost [USD]</span>
 <span class="sd">        &#39;&#39;&#39;</span>
 
-        <span class="nb">super</span><span class="p">(</span><span class="n">RotorCostAdder</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="n">Component</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
         <span class="c">#controls what happens if derivatives are missing</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">missing_deriv_policy</span> <span class="o">=</span> <span class="s">&#39;assume_zero&#39;</span>
@@ -426,8 +406,8 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">J</span>
 
-<span class="c">#-------------------------------------------------------------------------------</span>
-</div>
+<span class="c">#-------------------------------------------------------------------------------</span></div>
+<span class="nd">@implement_base</span><span class="p">(</span><span class="n">FullRotorCostModel</span><span class="p">)</span>
 <div class="viewcode-block" id="Rotor_CostsSE"><a class="viewcode-back" href="../../documentation.html#turbine_costsse.rotor_costsse.Rotor_CostsSE">[docs]</a><span class="k">class</span> <span class="nc">Rotor_CostsSE</span><span class="p">(</span><span class="n">FullRotorCostModel</span><span class="p">):</span>
 
     <span class="sd">&#39;&#39;&#39;</span>
@@ -445,14 +425,14 @@
     <span class="n">year</span> <span class="o">=</span> <span class="n">Int</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Current Year&#39;</span><span class="p">)</span>
     <span class="n">month</span> <span class="o">=</span> <span class="n">Int</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Current Month&#39;</span><span class="p">)</span>
     <span class="n">advanced</span> <span class="o">=</span> <span class="n">Bool</span><span class="p">(</span><span class="bp">True</span><span class="p">,</span> <span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;advanced (True) or traditional (False) blade design&#39;</span><span class="p">)</span>
+    <span class="n">blade_number</span> <span class="o">=</span> <span class="n">Int</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;number of rotor blades&#39;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-
-        <span class="nb">super</span><span class="p">(</span><span class="n">Rotor_CostsSE</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
+    <span class="c"># Outputs</span>
+    <span class="n">cost</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">iotype</span><span class="o">=</span><span class="s">&#39;out&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Overall wind sub-assembly capial costs including transportation costs&#39;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">configure</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 
-        <span class="nb">super</span><span class="p">(</span><span class="n">Rotor_CostsSE</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">configure</span><span class="p">()</span>
+        <span class="n">configure_full_rcc</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
         <span class="c"># select components</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;bladeCC&#39;</span><span class="p">,</span> <span class="n">BladeCost</span><span class="p">())</span>
@@ -493,7 +473,7 @@
     <span class="n">rotor</span><span class="o">.</span><span class="n">year</span> <span class="o">=</span> <span class="mi">2009</span>
     <span class="n">rotor</span><span class="o">.</span><span class="n">month</span> <span class="o">=</span> <span class="mi">12</span>
 
-    <span class="n">rotor</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>
+    <span class="n">rotor</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 
     <span class="k">print</span> <span class="s">&quot;Overall rotor cost with 3 advanced blades is ${0:.2f} USD&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">rotor</span><span class="o">.</span><span class="n">cost</span><span class="p">)</span>
 
@@ -536,7 +516,7 @@
     </div>
     <div class="footer">
         &copy; Copyright 2014, NREL.
-      Last updated on Sep 04, 2014.
+      Last updated on Sep 10, 2014.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
   </body>

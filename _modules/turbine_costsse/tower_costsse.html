@@ -57,11 +57,12 @@
 <span class="kn">from</span> <span class="nn">openmdao.main.datatypes.api</span> <span class="kn">import</span> <span class="n">Array</span><span class="p">,</span> <span class="n">Float</span><span class="p">,</span> <span class="n">Bool</span><span class="p">,</span> <span class="n">Int</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 
-<span class="kn">from</span> <span class="nn">fusedwind.plant_cost.fused_tcc_asym</span> <span class="kn">import</span> <span class="n">FullTowerCostModel</span><span class="p">,</span> <span class="n">FullTowerCostAggregator</span><span class="p">,</span> <span class="n">BaseComponentCostModel</span>
+<span class="kn">from</span> <span class="nn">fusedwind.plant_cost.fused_tcc</span> <span class="kn">import</span> <span class="n">FullTowerCostModel</span><span class="p">,</span> <span class="n">FullTowerCostAggregator</span><span class="p">,</span> <span class="n">BaseComponentCostModel</span><span class="p">,</span> <span class="n">configure_full_twcc</span>
+<span class="kn">from</span> <span class="nn">fusedwind.interface</span> <span class="kn">import</span> <span class="n">implement_base</span>
 
 <span class="c">#-------------------------------------------------------------------------------</span>
-
-<div class="viewcode-block" id="TowerCost"><a class="viewcode-back" href="../../documentation.html#turbine_costsse.tower_costsse.TowerCost">[docs]</a><span class="k">class</span> <span class="nc">TowerCost</span><span class="p">(</span><span class="n">BaseComponentCostModel</span><span class="p">):</span>
+<span class="nd">@implement_base</span><span class="p">(</span><span class="n">BaseComponentCostModel</span><span class="p">)</span>
+<div class="viewcode-block" id="TowerCost"><a class="viewcode-back" href="../../documentation.html#turbine_costsse.tower_costsse.TowerCost">[docs]</a><span class="k">class</span> <span class="nc">TowerCost</span><span class="p">(</span><span class="n">Component</span><span class="p">):</span>
 
     <span class="c"># variables</span>
     <span class="n">tower_mass</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;kg&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;tower mass [kg]&#39;</span><span class="p">)</span>
@@ -70,13 +71,16 @@
     <span class="n">year</span> <span class="o">=</span> <span class="n">Int</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Current Year&#39;</span><span class="p">)</span>
     <span class="n">month</span> <span class="o">=</span> <span class="n">Int</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Current Month&#39;</span><span class="p">)</span>
 
+    <span class="c"># Outputs</span>
+    <span class="n">cost</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">iotype</span><span class="o">=</span><span class="s">&#39;out&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Overall wind turbine component capial costs excluding transportation costs&#39;</span><span class="p">)</span>
+
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Initial computation of the costs for the wind turbine tower component.</span>
 
 <span class="sd">        &#39;&#39;&#39;</span>
 
-        <span class="nb">super</span><span class="p">(</span><span class="n">TowerCost</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="n">Component</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
         <span class="c">#controls what happens if derivatives are missing</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">missing_deriv_policy</span> <span class="o">=</span> <span class="s">&#39;assume_zero&#39;</span>
@@ -112,13 +116,19 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">J</span>
 
 
-<span class="c">#-------------------------------------------------------------------------------</span>
-</div>
-<div class="viewcode-block" id="TowerCostAdder"><a class="viewcode-back" href="../../documentation.html#turbine_costsse.tower_costsse.TowerCostAdder">[docs]</a><span class="k">class</span> <span class="nc">TowerCostAdder</span><span class="p">(</span><span class="n">FullTowerCostAggregator</span><span class="p">):</span>
+<span class="c">#-------------------------------------------------------------------------------</span></div>
+<span class="nd">@implement_base</span><span class="p">(</span><span class="n">FullTowerCostAggregator</span><span class="p">)</span>
+<div class="viewcode-block" id="TowerCostAdder"><a class="viewcode-back" href="../../documentation.html#turbine_costsse.tower_costsse.TowerCostAdder">[docs]</a><span class="k">class</span> <span class="nc">TowerCostAdder</span><span class="p">(</span><span class="n">Component</span><span class="p">):</span>
+
+    <span class="c"># variables</span>
+    <span class="n">tower_cost</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;USD&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;component cost&#39;</span><span class="p">)</span>
+    
+    <span class="c"># returns</span>
+    <span class="n">cost</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;out&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;USD&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;component cost&#39;</span><span class="p">)</span> 
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 
-        <span class="nb">super</span><span class="p">(</span><span class="n">TowerCostAdder</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="n">Component</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
         <span class="c">#controls what happens if derivatives are missing</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">missing_deriv_policy</span> <span class="o">=</span> <span class="s">&#39;assume_zero&#39;</span>
@@ -151,9 +161,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">J</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="bp">self</span><span class="o">.</span><span class="n">d_cost_d_tower_cost</span><span class="p">]])</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">J</span>
-
 </div>
-<div class="viewcode-block" id="Tower_CostsSE"><a class="viewcode-back" href="../../documentation.html#turbine_costsse.tower_costsse.Tower_CostsSE">[docs]</a><span class="k">class</span> <span class="nc">Tower_CostsSE</span><span class="p">(</span><span class="n">FullTowerCostModel</span><span class="p">):</span>
+<span class="nd">@implement_base</span><span class="p">(</span><span class="n">FullTowerCostModel</span><span class="p">)</span>
+<div class="viewcode-block" id="Tower_CostsSE"><a class="viewcode-back" href="../../documentation.html#turbine_costsse.tower_costsse.Tower_CostsSE">[docs]</a><span class="k">class</span> <span class="nc">Tower_CostsSE</span><span class="p">(</span><span class="n">Assembly</span><span class="p">):</span>
 
     <span class="c"># variables</span>
     <span class="n">tower_mass</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;kg&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;tower mass [kg]&#39;</span><span class="p">)</span>
@@ -162,13 +172,12 @@
     <span class="n">year</span> <span class="o">=</span> <span class="n">Int</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Current Year&#39;</span><span class="p">)</span>
     <span class="n">month</span> <span class="o">=</span> <span class="n">Int</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Current Month&#39;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-
-        <span class="nb">super</span><span class="p">(</span><span class="n">Tower_CostsSE</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
+    <span class="c"># returns</span>
+    <span class="n">cost</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;out&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;USD&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;component cost&#39;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">configure</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 
-        <span class="nb">super</span><span class="p">(</span><span class="n">Tower_CostsSE</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">configure</span><span class="p">()</span>
+        <span class="n">configure_full_twcc</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;towerCC&#39;</span><span class="p">,</span> <span class="n">TowerCost</span><span class="p">())</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;twrcc&#39;</span><span class="p">,</span> <span class="n">TowerCostAdder</span><span class="p">())</span>
@@ -235,7 +244,7 @@
     </div>
     <div class="footer">
         &copy; Copyright 2014, NREL.
-      Last updated on Sep 04, 2014.
+      Last updated on Sep 10, 2014.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
   </body>

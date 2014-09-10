@@ -81,6 +81,9 @@
     <span class="n">offshore</span> <span class="o">=</span> <span class="n">Bool</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;flag for offshore site&#39;</span><span class="p">)</span>
     <span class="n">year</span> <span class="o">=</span> <span class="n">Int</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Current Year&#39;</span><span class="p">)</span>
     <span class="n">month</span> <span class="o">=</span> <span class="n">Int</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Current Month&#39;</span><span class="p">)</span>
+
+    <span class="c"># Outputs</span>
+    <span class="n">turbine_cost</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">iotype</span><span class="o">=</span><span class="s">&#39;out&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Overall wind turbine capial costs including transportation costs&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="section" id="module-turbine_costsse.rotor_costsse">
@@ -226,6 +229,9 @@
     <span class="n">crane</span> <span class="o">=</span> <span class="n">Bool</span><span class="p">(</span><span class="bp">True</span><span class="p">,</span> <span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span> <span class="o">=</span> <span class="s">&#39;boolean for presence of a service crane up tower&#39;</span><span class="p">)</span>
     <span class="n">advanced_bedplate</span> <span class="o">=</span> <span class="n">Int</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span> <span class="s">&#39;indicator for drivetrain bedplate design 0 - conventional&#39;</span><span class="p">)</span>   
     <span class="n">advanced_tower</span> <span class="o">=</span> <span class="n">Bool</span><span class="p">(</span><span class="bp">False</span><span class="p">,</span> <span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span> <span class="o">=</span> <span class="s">&#39;advanced tower configuration&#39;</span><span class="p">)</span>
+
+    <span class="c"># Outputs</span>
+    <span class="n">turbine_cost</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">iotype</span><span class="o">=</span><span class="s">&#39;out&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Overall wind turbine capial costs including transportation costs&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="section" id="module-nrel_csm_tcc.blades_csm_component">
@@ -364,7 +370,7 @@
     </div>
     <div class="footer">
         &copy; Copyright 2014, NREL.
-      Last updated on Sep 04, 2014.
+      Last updated on Sep 10, 2014.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
   </body>

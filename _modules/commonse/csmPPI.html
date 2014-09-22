@@ -56,28 +56,28 @@
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">re</span>
-
+ 
 <span class="k">class</span> <span class="nc">Escalator</span><span class="p">:</span>
-    <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        cost escalator class - computes weighted sum of different PPI_tables</span>
+    <span class="sd">&#39;&#39;&#39; </span>
+<span class="sd">        cost escalator class - computes weighted sum of different PPI_tables </span>
 <span class="sd">    &#39;&#39;&#39;</span>
-
+    
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">x</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39; x is a list &#39;&#39;&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c"># name</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">tbls</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>  <span class="c"># list of table names</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">wts</span>  <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>  <span class="c"># list of weights in pct (0-100.0)</span>
-
+        
         <span class="nb">sum</span> <span class="o">=</span> <span class="mf">0.0</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">wts</span><span class="p">)):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">wts</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*=</span> <span class="mf">0.01</span>
             <span class="nb">sum</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">wts</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
         <span class="k">if</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="nb">sum</span><span class="o">-</span><span class="mf">1.0</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">0.0001</span><span class="p">):</span>
             <span class="k">print</span> <span class="s">&quot;Weights for </span><span class="si">%s</span><span class="s"> add up to </span><span class="si">%.5f</span><span class="s">&quot;</span> <span class="o">%</span> <span class="nb">sum</span>
-
+            
     <span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">ppitbls</span><span class="p">,</span><span class="n">sy</span><span class="p">,</span><span class="n">sm</span><span class="p">,</span><span class="n">ey</span><span class="p">,</span><span class="n">em</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">            returns cost escalator between start_yr/start_mon and end_yr/end_mon</span>
+        <span class="sd">&#39;&#39;&#39; </span>
+<span class="sd">            returns cost escalator between start_yr/start_mon and end_yr/end_mon </span>
 <span class="sd">            ppitbls is a dictionary of PPITbl objects, indexed by NAICS code</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="nb">sum</span> <span class="o">=</span> <span class="mf">0.0</span>
@@ -88,8 +88,11 @@
             <span class="c">#    continue</span>
             <span class="k">if</span> <span class="p">(</span><span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ppitbls</span><span class="p">):</span>
                 <span class="k">print</span> <span class="s">&#39;No PPI table </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">key</span>
-                <span class="k">continue</span>
-            <span class="n">ce</span> <span class="o">=</span> <span class="n">ppitbls</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">getEsc</span><span class="p">(</span><span class="n">sy</span><span class="p">,</span><span class="n">sm</span><span class="p">,</span><span class="n">ey</span><span class="p">,</span><span class="n">em</span><span class="p">)</span>
+                <span class="k">continue</span>           
+            <span class="k">if</span> <span class="p">(</span><span class="n">key</span> <span class="o">==</span> <span class="s">&quot;326150P&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s">&quot;Advanced Blade material costs       &quot;</span><span class="p">):</span>
+            		<span class="n">ce</span> <span class="o">=</span> <span class="n">ppitbls</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">getEsc</span><span class="p">(</span><span class="mi">2002</span><span class="p">,</span><span class="n">sm</span><span class="p">,</span><span class="n">ey</span><span class="p">,</span><span class="n">em</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+            		<span class="n">ce</span> <span class="o">=</span> <span class="n">ppitbls</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">getEsc</span><span class="p">(</span><span class="n">sy</span><span class="p">,</span><span class="n">sm</span><span class="p">,</span><span class="n">ey</span><span class="p">,</span><span class="n">em</span><span class="p">)</span>
             <span class="nb">sum</span> <span class="o">+=</span> <span class="n">ce</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">wts</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
         <span class="k">return</span> <span class="nb">sum</span>
 
@@ -97,36 +100,36 @@
 
 <span class="k">class</span> <span class="nc">PPITbl</span><span class="p">:</span>
     <span class="sd">&#39;&#39;&#39; a PPITbl object represents a cost table &#39;&#39;&#39;</span>
-
+    
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">code</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;PPITbl&quot;</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cost</span> <span class="o">=</span> <span class="p">[]</span> <span class="c"># empty list</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">years</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">code</span> <span class="o">=</span> <span class="n">code</span>
         <span class="k">pass</span>
-
+        
     <span class="k">def</span> <span class="nf">add_row</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">year</span><span class="p">,</span><span class="n">cost_array</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cost</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cost_array</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">years</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">year</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">years</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">year</span><span class="p">)</span> 
         <span class="k">return</span> <span class="mi">1</span>
-
+        
     <span class="k">def</span> <span class="nf">getEsc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">start_yr</span><span class="p">,</span><span class="n">start_mon</span><span class="p">,</span><span class="n">end_yr</span><span class="p">,</span><span class="n">end_mon</span><span class="p">,</span><span class="n">printFlag</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39; return cost escalator between two dates (mon==13 is annual value) &#39;&#39;&#39;</span>
         <span class="n">start_row</span> <span class="o">=</span> <span class="n">start_yr</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">years</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">end_row</span>   <span class="o">=</span> <span class="n">end_yr</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">years</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-
+        
         <span class="k">if</span> <span class="p">(</span><span class="n">start_row</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">):</span>
             <span class="k">print</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">*** Year start_yr ${0:.2f} before table start {1}</span><span class="se">\n</span><span class="s">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">start_yr</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">years</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
             <span class="k">return</span> <span class="bp">None</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">end_row</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cost</span><span class="p">)):</span>
             <span class="k">print</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">*** Year end_yr ${0:.2f} after table end {1}</span><span class="se">\n</span><span class="s">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">end_yr</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">years</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
-            <span class="k">return</span> <span class="bp">None</span>
+            <span class="k">return</span> <span class="bp">None</span>            
         <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cost</span><span class="p">[</span><span class="n">start_row</span><span class="p">])</span> <span class="o">&lt;</span> <span class="n">start_mon</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="s">&quot;Start_mon out of range&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cost</span><span class="p">[</span><span class="n">end_row</span><span class="p">])</span> <span class="o">&lt;</span> <span class="n">end_mon</span><span class="p">):</span>
             <span class="k">print</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">*** EM </span><span class="si">%d</span><span class="s"> &gt; LER </span><span class="si">%d</span><span class="s"> in table </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">end_mon</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cost</span><span class="p">[</span><span class="n">end_row</span><span class="p">]),</span> <span class="bp">self</span><span class="o">.</span><span class="n">code</span><span class="p">)</span>
             <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="s">&quot;End_mon out of range&quot;</span><span class="p">)</span>
-
+            
         <span class="k">try</span><span class="p">:</span>
             <span class="c">#print &quot;SR %d ER %d&quot; % (start_row,end_row)</span>
             <span class="c">#print &quot;LSR %d LER %d&quot; % (len(self.cost[start_row]),len(self.cost[end_row]))</span>
@@ -147,7 +150,7 @@
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">ref_yr</span><span class="p">,</span><span class="n">ref_mon</span><span class="p">,</span><span class="n">curr_yr</span><span class="p">,</span><span class="n">curr_mon</span><span class="p">,</span><span class="n">debug</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Initialize the PPI class for calculation of PPI indices given a referene year/month and current year/month.</span>
-
+<span class="sd">        </span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        ref_yr : int</span>
@@ -157,24 +160,24 @@
 <span class="sd">        curr_yr : int</span>
 <span class="sd">          current PPI year</span>
 <span class="sd">        curr_mon : int</span>
-<span class="sd">          current PPI month</span>
-<span class="sd">        &#39;&#39;&#39;</span>
-
+<span class="sd">          current PPI month   </span>
+<span class="sd">        &#39;&#39;&#39;</span>     
+        
         <span class="c">#self.escData = [None] * 37</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">escData</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c"># try a dictionary</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">tblfile</span> <span class="o">=</span> <span class="s">&#39;static&#39;</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">sep</span> <span class="o">+</span> <span class="s">&#39;PPI_Tables.txt&#39;</span>   <span class="c">#TODO: temporary solution - should update so it can locate it from dictionary etc</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ppitbls</span> <span class="o">=</span> <span class="p">{}</span> <span class="c"># dictionary of PPITbl objects</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tblfile</span> <span class="o">=</span> <span class="s">&#39;static\PPI_Tables.txt&#39;</span>   <span class="c">#TODO: temporary solution - should update so it can locate it from dictionary etc</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ppitbls</span> <span class="o">=</span> <span class="p">{}</span> <span class="c"># dictionary of PPITbl objects </span>
         <span class="bp">self</span><span class="o">.</span><span class="n">yrs_gdp</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ppi_gdp</span> <span class="o">=</span> <span class="p">[]</span>
-
+        
         <span class="bp">self</span><span class="o">.</span><span class="n">ref_yr</span>   <span class="o">=</span> <span class="n">ref_yr</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ref_mon</span>  <span class="o">=</span> <span class="n">ref_mon</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">curr_yr</span>  <span class="o">=</span> <span class="n">curr_yr</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">curr_mon</span> <span class="o">=</span> <span class="n">curr_mon</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">debug</span> <span class="o">=</span> <span class="n">debug</span>
 
-        <span class="n">thisdir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="n">__file__</span><span class="p">))</span>
-        <span class="n">fullfile</span> <span class="o">=</span> <span class="n">thisdir</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">sep</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">tblfile</span>
+        <span class="n">thisdir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="n">__file__</span><span class="p">))</span>   
+        <span class="n">fullfile</span> <span class="o">=</span> <span class="n">thisdir</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\\</span><span class="s">&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">tblfile</span>       
         <span class="k">try</span><span class="p">:</span>
             <span class="n">infile</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">fullfile</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span> <span class="c">#infile = open(self.tblfile)</span>
         <span class="k">except</span><span class="p">:</span>
@@ -183,18 +186,18 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">debug</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span>
                 <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span> <span class="p">(</span><span class="s">&quot;Opened </span><span class="si">%s</span><span class="se">\n</span><span class="s">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">tblfile</span><span class="p">)</span>
-
+            
         <span class="n">itable</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
         <span class="n">found_tables</span> <span class="o">=</span> <span class="bp">False</span>
         <span class="n">found_GDP</span> <span class="o">=</span> <span class="bp">False</span>
         <span class="n">iCode</span>   <span class="o">=</span> <span class="p">{}</span>
         <span class="n">code</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
-
+    
         <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">infile</span><span class="p">:</span>
             <span class="n">words</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\t</span><span class="s">&quot;</span><span class="p">)</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">words</span><span class="p">:</span>
                 <span class="k">continue</span>
-
+                
             <span class="k">if</span> <span class="p">(</span><span class="n">words</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&quot;Gross Domestic Product&quot;</span><span class="p">)):</span>
                 <span class="n">found_GDP</span> <span class="o">=</span> <span class="bp">True</span>
                 <span class="k">continue</span>
@@ -212,7 +215,7 @@
                     <span class="k">if</span> <span class="p">(</span><span class="n">num_re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">words</span><span class="p">[</span><span class="n">i</span><span class="p">])):</span>
                         <span class="n">g</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">words</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">ppi_gdp</span> <span class="o">=</span> <span class="n">g</span>
-
+                
                 <span class="n">code</span> <span class="o">=</span> <span class="s">&#39;GDP&#39;</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">ppitbls</span><span class="p">[</span><span class="n">code</span><span class="p">]</span> <span class="o">=</span> <span class="n">PPITbl</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">code</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&quot;Gross Domestic Product&quot;</span><span class="p">)</span>  <span class="c"># add a new element to self.ppitbls</span>
                 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)):</span>
@@ -222,23 +225,23 @@
                     <span class="bp">self</span><span class="o">.</span><span class="n">ppitbls</span><span class="p">[</span><span class="n">code</span><span class="p">]</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">rvals</span><span class="p">)</span>
                 <span class="n">ippi</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ppitbls</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span>
                 <span class="n">iCode</span><span class="p">[</span><span class="n">code</span><span class="p">]</span> <span class="o">=</span> <span class="n">ippi</span>  <span class="c"># index of tables by code</span>
-                <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">debug</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span>
+                <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">debug</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span> 
                     <span class="k">print</span> <span class="s">&quot;Created </span><span class="si">%2d</span><span class="s"> </span><span class="si">%-10s</span><span class="s"> </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">ippi</span><span class="p">,</span> <span class="n">code</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ppitbls</span><span class="p">[</span><span class="n">code</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
                 <span class="k">continue</span>
-
+                
             <span class="k">if</span> <span class="p">(</span><span class="n">words</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&quot;NAICS&quot;</span><span class="p">)):</span>
                 <span class="n">found_tables</span> <span class="o">=</span> <span class="bp">True</span>
                 <span class="n">itable</span> <span class="o">+=</span> <span class="mi">1</span>
                 <span class="n">iyr</span> <span class="o">=</span> <span class="mi">0</span>
-
+                
                 <span class="n">words</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">words</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">r&#39;&quot;&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span>  <span class="c"># strip quotes from name</span>
                 <span class="n">code</span> <span class="o">=</span> <span class="n">words</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">ppitbls</span><span class="p">[</span><span class="n">code</span><span class="p">]</span> <span class="o">=</span> <span class="n">PPITbl</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">code</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">words</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>  <span class="c"># add a new element to self.ppitbls</span>
                 <span class="n">ippi</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ppitbls</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span>
-                <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">debug</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span>
+                <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">debug</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span> 
                     <span class="k">print</span> <span class="s">&quot;Created </span><span class="si">%2d</span><span class="s"> </span><span class="si">%-10s</span><span class="s"> </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">ippi</span><span class="p">,</span> <span class="n">code</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ppitbls</span><span class="p">[</span><span class="n">code</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
-                <span class="n">iCode</span><span class="p">[</span><span class="n">code</span><span class="p">]</span> <span class="o">=</span> <span class="n">ippi</span>  <span class="c"># index of tables by code</span>
-
+                <span class="n">iCode</span><span class="p">[</span><span class="n">code</span><span class="p">]</span> <span class="o">=</span> <span class="n">ippi</span>  <span class="c"># index of tables by code </span>
+                
             <span class="k">if</span> <span class="p">(</span><span class="n">found_tables</span> <span class="ow">and</span> <span class="n">words</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&quot;20&quot;</span><span class="p">)):</span> <span class="c"># a year number</span>
                 <span class="n">rvals</span> <span class="o">=</span> <span class="p">[]</span>
                 <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span>
@@ -247,9 +250,9 @@
                     <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">ppitbls</span><span class="p">[</span><span class="n">code</span><span class="p">]</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">words</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">rvals</span><span class="p">)</span>
                 <span class="n">iyr</span> <span class="o">+=</span> <span class="mi">1</span>
-
+        
         <span class="k">print</span> <span class="s">&#39; &#39;</span>
-
+        
         <span class="bp">self</span><span class="o">.</span><span class="n">escData</span><span class="p">[</span><span class="s">&#39;IPPI_BLD&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Escalator</span><span class="p">(</span> <span class="p">[</span><span class="s">&#39;Baseline Blade material costs       &#39;</span><span class="p">,</span>   <span class="p">[</span><span class="s">&#39;3272123&#39;</span><span class="p">,</span> <span class="s">&#39;3255204&#39;</span><span class="p">,</span> <span class="s">&#39;332722489&#39;</span><span class="p">,</span> <span class="s">&#39;326150P&#39;</span><span class="p">],</span> <span class="p">[</span> <span class="mf">60.00</span><span class="p">,</span>  <span class="mf">23.00</span><span class="p">,</span>  <span class="mf">8.00</span><span class="p">,</span>   <span class="mf">9.00</span> <span class="p">]</span>  <span class="p">]</span> <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">escData</span><span class="p">[</span><span class="s">&#39;IPPI_BLA&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Escalator</span><span class="p">(</span> <span class="p">[</span><span class="s">&#39;Advanced Blade material costs       &#39;</span><span class="p">,</span>   <span class="p">[</span><span class="s">&#39;3272123&#39;</span><span class="p">,</span> <span class="s">&#39;3255204&#39;</span><span class="p">,</span> <span class="s">&#39;332722489&#39;</span><span class="p">,</span> <span class="s">&#39;326150P&#39;</span><span class="p">],</span> <span class="p">[</span> <span class="mf">61.00</span><span class="p">,</span>  <span class="mf">27.00</span><span class="p">,</span>  <span class="mf">3.00</span><span class="p">,</span>   <span class="mf">9.00</span> <span class="p">]</span>  <span class="p">]</span> <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">escData</span><span class="p">[</span><span class="s">&#39;IPPI_BLL&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Escalator</span><span class="p">(</span> <span class="p">[</span><span class="s">&#39;Blade Labor costs                   &#39;</span><span class="p">,</span>   <span class="p">[</span><span class="s">&#39;GDP    &#39;</span>                                   <span class="p">],</span> <span class="p">[</span> <span class="mf">100.00</span>                       <span class="p">]</span>  <span class="p">]</span> <span class="p">)</span>
@@ -291,19 +294,19 @@
     <span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">escCode</span><span class="p">,</span><span class="n">debug</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns the cost escalator for escData object &#39;escCode&#39;, using reference and current yr/mon values.</span>
-
+<span class="sd">        </span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        escCode : object</span>
-<span class="sd">          codes for different PPI data</span>
-
+<span class="sd">          codes for different PPI data   </span>
+<span class="sd">        </span>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        esc : float</span>
 <span class="sd">          cost escalator for a particular PPI from reference year/month to current year month</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span> 
         <span class="c"># returns the cost escalator for escData object &#39;escCode&#39;, using reference and current yr/mon values</span>
-
+        
         <span class="k">if</span> <span class="p">(</span><span class="n">escCode</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">escData</span><span class="p">):</span>
             <span class="k">print</span> <span class="s">&quot;Warning - no such code in PPI &#39;${0:.2f}&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">escCode</span><span class="p">)</span>
             <span class="k">return</span> <span class="mi">0</span>
@@ -311,28 +314,28 @@
         <span class="k">if</span> <span class="p">(</span><span class="n">debug</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span>
             <span class="k">print</span> <span class="s">&quot;Escalator {} from {}{:02} to {}{:02} = {:.4}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">escCode</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">ref_yr</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">ref_mon</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">curr_yr</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">curr_mon</span><span class="p">,</span><span class="n">esc</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">esc</span>
-
+        
 <span class="c">#--------------------------------------------------------------------------------------</span>
 </div>
 <span class="k">def</span> <span class="nf">example</span><span class="p">():</span>
-
+    
     <span class="c"># test cases</span>
-
+    
     <span class="n">sy</span> <span class="o">=</span> <span class="mi">2002</span><span class="p">;</span> <span class="n">sm</span> <span class="o">=</span> <span class="mi">9</span><span class="p">;</span>
     <span class="n">ey</span> <span class="o">=</span> <span class="mi">2010</span><span class="p">;</span> <span class="n">em</span> <span class="o">=</span> <span class="mi">13</span><span class="p">;</span>
     <span class="n">ppi</span> <span class="o">=</span> <span class="n">PPI</span><span class="p">(</span><span class="n">sy</span><span class="p">,</span><span class="n">sm</span><span class="p">,</span><span class="n">ey</span><span class="p">,</span><span class="n">em</span><span class="p">)</span>
-
+         
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">ppi</span><span class="o">.</span><span class="n">escData</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
         <span class="k">print</span> <span class="n">ppi</span><span class="o">.</span><span class="n">escData</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">name</span>
-
+        
         <span class="c"># Use ppi.compute(code) to compute ppi for default interval</span>
         <span class="k">print</span> <span class="s">&quot;</span><span class="si">%-9s</span><span class="s"> Esc </span><span class="si">%.4f</span><span class="s"> &quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">ppi</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
-
+        
         <span class="k">print</span> <span class="s">&#39; &#39;</span>
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
 
-    <span class="n">example</span><span class="p">()</span>
+    <span class="n">example</span><span class="p">()</span>                                                                                           
 </pre></div>
 
           </div>
@@ -369,7 +372,7 @@
     </div>
     <div class="footer">
         &copy; Copyright 2014, NREL.
-      Last updated on Sep 10, 2014.
+      Last updated on Sep 22, 2014.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
   </body>

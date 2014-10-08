@@ -91,6 +91,10 @@
     <span class="n">offshore</span> <span class="o">=</span> <span class="n">Bool</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;flag for offshore site&#39;</span><span class="p">)</span>
     <span class="n">year</span> <span class="o">=</span> <span class="n">Int</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Current Year&#39;</span><span class="p">)</span>
     <span class="n">month</span> <span class="o">=</span> <span class="n">Int</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Current Month&#39;</span><span class="p">)</span>
+    <span class="n">assemblyCostMultiplier</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;multiplier for assembly cost in manufacturing&#39;</span><span class="p">)</span>
+    <span class="n">overheadCostMultiplier</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;multiplier for overhead&#39;</span><span class="p">)</span>
+    <span class="n">profitMultiplier</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;multiplier for profit markup&#39;</span><span class="p">)</span>
+    <span class="n">transportMultiplier</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;multiplier for transport costs&#39;</span><span class="p">)</span>
 
     <span class="c"># Outputs</span>
     <span class="n">turbine_cost</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">iotype</span><span class="o">=</span><span class="s">&#39;out&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Overall wind turbine capial costs including transportation costs&#39;</span><span class="p">)</span>
@@ -128,10 +132,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s">&#39;year&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s">&#39;rotorCC.year&#39;</span><span class="p">,</span> <span class="s">&#39;nacelleCC.year&#39;</span><span class="p">,</span> <span class="s">&#39;towerCC.year&#39;</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s">&#39;month&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s">&#39;rotorCC.month&#39;</span><span class="p">,</span> <span class="s">&#39;nacelleCC.month&#39;</span><span class="p">,</span> <span class="s">&#39;towerCC.month&#39;</span><span class="p">])</span>
         
-        <span class="bp">self</span><span class="o">.</span><span class="n">create_passthrough</span><span class="p">(</span><span class="s">&#39;tcc.assemblyCostMultiplier&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">create_passthrough</span><span class="p">(</span><span class="s">&#39;tcc.overheadCostMultiplier&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">create_passthrough</span><span class="p">(</span><span class="s">&#39;tcc.profitMultiplier&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">create_passthrough</span><span class="p">(</span><span class="s">&#39;tcc.transportMultiplier&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s">&#39;assemblyCostMultiplier&#39;</span><span class="p">,</span><span class="s">&#39;tcc.assemblyCostMultiplier&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s">&#39;overheadCostMultiplier&#39;</span><span class="p">,</span><span class="s">&#39;tcc.overheadCostMultiplier&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s">&#39;profitMultiplier&#39;</span><span class="p">,</span><span class="s">&#39;tcc.profitMultiplier&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s">&#39;transportMultiplier&#39;</span><span class="p">,</span><span class="s">&#39;tcc.transportMultiplier&#39;</span><span class="p">)</span>
 
 
 <span class="c">#-------------------------------------------------------------------------------</span></div>
@@ -287,7 +291,7 @@
     </div>
     <div class="footer">
         &copy; Copyright 2014, NREL.
-      Last updated on Sep 24, 2014.
+      Last updated on Oct 07, 2014.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
   </body>

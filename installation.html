@@ -23,13 +23,13 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="top" title="Turbine_CostsSE 0.1.0 documentation" href="index.html" />
     <link rel="next" title="3. Tutorial" href="tutorial.html" />
     <link rel="prev" title="1. Introduction" href="intro.html" /> 
   </head>
-  <body>
-    <div class="related">
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -41,33 +41,28 @@
         <li class="right" >
           <a href="intro.html" title="1. Introduction"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">Turbine_CostsSE 0.1.0 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">Turbine_CostsSE 0.1.0 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="installation">
 <h1>2. Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
 <div class="warning admonition">
 <p class="first admonition-title">prerequisites</p>
-<blockquote class="last">
-<div><p>General: NumPy, SciPy, Swig, pyWin32, MatlPlotLib, Lxml, OpenMDAO</p>
-<p>Wind Plant Framework: FUSED-Wind (Framework for Unified Systems Engineering and Design of Wind Plants)</p>
-<p>Sub-Models: CommonSE, AeroelasticSE, RotorSE, DriveSE, DriveWPACT, TowerSE, JacketSE, Turbine_CostsSE, Plant_CostsSE, Plant_EnergySE, Plant_FinanceSEE</p>
-<p>Supporting python packages: Pandas, Algopy, Zope.interface, Sphinx, Xlrd, PyOpt, py2exe, Pyzmq, Sphinxcontrib-bibtex, Sphinxcontrib-zopeext, Numpydoc, Ipython</p>
-</div></blockquote>
+<p class="last">NumPy, SciPy, FUSED-Wind, OpenMDAO</p>
 </div>
 <p>Clone the repository at <a class="reference external" href="https://github.com/WISDEM/Turbine_CostsSE">https://github.com/WISDEM/Turbine_CostsSE</a>
-or download the releases and uncompress/unpack (Turbine_CostsSE.py-0.1.0.tar.gz or Turbine_CostsSE.py-0.1.0.zip) from the website link at the bottom the <a href="#id1"><span class="problematic" id="id2">`Turbine_CostsSE site&lt;http://nwtc.nrel.gov/Turbine_CostsSE&gt;`_</span></a>.</p>
+or download the releases and uncompress/unpack (Turbine_CostsSE.py-0.1.0.tar.gz or Turbine_CostsSE.py-0.1.0.zip)</p>
 <p>To install Turbine_CostsSE, first activate the OpenMDAO environment and then install with the following command.</p>
 <div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>plugin install
 </pre></div>
 </div>
-<p>To check if installation was successful try to import the module from within an activated OpenMDaO environment:</p>
+<p>To check if installation was successful try to import the module</p>
 <div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>python
 </pre></div>
 </div>
@@ -80,14 +75,13 @@ or download the releases and uncompress/unpack (Turbine_CostsSE.py-0.1.0.tar.gz 
 </pre></div>
 </div>
 <p>An &#8220;OK&#8221; signifies that all the tests passed.</p>
-<p>For software issues please use <a class="reference external" href="https://github.com/WISDEM/Turbine_CostsSE/issues">https://github.com/WISDEM/Turbine_CostsSE/issues</a>.  For functionality and theory related questions and comments please use the NWTC forum for <a class="reference external" href="https://wind.nrel.gov/forum/wind/viewtopic.php?f=34&amp;t=1002">Systems Engineering Software Questions</a>.</p>
 </div>
 
 
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
   <h4>Previous topic</h4>
   <p class="topless"><a href="intro.html"
@@ -95,12 +89,14 @@ or download the releases and uncompress/unpack (Turbine_CostsSE.py-0.1.0.tar.gz 
   <h4>Next topic</h4>
   <p class="topless"><a href="tutorial.html"
                         title="next chapter">3. Tutorial</a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="_sources/installation.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/installation.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
       <input type="text" name="q" />
@@ -117,7 +113,7 @@ or download the releases and uncompress/unpack (Turbine_CostsSE.py-0.1.0.tar.gz 
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -129,13 +125,13 @@ or download the releases and uncompress/unpack (Turbine_CostsSE.py-0.1.0.tar.gz 
         <li class="right" >
           <a href="intro.html" title="1. Introduction"
              >previous</a> |</li>
-        <li><a href="index.html">Turbine_CostsSE 0.1.0 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">Turbine_CostsSE 0.1.0 documentation</a> &raquo;</li> 
       </ul>
     </div>
-    <div class="footer">
+    <div class="footer" role="contentinfo">
         &copy; Copyright 2014, NREL.
-      Last updated on Oct 07, 2014.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+      Last updated on Nov 15, 2015.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
   </body>
 </html>

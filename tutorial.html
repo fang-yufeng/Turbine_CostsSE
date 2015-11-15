@@ -23,13 +23,13 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="top" title="Turbine_CostsSE 0.1.0 documentation" href="index.html" />
     <link rel="next" title="4. Documentation" href="documentation.html" />
     <link rel="prev" title="2. Installation" href="installation.html" /> 
   </head>
-  <body>
-    <div class="related">
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -41,14 +41,14 @@
         <li class="right" >
           <a href="installation.html" title="2. Installation"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">Turbine_CostsSE 0.1.0 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">Turbine_CostsSE 0.1.0 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="tutorial">
 <span id="tutorial-label"></span><h1>3. Tutorial<a class="headerlink" href="#tutorial" title="Permalink to this headline">¶</a></h1>
@@ -57,7 +57,7 @@
 <p>As an example of Turbine_CostsSE, let us simulate using masses for major wind turbine components for the NREL 5MW Reference Model [FAST2009] using the overall turbine cost model.  The hub and drivetrain component masses must also be provided and are calculated from Sunderland Model <a class="reference internal" href="theory.html#sunderland1993" id="id2">[3]</a>.</p>
 <p>The first step is to import the relevant files and set up the component.</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="c"># A simple test of turbine_costsse model</span>
-<span class="kn">from</span> <span class="nn">turbine_costsse.turbine_costsse.turbine_costsse</span> <span class="kn">import</span> <span class="n">Turbine_CostsSE</span>
+<span class="kn">from</span> <span class="nn">turbine_costsse.turbine_costsse</span> <span class="kn">import</span> <span class="n">Turbine_CostsSE</span>
 
 <span class="n">turbine</span> <span class="o">=</span> <span class="n">Turbine_CostsSE</span><span class="p">()</span>
 </pre></div>
@@ -104,7 +104,7 @@
 <div class="highlight-python"><div class="highlight"><pre><span class="n">turbine</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>We then print out the resulting cost values:</p>
+<p>We then print out the resulting cost values</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="s">&quot;The results for the NREL 5 MW Reference Turbine in an offshore 20 m water depth location are:&quot;</span>
 <span class="k">print</span>
 <span class="k">print</span> <span class="s">&quot;Overall rotor cost with 3 advanced blades is ${0:.2f} USD&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">turbine</span><span class="o">.</span><span class="n">rotorCC</span><span class="o">.</span><span class="n">cost</span><span class="p">)</span>
@@ -131,25 +131,24 @@
 <p>The result is:</p>
 <div class="highlight-python"><div class="highlight"><pre>&gt;&gt;&gt; The results for the NREL 5 MW Reference Turbine in an offshore 20 m water depth location are:
 &gt;&gt;&gt;
-&gt;&gt;&gt; Overall rotor cost with 3 advanced blades is $1471019.77 USD
-&gt;&gt;&gt; Advanced blade cost is $251829.54 USD
-&gt;&gt;&gt; Cost of 3 blades is $755488.63 USD
-&gt;&gt;&gt; Hub cost is $173823.07 USD
-&gt;&gt;&gt; Pitch system cost is $531016.46 USD
-&gt;&gt;&gt; Spinner cost is $10691.61 USD
+&gt;&gt;&gt; Overall rotor cost with 3 advanced blades is $1519510.91 USD
+&gt;&gt;&gt; Advanced blade cost is $255145.73 USD
+&gt;&gt;&gt; Hub cost is $188237.21 USD
+&gt;&gt;&gt; Pitch system cost is $555063.45 USD
+&gt;&gt;&gt; Spinner cost is $10773.08 USD
 &gt;&gt;&gt;
-&gt;&gt;&gt; Overall nacelle cost is $2856229.57 USD
-&gt;&gt;&gt; LSS cost is $174104.10 USD
-&gt;&gt;&gt; Main bearings cost is $56228.71 USD
-&gt;&gt;&gt; Gearbox cost is $641045.88 USD
-&gt;&gt;&gt; High speed side cost is $15161.40 USD
-&gt;&gt;&gt; Generator cost is $432991.21 USD
-&gt;&gt;&gt; Bedplate cost is $136836.34 USD
-&gt;&gt;&gt; Yaw system cost is $137375.05 USD
+&gt;&gt;&gt; Overall nacelle cost is $3043115.22 USD
+&gt;&gt;&gt; LSS cost is $187016.00 USD
+&gt;&gt;&gt; Main bearings cost is $58305.64 USD
+&gt;&gt;&gt; Gearbox cost is $667445.08 USD
+&gt;&gt;&gt; High speed side cost is $15400.07 USD
+&gt;&gt;&gt; Generator cost is $451838.76 USD
+&gt;&gt;&gt; Bedplate cost is $148183.38 USD
+&gt;&gt;&gt; Yaw system cost is $144978.37 USD
 &gt;&gt;&gt;
-&gt;&gt;&gt; Tower cost is $988020.74 USD
+&gt;&gt;&gt; Tower cost is $1031523.34 USD
 &gt;&gt;&gt;
-&gt;&gt;&gt; Turbine cost is $5315270.08 USD
+&gt;&gt;&gt; Turbine cost is $6153564.42 USD
 &gt;&gt;&gt;
 </pre></div>
 </div>
@@ -160,13 +159,13 @@
 <p>As an example of NREL_CSM_TCC, let us simulate using the key turbine configuration parameters of the NREL 5MW Reference Model as was done above.</p>
 <p>The first step is to again import the relevant files and set up the component.</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="c"># A simple test of nrel_csm_tcc model</span>
-<span class="kn">from</span> <span class="nn">turbine_costsse.nrel_csm_tcc.nrel_csm_tcc</span> <span class="kn">import</span> <span class="n">tcc_csm_assembly</span>
+<span class="kn">from</span> <span class="nn">turbine_costsse.nrel_csm_tcc</span> <span class="kn">import</span> <span class="n">tcc_csm_assembly</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 
 <span class="n">trb</span> <span class="o">=</span> <span class="n">tcc_csm_assembly</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>The turbine cost model relies on the key turbine configuration parameters.  These filter down to the individual component models through the rotor, nacelle and tower.  The blade number must be known to get the total cost for the blade set; the advanced Boolean for the blade must be set to select which mass-cost curve for the blade to use (normal or advanced blade).  We set this to advanced to be in line with the FAST 5 MW reference model.  The machine rating and boolean flags for onboard crane and offshore project must also be set.  These are used in the determination of costs for auxiliary system components.  The drivetrain configuration is specified so that the proper gearbox and generator coefficients will be used, an onboard crane is selected for the turbine, a basic/modular bedplate, and finally the baseline tower design.</p>
+<p>The turbine cost model relies on the key turbine configuration parameters.  These filter down to the individual component models through the rotor, nacelle and tower.  The blade number must be known to get the total cost for the blade set; the advanced Boolean for the blade must be set to select which mass-cost curve for the blade to use (normal or advanced blade).  We set this to advanced to be in line with the FAST 5 MW reference model.  The machine rating and boolean flags for onboard crane and offshore project must also be set.  These are used in the determination of costs for auxiliary system components.  Finally, the drivetrain configuration is specified so that the proper gearbox and generator coefficients will be used.</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="c"># NREL 5 MW main parameters</span>
 <span class="n">trb</span><span class="o">.</span><span class="n">rotor_diameter</span> <span class="o">=</span> <span class="mf">126.0</span>
 <span class="n">trb</span><span class="o">.</span><span class="n">advanced_blade</span> <span class="o">=</span> <span class="bp">True</span>
@@ -175,9 +174,6 @@
 <span class="n">trb</span><span class="o">.</span><span class="n">machine_rating</span> <span class="o">=</span> <span class="mf">5000.0</span>
 <span class="n">trb</span><span class="o">.</span><span class="n">offshore</span> <span class="o">=</span> <span class="bp">True</span>
 <span class="n">trb</span><span class="o">.</span><span class="n">drivetrain_design</span> <span class="o">=</span> <span class="s">&#39;geared&#39;</span>
-<span class="n">trb</span><span class="o">.</span><span class="n">crane</span> <span class="o">=</span> <span class="bp">True</span>
-<span class="n">trb</span><span class="o">.</span><span class="n">advanced_bedplate</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="n">trb</span><span class="o">.</span><span class="n">advanced_tower</span> <span class="o">=</span> <span class="bp">False</span>
 </pre></div>
 </div>
 <p>Next, we need to set additional inputs to the model to estimate the rotor forces on the nacelle.  These can be specified directly if the rotor thrust and rotor torque are known.</p>
@@ -198,7 +194,7 @@
 <div class="highlight-python"><div class="highlight"><pre><span class="n">trb</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>We then print out the resulting cost values:</p>
+<p>We then print out the resulting cost values</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="s">&quot;The results for the NREL 5 MW Reference Turbine in an offshore 20 m water depth location are:&quot;</span>
 <span class="k">print</span> <span class="s">&quot;Overall turbine mass is {0:.2f} kg&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">trb</span><span class="o">.</span><span class="n">turbine_mass</span><span class="p">)</span>
 <span class="k">print</span> <span class="s">&quot;Overall turbine cost is ${0:.2f} USD&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">trb</span><span class="o">.</span><span class="n">turbine_cost</span><span class="p">)</span>
@@ -206,8 +202,8 @@
 </div>
 <p>The result is:</p>
 <div class="highlight-python"><div class="highlight"><pre>&gt;&gt;&gt; The results for the NREL 5 MW Reference Turbine in an offshore 20 m water depth location are:
-&gt;&gt;&gt; Turbine mass: 747191.36 kg
-&gt;&gt;&gt; Turbine cost: $5950346.87 USD
+&gt;&gt;&gt; Turbine mass: 728368.02 kg
+&gt;&gt;&gt; Turbine cost: $5925727.43 USD
 </pre></div>
 </div>
 <p>It is also possible to output individual component masses and cost as in the Turbine_CostsSE model.</p>
@@ -218,7 +214,7 @@
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
@@ -235,12 +231,14 @@
   <h4>Next topic</h4>
   <p class="topless"><a href="documentation.html"
                         title="next chapter">4. Documentation</a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="_sources/tutorial.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/tutorial.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
       <input type="text" name="q" />
@@ -257,7 +255,7 @@
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -269,13 +267,13 @@
         <li class="right" >
           <a href="installation.html" title="2. Installation"
              >previous</a> |</li>
-        <li><a href="index.html">Turbine_CostsSE 0.1.0 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">Turbine_CostsSE 0.1.0 documentation</a> &raquo;</li> 
       </ul>
     </div>
-    <div class="footer">
+    <div class="footer" role="contentinfo">
         &copy; Copyright 2014, NREL.
-      Last updated on Oct 07, 2014.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+      Last updated on Nov 15, 2015.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
   </body>
 </html>

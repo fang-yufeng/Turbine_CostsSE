@@ -23,12 +23,12 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="top" title="Turbine_CostsSE 0.1.0 documentation" href="index.html" />
     <link rel="prev" title="4. Documentation" href="documentation.html" /> 
   </head>
-  <body>
-    <div class="related">
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -37,14 +37,14 @@
         <li class="right" >
           <a href="documentation.html" title="4. Documentation"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">Turbine_CostsSE 0.1.0 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">Turbine_CostsSE 0.1.0 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="theory">
 <span id="id1"></span><h1>5. Theory<a class="headerlink" href="#theory" title="Permalink to this headline">¶</a></h1>
@@ -55,9 +55,9 @@
 \[COE = (FCR*(BOS+TCC))/AEP + (LLC + LRC + (1-tr)*OM)/AEP\]</div>
 <p>where <span class="math">\(COE\)</span> in this equation is a simple estimate of a wind plant cost of energy, <span class="math">\(FCR\)</span> is the fixed charge rate for the project, <span class="math">\(BOS\)</span> are the total balance of station costs for the project, <span class="math">\(TCC\)</span> are the total turbine capital costs for the project, <span class="math">\(AEP\)</span> is the annual energy production for the project, <span class="math">\(LLC\)</span> are the annual land-lease costs, <span class="math">\(LRC\)</span> is the levelized replacement cost for major part replacement, <span class="math">\(tr\)</span> is the tax rate, and <span class="math">\(OM\)</span> are the annual operations and maintenance costs which are tax deductible.</p>
 <p>While the NREL Cost and Scaling Model improved the overall cost estimation for larger turbines on the order of 1 MW+, it abstracted away from the engineering analysis foundations of the original Sunderland model.  This is depicted in the below figure where it can be seen that the engineering-analysis has been replaced by a series of curve fits which relate a small number of design parameters to mass and cost estimates for major wind turbine components.</p>
-<div class="figure" id="nrelcsm">
-<a class="reference internal image-reference" href="_images/NRELCSM.png"><img alt="_images/NRELCSM.png" src="_images/NRELCSM.png" style="width: 5.5in;" /></a>
-<p class="caption">Figure 1: NREL Cost and Scaling Model Key Input-Output Relationships.</p>
+<div class="figure" id="id25">
+<span id="nrelcsm"></span><a class="reference internal image-reference" href="_images/NRELCSM.png"><img alt="_images/NRELCSM.png" src="_images/NRELCSM.png" style="width: 5.5in;" /></a>
+<p class="caption"><span class="caption-text">Figure 1: NREL Cost and Scaling Model Key Input-Output Relationships.</span></p>
 </div>
 <p>The resulting NREL Cost and Scaling Model (as provided in NREL_CSM_TCC) allows for a variety of interesting analyses including scaling of conventional technology from under a MW to 5 MW+, assessing impact of trends in input factors for materials and labor on wind plant cost of energy, etc.  However, it does not preserve the underlying engineering relationships of the original Sunderland model and thus loses some fidelity of assessing how design changes may impact system costs.</p>
 <p>The goal of the development of the second model, Turbine_CostsSE, then is to provide a set of mass-based component cost calculations.  A mass-cost model is developed for each of the major turbine components.  These use the data underlying the NREL Cost and Scaling Model to estimate relationships that can then be scaled based on economic multipliers as done in <a class="reference internal" href="#fingersh2006" id="id12">[1]</a>.  Details of the models are described next.</p>
@@ -66,34 +66,34 @@
 <p>A set of models based on the NREL Cost and Scaling model data have been developed to produce relationships of mass-to-cost for all major wind turbine components <a class="reference internal" href="#fingersh2006" id="id13">[1]</a>.  These in many cases supplant the NREL Cost and Scaling model cost equations for wind turbine components which are often based on a small selection of design parameters such as rotor diameter, hub height and rated power.  The set of wind turbine mass-to-cost models developed include the components: blade, hub system [hub, pitch system, and nose cone], nacelle [low speed shaft, main bearings, gearbox, high speed shaft/mechanical brake, generator, variable speed electronics, electrical cabling, mainframe [bedplate, platforms and railings, base hardware, and crane], HVAC system, controls, and nacelle cover], and tower.  In addition, a mass-to-cost model for offshore monopile foundations has been established based on the new NREL Balance of Station Model <a class="reference internal" href="#windpact" id="id14">[2]</a>.  This section will describe the mass-to-cost models each of the major wind turbine components.</p>
 <p>Blades:</p>
 <p>The new NREL blades mass-cost model is based on the data of the NREL Cost and Scaling Model which was acquired via the WindPACT design studies efforts <a class="reference internal" href="#sunderland1993" id="id15">[3]</a>.  The data for the blade costs in particular stem from the &#8220;WindPACT Turbine Rotor Design Study&#8221; <a class="reference internal" href="#malcolm2002" id="id16">[4]</a> as well as the &#8220;Cost Study for Large Wind Turbine Blades:  WindPACT Blade System Design Studies&#8221; <a class="reference internal" href="#tpi2003" id="id17">[6]</a>.  The equation for blade costs includes both materials and manufacturing.  The NREL Cost and Scaling Model has built in escalators to update labor and material input cost factors based on cost trends over time.  The model here is reduced to a cost model relationship dependent only on mass as is consistent with the full set of mass-to-cost models.  A graph of the relationships for mass-to-cost from the WindPACT study data based on 2002 USD is shown below.</p>
-<div class="figure" id="bladecost">
-<a class="reference internal image-reference" href="_images/BladeCost.png"><img alt="_images/BladeCost.png" src="_images/BladeCost.png" style="width: 6.5in;" /></a>
-<p class="caption">Figure 2: Blade mass-cost relationship based on NREL Cost and Scaling Model.</p>
+<div class="figure" id="id26">
+<span id="bladecost"></span><a class="reference internal image-reference" href="_images/BladeCost.png"><img alt="_images/BladeCost.png" src="_images/BladeCost.png" style="width: 6.5in;" /></a>
+<p class="caption"><span class="caption-text">Figure 2: Blade mass-cost relationship based on NREL Cost and Scaling Model.</span></p>
 </div>
 <p>Hub System:</p>
 <p>The cost model for the hub and spinner components are already based on a mass-to-cost relationship and so no adaptation is needed.  For the pitch system, a new mass-to-cost relationship based on the WindPACT study <a class="reference internal" href="#malcolm2002" id="id18">[4]</a> appendix C for bearing data.  The costs are escalated as described in the NREL Cost and Scaling Model.</p>
-<div class="figure" id="pitchcost">
-<a class="reference internal image-reference" href="_images/pitchCost.png"><img alt="_images/pitchCost.png" src="_images/pitchCost.png" style="width: 6.5in;" /></a>
-<p class="caption">Figure 3: Pitch system mass-cost relationship based on NREL Cost and Scaling Model.</p>
+<div class="figure" id="id27">
+<span id="pitchcost"></span><a class="reference internal image-reference" href="_images/pitchCost.png"><img alt="_images/pitchCost.png" src="_images/pitchCost.png" style="width: 6.5in;" /></a>
+<p class="caption"><span class="caption-text">Figure 3: Pitch system mass-cost relationship based on NREL Cost and Scaling Model.</span></p>
 </div>
 <p>The mass-cost model for the pitch system was built using the equation as presented on the above figure mutliplied by a factor of 2.28 to account for the pitch system housing as was done in the NREL Cost and Scaling Model.</p>
 <p>Drivetrain and Nacelle:</p>
 <p>The major components of the low-speed shaft, gearbox, yaw drive and mainframe were adapted to a mass-cost relationship based on data from the WindPACT study <a class="reference internal" href="#malcolm2002" id="id19">[4]</a>.  The relationship for the main bearings was already mass-based though it had to be divided by a factor of 4 to account for the change in mass estimates from the Sunderland Model.  The relationship for the mechanical brake was an inverse mass-to-cost relationship where the mass was derived by cost by a division of 10 <a class="reference internal" href="#windpact" id="id20">[2]</a>.  This was adapted to a multiplier of 10 for the mass-cost model.  The generator cost model is as described in <a class="reference internal" href="#sunderland1993" id="id21">[3]</a> but the costs were updated to the mass-cost relationship of $65/kg as described in <a class="reference internal" href="#malcolm2002" id="id22">[4]</a>.  Mass-cost models for rest of the nacelle components could not be made since there is either a lack of data on individual masses and/or costs for such components.  All costs are escalated as described in the NREL Cost and Scaling Model.</p>
-<div class="figure" id="lsscost">
-<a class="reference internal image-reference" href="_images/lssCost.png"><img alt="_images/lssCost.png" src="_images/lssCost.png" style="width: 6.5in;" /></a>
-<p class="caption">Figure 4: LSS mass-cost relationship based on NREL Cost and Scaling Model.</p>
+<div class="figure" id="id28">
+<span id="lsscost"></span><a class="reference internal image-reference" href="_images/lssCost.png"><img alt="_images/lssCost.png" src="_images/lssCost.png" style="width: 6.5in;" /></a>
+<p class="caption"><span class="caption-text">Figure 4: LSS mass-cost relationship based on NREL Cost and Scaling Model.</span></p>
 </div>
-<div class="figure" id="gearboxcost">
-<a class="reference internal image-reference" href="_images/gearboxCost.png"><img alt="_images/gearboxCost.png" src="_images/gearboxCost.png" style="width: 6.5in;" /></a>
-<p class="caption">Figure 5: Gearbox mass-cost relationship based on NREL Cost and Scaling Model.</p>
+<div class="figure" id="id29">
+<span id="gearboxcost"></span><a class="reference internal image-reference" href="_images/gearboxCost.png"><img alt="_images/gearboxCost.png" src="_images/gearboxCost.png" style="width: 6.5in;" /></a>
+<p class="caption"><span class="caption-text">Figure 5: Gearbox mass-cost relationship based on NREL Cost and Scaling Model.</span></p>
 </div>
-<div class="figure" id="mainframecost">
-<a class="reference internal image-reference" href="_images/mainframeCost.png"><img alt="_images/mainframeCost.png" src="_images/mainframeCost.png" style="width: 6.5in;" /></a>
-<p class="caption">Figure 6: Mainframe mass-cost relationship based on NREL Cost and Scaling Model.</p>
+<div class="figure" id="id30">
+<span id="mainframecost"></span><a class="reference internal image-reference" href="_images/mainframeCost.png"><img alt="_images/mainframeCost.png" src="_images/mainframeCost.png" style="width: 6.5in;" /></a>
+<p class="caption"><span class="caption-text">Figure 6: Mainframe mass-cost relationship based on NREL Cost and Scaling Model.</span></p>
 </div>
-<div class="figure" id="yawcost">
-<a class="reference internal image-reference" href="_images/yawCost.png"><img alt="_images/yawCost.png" src="_images/yawCost.png" style="width: 6.5in;" /></a>
-<p class="caption">Figure 7: Yaw system mass-cost relationship based on NREL Cost and Scaling Model.</p>
+<div class="figure" id="id31">
+<span id="yawcost"></span><a class="reference internal image-reference" href="_images/yawCost.png"><img alt="_images/yawCost.png" src="_images/yawCost.png" style="width: 6.5in;" /></a>
+<p class="caption"><span class="caption-text">Figure 7: Yaw system mass-cost relationship based on NREL Cost and Scaling Model.</span></p>
 </div>
 <p>The mass-cost models for the components above were built using the equations as presented in the above figures.</p>
 <p>Tower:</p>
@@ -151,7 +151,7 @@
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
@@ -164,12 +164,14 @@
   <h4>Previous topic</h4>
   <p class="topless"><a href="documentation.html"
                         title="previous chapter">4. Documentation</a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="_sources/theory.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/theory.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
       <input type="text" name="q" />
@@ -186,7 +188,7 @@
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -195,13 +197,13 @@
         <li class="right" >
           <a href="documentation.html" title="4. Documentation"
              >previous</a> |</li>
-        <li><a href="index.html">Turbine_CostsSE 0.1.0 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">Turbine_CostsSE 0.1.0 documentation</a> &raquo;</li> 
       </ul>
     </div>
-    <div class="footer">
+    <div class="footer" role="contentinfo">
         &copy; Copyright 2014, NREL.
-      Last updated on Oct 07, 2014.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+      Last updated on Nov 15, 2015.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
   </body>
 </html>

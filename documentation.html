@@ -23,13 +23,13 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="top" title="Turbine_CostsSE 0.1.0 documentation" href="index.html" />
     <link rel="next" title="5. Theory" href="theory.html" />
     <link rel="prev" title="3. Tutorial" href="tutorial.html" /> 
   </head>
-  <body>
-    <div class="related">
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -41,14 +41,14 @@
         <li class="right" >
           <a href="tutorial.html" title="3. Tutorial"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">Turbine_CostsSE 0.1.0 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">Turbine_CostsSE 0.1.0 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="documentation">
 <span id="documentation-label"></span><h1>4. Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h1>
@@ -81,124 +81,120 @@
     <span class="n">offshore</span> <span class="o">=</span> <span class="n">Bool</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;flag for offshore site&#39;</span><span class="p">)</span>
     <span class="n">year</span> <span class="o">=</span> <span class="n">Int</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Current Year&#39;</span><span class="p">)</span>
     <span class="n">month</span> <span class="o">=</span> <span class="n">Int</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Current Month&#39;</span><span class="p">)</span>
-    <span class="n">assemblyCostMultiplier</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;multiplier for assembly cost in manufacturing&#39;</span><span class="p">)</span>
-    <span class="n">overheadCostMultiplier</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;multiplier for overhead&#39;</span><span class="p">)</span>
-    <span class="n">profitMultiplier</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;multiplier for profit markup&#39;</span><span class="p">)</span>
-    <span class="n">transportMultiplier</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;multiplier for transport costs&#39;</span><span class="p">)</span>
 
     <span class="c"># Outputs</span>
     <span class="n">turbine_cost</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">iotype</span><span class="o">=</span><span class="s">&#39;out&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Overall wind turbine capial costs including transportation costs&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="section" id="module-turbine_costsse.turbine_costsse.rotor_costsse">
-<span id="referenced-sub-system-modules-rotor"></span><h3>4.1.1. Referenced Sub-System Modules (Rotor)<a class="headerlink" href="#module-turbine_costsse.turbine_costsse.rotor_costsse" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="module-turbine_costsse.turbine_costsse">
+<span id="referenced-sub-system-modules-rotor"></span><h3>4.1.4. Referenced Sub-System Modules (Rotor)<a class="headerlink" href="#module-turbine_costsse.turbine_costsse" title="Permalink to this headline">¶</a></h3>
 <dl class="class">
-<dt id="turbine_costsse.turbine_costsse.rotor_costsse.BladeCost">
-<em class="property">class </em><tt class="descclassname">turbine_costsse.turbine_costsse.rotor_costsse.</tt><tt class="descname">BladeCost</tt><a class="reference internal" href="_modules/turbine_costsse/turbine_costsse/rotor_costsse.html#BladeCost"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#turbine_costsse.turbine_costsse.rotor_costsse.BladeCost" title="Permalink to this definition">¶</a></dt>
+<dt id="turbine_costsse.turbine_costsse.BladeCost">
+<em class="property">class </em><code class="descclassname">turbine_costsse.turbine_costsse.</code><code class="descname">BladeCost</code><a class="reference internal" href="_modules/turbine_costsse/turbine_costsse.html#BladeCost"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#turbine_costsse.turbine_costsse.BladeCost" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="class">
-<dt id="turbine_costsse.turbine_costsse.rotor_costsse.HubCost">
-<em class="property">class </em><tt class="descclassname">turbine_costsse.turbine_costsse.rotor_costsse.</tt><tt class="descname">HubCost</tt><a class="reference internal" href="_modules/turbine_costsse/turbine_costsse/rotor_costsse.html#HubCost"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#turbine_costsse.turbine_costsse.rotor_costsse.HubCost" title="Permalink to this definition">¶</a></dt>
+<dt id="turbine_costsse.turbine_costsse.HubCost">
+<em class="property">class </em><code class="descclassname">turbine_costsse.turbine_costsse.</code><code class="descname">HubCost</code><a class="reference internal" href="_modules/turbine_costsse/turbine_costsse.html#HubCost"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#turbine_costsse.turbine_costsse.HubCost" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="class">
-<dt id="turbine_costsse.turbine_costsse.rotor_costsse.PitchSystemCost">
-<em class="property">class </em><tt class="descclassname">turbine_costsse.turbine_costsse.rotor_costsse.</tt><tt class="descname">PitchSystemCost</tt><a class="reference internal" href="_modules/turbine_costsse/turbine_costsse/rotor_costsse.html#PitchSystemCost"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#turbine_costsse.turbine_costsse.rotor_costsse.PitchSystemCost" title="Permalink to this definition">¶</a></dt>
+<dt id="turbine_costsse.turbine_costsse.PitchSystemCost">
+<em class="property">class </em><code class="descclassname">turbine_costsse.turbine_costsse.</code><code class="descname">PitchSystemCost</code><a class="reference internal" href="_modules/turbine_costsse/turbine_costsse.html#PitchSystemCost"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#turbine_costsse.turbine_costsse.PitchSystemCost" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="class">
-<dt id="turbine_costsse.turbine_costsse.rotor_costsse.SpinnerCost">
-<em class="property">class </em><tt class="descclassname">turbine_costsse.turbine_costsse.rotor_costsse.</tt><tt class="descname">SpinnerCost</tt><a class="reference internal" href="_modules/turbine_costsse/turbine_costsse/rotor_costsse.html#SpinnerCost"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#turbine_costsse.turbine_costsse.rotor_costsse.SpinnerCost" title="Permalink to this definition">¶</a></dt>
+<dt id="turbine_costsse.turbine_costsse.SpinnerCost">
+<em class="property">class </em><code class="descclassname">turbine_costsse.turbine_costsse.</code><code class="descname">SpinnerCost</code><a class="reference internal" href="_modules/turbine_costsse/turbine_costsse.html#SpinnerCost"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#turbine_costsse.turbine_costsse.SpinnerCost" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="class">
-<dt id="turbine_costsse.turbine_costsse.rotor_costsse.HubSystemCostAdder">
-<em class="property">class </em><tt class="descclassname">turbine_costsse.turbine_costsse.rotor_costsse.</tt><tt class="descname">HubSystemCostAdder</tt><a class="reference internal" href="_modules/turbine_costsse/turbine_costsse/rotor_costsse.html#HubSystemCostAdder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#turbine_costsse.turbine_costsse.rotor_costsse.HubSystemCostAdder" title="Permalink to this definition">¶</a></dt>
+<dt id="turbine_costsse.turbine_costsse.HubSystemCostAdder">
+<em class="property">class </em><code class="descclassname">turbine_costsse.turbine_costsse.</code><code class="descname">HubSystemCostAdder</code><a class="reference internal" href="_modules/turbine_costsse/turbine_costsse.html#HubSystemCostAdder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#turbine_costsse.turbine_costsse.HubSystemCostAdder" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="class">
-<dt id="turbine_costsse.turbine_costsse.rotor_costsse.RotorCostAdder">
-<em class="property">class </em><tt class="descclassname">turbine_costsse.turbine_costsse.rotor_costsse.</tt><tt class="descname">RotorCostAdder</tt><a class="reference internal" href="_modules/turbine_costsse/turbine_costsse/rotor_costsse.html#RotorCostAdder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#turbine_costsse.turbine_costsse.rotor_costsse.RotorCostAdder" title="Permalink to this definition">¶</a></dt>
+<dt id="turbine_costsse.turbine_costsse.RotorCostAdder">
+<em class="property">class </em><code class="descclassname">turbine_costsse.turbine_costsse.</code><code class="descname">RotorCostAdder</code><a class="reference internal" href="_modules/turbine_costsse/turbine_costsse.html#RotorCostAdder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#turbine_costsse.turbine_costsse.RotorCostAdder" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="class">
-<dt id="turbine_costsse.turbine_costsse.rotor_costsse.Rotor_CostsSE">
-<em class="property">class </em><tt class="descclassname">turbine_costsse.turbine_costsse.rotor_costsse.</tt><tt class="descname">Rotor_CostsSE</tt><a class="reference internal" href="_modules/turbine_costsse/turbine_costsse/rotor_costsse.html#Rotor_CostsSE"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#turbine_costsse.turbine_costsse.rotor_costsse.Rotor_CostsSE" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</div>
-<div class="section" id="module-turbine_costsse.turbine_costsse.nacelle_costsse">
-<span id="referenced-sub-system-modules-nacelle"></span><h3>4.1.2. Referenced Sub-System Modules (Nacelle)<a class="headerlink" href="#module-turbine_costsse.turbine_costsse.nacelle_costsse" title="Permalink to this headline">¶</a></h3>
-<dl class="class">
-<dt id="turbine_costsse.turbine_costsse.nacelle_costsse.LowSpeedShaftCost">
-<em class="property">class </em><tt class="descclassname">turbine_costsse.turbine_costsse.nacelle_costsse.</tt><tt class="descname">LowSpeedShaftCost</tt><a class="reference internal" href="_modules/turbine_costsse/turbine_costsse/nacelle_costsse.html#LowSpeedShaftCost"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#turbine_costsse.turbine_costsse.nacelle_costsse.LowSpeedShaftCost" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="class">
-<dt id="turbine_costsse.turbine_costsse.nacelle_costsse.BearingsCost">
-<em class="property">class </em><tt class="descclassname">turbine_costsse.turbine_costsse.nacelle_costsse.</tt><tt class="descname">BearingsCost</tt><a class="reference internal" href="_modules/turbine_costsse/turbine_costsse/nacelle_costsse.html#BearingsCost"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#turbine_costsse.turbine_costsse.nacelle_costsse.BearingsCost" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="class">
-<dt id="turbine_costsse.turbine_costsse.nacelle_costsse.GearboxCost">
-<em class="property">class </em><tt class="descclassname">turbine_costsse.turbine_costsse.nacelle_costsse.</tt><tt class="descname">GearboxCost</tt><a class="reference internal" href="_modules/turbine_costsse/turbine_costsse/nacelle_costsse.html#GearboxCost"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#turbine_costsse.turbine_costsse.nacelle_costsse.GearboxCost" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="class">
-<dt id="turbine_costsse.turbine_costsse.nacelle_costsse.HighSpeedSideCost">
-<em class="property">class </em><tt class="descclassname">turbine_costsse.turbine_costsse.nacelle_costsse.</tt><tt class="descname">HighSpeedSideCost</tt><a class="reference internal" href="_modules/turbine_costsse/turbine_costsse/nacelle_costsse.html#HighSpeedSideCost"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#turbine_costsse.turbine_costsse.nacelle_costsse.HighSpeedSideCost" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="class">
-<dt id="turbine_costsse.turbine_costsse.nacelle_costsse.GeneratorCost">
-<em class="property">class </em><tt class="descclassname">turbine_costsse.turbine_costsse.nacelle_costsse.</tt><tt class="descname">GeneratorCost</tt><a class="reference internal" href="_modules/turbine_costsse/turbine_costsse/nacelle_costsse.html#GeneratorCost"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#turbine_costsse.turbine_costsse.nacelle_costsse.GeneratorCost" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="class">
-<dt id="turbine_costsse.turbine_costsse.nacelle_costsse.BedplateCost">
-<em class="property">class </em><tt class="descclassname">turbine_costsse.turbine_costsse.nacelle_costsse.</tt><tt class="descname">BedplateCost</tt><a class="reference internal" href="_modules/turbine_costsse/turbine_costsse/nacelle_costsse.html#BedplateCost"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#turbine_costsse.turbine_costsse.nacelle_costsse.BedplateCost" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="class">
-<dt id="turbine_costsse.turbine_costsse.nacelle_costsse.NacelleSystemCostAdder">
-<em class="property">class </em><tt class="descclassname">turbine_costsse.turbine_costsse.nacelle_costsse.</tt><tt class="descname">NacelleSystemCostAdder</tt><a class="reference internal" href="_modules/turbine_costsse/turbine_costsse/nacelle_costsse.html#NacelleSystemCostAdder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#turbine_costsse.turbine_costsse.nacelle_costsse.NacelleSystemCostAdder" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="class">
-<dt id="turbine_costsse.turbine_costsse.nacelle_costsse.Nacelle_CostsSE">
-<em class="property">class </em><tt class="descclassname">turbine_costsse.turbine_costsse.nacelle_costsse.</tt><tt class="descname">Nacelle_CostsSE</tt><a class="reference internal" href="_modules/turbine_costsse/turbine_costsse/nacelle_costsse.html#Nacelle_CostsSE"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#turbine_costsse.turbine_costsse.nacelle_costsse.Nacelle_CostsSE" title="Permalink to this definition">¶</a></dt>
+<dt id="turbine_costsse.turbine_costsse.Rotor_CostsSE">
+<em class="property">class </em><code class="descclassname">turbine_costsse.turbine_costsse.</code><code class="descname">Rotor_CostsSE</code><a class="reference internal" href="_modules/turbine_costsse/turbine_costsse.html#Rotor_CostsSE"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#turbine_costsse.turbine_costsse.Rotor_CostsSE" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>
-<div class="section" id="module-turbine_costsse.turbine_costsse.tower_costsse">
-<span id="referenced-sub-system-modules-tower"></span><h3>4.1.3. Referenced Sub-System Modules (Tower)<a class="headerlink" href="#module-turbine_costsse.turbine_costsse.tower_costsse" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="module-turbine_costsse.turbine_costsse">
+<span id="referenced-sub-system-modules-nacelle"></span><h3>4.1.4. Referenced Sub-System Modules (Nacelle)<a class="headerlink" href="#module-turbine_costsse.turbine_costsse" title="Permalink to this headline">¶</a></h3>
 <dl class="class">
-<dt id="turbine_costsse.turbine_costsse.tower_costsse.TowerCost">
-<em class="property">class </em><tt class="descclassname">turbine_costsse.turbine_costsse.tower_costsse.</tt><tt class="descname">TowerCost</tt><a class="reference internal" href="_modules/turbine_costsse/turbine_costsse/tower_costsse.html#TowerCost"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#turbine_costsse.turbine_costsse.tower_costsse.TowerCost" title="Permalink to this definition">¶</a></dt>
+<dt id="turbine_costsse.turbine_costsse.LowSpeedShaftCost">
+<em class="property">class </em><code class="descclassname">turbine_costsse.turbine_costsse.</code><code class="descname">LowSpeedShaftCost</code><a class="reference internal" href="_modules/turbine_costsse/turbine_costsse.html#LowSpeedShaftCost"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#turbine_costsse.turbine_costsse.LowSpeedShaftCost" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="class">
-<dt id="turbine_costsse.turbine_costsse.tower_costsse.TowerCostAdder">
-<em class="property">class </em><tt class="descclassname">turbine_costsse.turbine_costsse.tower_costsse.</tt><tt class="descname">TowerCostAdder</tt><a class="reference internal" href="_modules/turbine_costsse/turbine_costsse/tower_costsse.html#TowerCostAdder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#turbine_costsse.turbine_costsse.tower_costsse.TowerCostAdder" title="Permalink to this definition">¶</a></dt>
+<dt id="turbine_costsse.turbine_costsse.BearingsCost">
+<em class="property">class </em><code class="descclassname">turbine_costsse.turbine_costsse.</code><code class="descname">BearingsCost</code><a class="reference internal" href="_modules/turbine_costsse/turbine_costsse.html#BearingsCost"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#turbine_costsse.turbine_costsse.BearingsCost" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="class">
-<dt id="turbine_costsse.turbine_costsse.tower_costsse.Tower_CostsSE">
-<em class="property">class </em><tt class="descclassname">turbine_costsse.turbine_costsse.tower_costsse.</tt><tt class="descname">Tower_CostsSE</tt><a class="reference internal" href="_modules/turbine_costsse/turbine_costsse/tower_costsse.html#Tower_CostsSE"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#turbine_costsse.turbine_costsse.tower_costsse.Tower_CostsSE" title="Permalink to this definition">¶</a></dt>
+<dt id="turbine_costsse.turbine_costsse.GearboxCost">
+<em class="property">class </em><code class="descclassname">turbine_costsse.turbine_costsse.</code><code class="descname">GearboxCost</code><a class="reference internal" href="_modules/turbine_costsse/turbine_costsse.html#GearboxCost"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#turbine_costsse.turbine_costsse.GearboxCost" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="turbine_costsse.turbine_costsse.HighSpeedSideCost">
+<em class="property">class </em><code class="descclassname">turbine_costsse.turbine_costsse.</code><code class="descname">HighSpeedSideCost</code><a class="reference internal" href="_modules/turbine_costsse/turbine_costsse.html#HighSpeedSideCost"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#turbine_costsse.turbine_costsse.HighSpeedSideCost" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="turbine_costsse.turbine_costsse.GeneratorCost">
+<em class="property">class </em><code class="descclassname">turbine_costsse.turbine_costsse.</code><code class="descname">GeneratorCost</code><a class="reference internal" href="_modules/turbine_costsse/turbine_costsse.html#GeneratorCost"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#turbine_costsse.turbine_costsse.GeneratorCost" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="turbine_costsse.turbine_costsse.BedplateCost">
+<em class="property">class </em><code class="descclassname">turbine_costsse.turbine_costsse.</code><code class="descname">BedplateCost</code><a class="reference internal" href="_modules/turbine_costsse/turbine_costsse.html#BedplateCost"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#turbine_costsse.turbine_costsse.BedplateCost" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="turbine_costsse.turbine_costsse.NacelleSystemCostAdder">
+<em class="property">class </em><code class="descclassname">turbine_costsse.turbine_costsse.</code><code class="descname">NacelleSystemCostAdder</code><a class="reference internal" href="_modules/turbine_costsse/turbine_costsse.html#NacelleSystemCostAdder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#turbine_costsse.turbine_costsse.NacelleSystemCostAdder" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="turbine_costsse.turbine_costsse.Nacelle_CostsSE">
+<em class="property">class </em><code class="descclassname">turbine_costsse.turbine_costsse.</code><code class="descname">Nacelle_CostsSE</code><a class="reference internal" href="_modules/turbine_costsse/turbine_costsse.html#Nacelle_CostsSE"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#turbine_costsse.turbine_costsse.Nacelle_CostsSE" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>
-<div class="section" id="module-turbine_costsse.turbine_costsse.turbine_costsse">
-<span id="referenced-turbine-cost-modules"></span><h3>4.1.4. Referenced Turbine Cost Modules<a class="headerlink" href="#module-turbine_costsse.turbine_costsse.turbine_costsse" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="module-turbine_costsse.turbine_costsse">
+<span id="referenced-sub-system-modules-tower"></span><h3>4.1.4. Referenced Sub-System Modules (Tower)<a class="headerlink" href="#module-turbine_costsse.turbine_costsse" title="Permalink to this headline">¶</a></h3>
 <dl class="class">
-<dt id="turbine_costsse.turbine_costsse.turbine_costsse.Turbine_CostsSE">
-<em class="property">class </em><tt class="descclassname">turbine_costsse.turbine_costsse.turbine_costsse.</tt><tt class="descname">Turbine_CostsSE</tt><a class="reference internal" href="_modules/turbine_costsse/turbine_costsse/turbine_costsse.html#Turbine_CostsSE"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#turbine_costsse.turbine_costsse.turbine_costsse.Turbine_CostsSE" title="Permalink to this definition">¶</a></dt>
+<dt id="turbine_costsse.turbine_costsse.TowerCost">
+<em class="property">class </em><code class="descclassname">turbine_costsse.turbine_costsse.</code><code class="descname">TowerCost</code><a class="reference internal" href="_modules/turbine_costsse/turbine_costsse.html#TowerCost"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#turbine_costsse.turbine_costsse.TowerCost" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="class">
-<dt id="turbine_costsse.turbine_costsse.turbine_costsse.TurbineCostAdder">
-<em class="property">class </em><tt class="descclassname">turbine_costsse.turbine_costsse.turbine_costsse.</tt><tt class="descname">TurbineCostAdder</tt><a class="reference internal" href="_modules/turbine_costsse/turbine_costsse/turbine_costsse.html#TurbineCostAdder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#turbine_costsse.turbine_costsse.turbine_costsse.TurbineCostAdder" title="Permalink to this definition">¶</a></dt>
+<dt id="turbine_costsse.turbine_costsse.TowerCostAdder">
+<em class="property">class </em><code class="descclassname">turbine_costsse.turbine_costsse.</code><code class="descname">TowerCostAdder</code><a class="reference internal" href="_modules/turbine_costsse/turbine_costsse.html#TowerCostAdder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#turbine_costsse.turbine_costsse.TowerCostAdder" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="turbine_costsse.turbine_costsse.Tower_CostsSE">
+<em class="property">class </em><code class="descclassname">turbine_costsse.turbine_costsse.</code><code class="descname">Tower_CostsSE</code><a class="reference internal" href="_modules/turbine_costsse/turbine_costsse.html#Tower_CostsSE"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#turbine_costsse.turbine_costsse.Tower_CostsSE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-turbine_costsse.turbine_costsse">
+<span id="referenced-turbine-cost-modules"></span><h3>4.1.4. Referenced Turbine Cost Modules<a class="headerlink" href="#module-turbine_costsse.turbine_costsse" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="turbine_costsse.turbine_costsse.Turbine_CostsSE">
+<em class="property">class </em><code class="descclassname">turbine_costsse.turbine_costsse.</code><code class="descname">Turbine_CostsSE</code><a class="reference internal" href="_modules/turbine_costsse/turbine_costsse.html#Turbine_CostsSE"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#turbine_costsse.turbine_costsse.Turbine_CostsSE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="turbine_costsse.turbine_costsse.TurbineCostAdder">
+<em class="property">class </em><code class="descclassname">turbine_costsse.turbine_costsse.</code><code class="descname">TurbineCostAdder</code><a class="reference internal" href="_modules/turbine_costsse/turbine_costsse.html#TurbineCostAdder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#turbine_costsse.turbine_costsse.TurbineCostAdder" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>
@@ -206,7 +202,7 @@
 <span id="referenced-ppi-index-models-via-commonse-config"></span><h3>4.1.5. Referenced PPI Index Models (via commonse.config)<a class="headerlink" href="#module-commonse.csmPPI" title="Permalink to this headline">¶</a></h3>
 <dl class="class">
 <dt id="commonse.csmPPI.PPI">
-<em class="property">class </em><tt class="descclassname">commonse.csmPPI.</tt><tt class="descname">PPI</tt><a class="reference internal" href="_modules/commonse/csmPPI.html#PPI"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commonse.csmPPI.PPI" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">commonse.csmPPI.</code><code class="descname">PPI</code><a class="reference internal" href="_modules/commonse/csmPPI.html#PPI"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commonse.csmPPI.PPI" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>
@@ -220,7 +216,7 @@
     <span class="n">rotor_diameter</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">units</span> <span class="o">=</span> <span class="s">&#39;m&#39;</span><span class="p">,</span> <span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span> <span class="s">&#39;rotor diameter of the machine&#39;</span><span class="p">)</span> 
     <span class="n">machine_rating</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">units</span> <span class="o">=</span> <span class="s">&#39;kW&#39;</span><span class="p">,</span> <span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span> <span class="o">=</span> <span class="s">&#39;rated power of wind turbine&#39;</span><span class="p">)</span>
     <span class="n">hub_height</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">units</span> <span class="o">=</span> <span class="s">&#39;m&#39;</span><span class="p">,</span> <span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span> <span class="s">&#39;hub height of wind turbine above ground / sea level&#39;</span><span class="p">)</span>
-    <span class="n">rotor_thrust</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;N&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;maximum thrust from rotor&#39;</span><span class="p">)</span>    
+    <span class="n">rotor_thrust</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;N&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;maximum thurst from rotor&#39;</span><span class="p">)</span>    
     <span class="n">rotor_torque</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;N * m&#39;</span><span class="p">,</span> <span class="n">desc</span> <span class="o">=</span> <span class="s">&#39;torque from rotor at rated power&#39;</span><span class="p">)</span>
 
     <span class="c"># Parameters</span>
@@ -236,55 +232,58 @@
 
     <span class="c"># Outputs</span>
     <span class="n">turbine_cost</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">iotype</span><span class="o">=</span><span class="s">&#39;out&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Overall wind turbine capial costs including transportation costs&#39;</span><span class="p">)</span>
+    <span class="n">rotor_cost</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">iotype</span><span class="o">=</span><span class="s">&#39;out&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Rotor cost&#39;</span><span class="p">)</span>
+    <span class="n">nacelle_cost</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">iotype</span><span class="o">=</span><span class="s">&#39;out&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Nacelle cost&#39;</span><span class="p">)</span>
+    <span class="n">tower_cost</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">iotype</span><span class="o">=</span><span class="s">&#39;out&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Tower cost&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="section" id="module-turbine_costsse.nrel_csm_tcc.blades_csm_component">
-<span id="referenced-sub-system-modules-blades"></span><h3>4.2.1. Referenced Sub-System Modules (Blades)<a class="headerlink" href="#module-turbine_costsse.nrel_csm_tcc.blades_csm_component" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="module-turbine_costsse.nrel_csm_tcc">
+<span id="referenced-sub-system-modules-blades"></span><h3>4.2.2. Referenced Sub-System Modules (Blades)<a class="headerlink" href="#module-turbine_costsse.nrel_csm_tcc" title="Permalink to this headline">¶</a></h3>
 <dl class="class">
-<dt id="turbine_costsse.nrel_csm_tcc.blades_csm_component.blades_csm_component">
-<em class="property">class </em><tt class="descclassname">turbine_costsse.nrel_csm_tcc.blades_csm_component.</tt><tt class="descname">blades_csm_component</tt><a class="reference internal" href="_modules/turbine_costsse/nrel_csm_tcc/blades_csm_component.html#blades_csm_component"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#turbine_costsse.nrel_csm_tcc.blades_csm_component.blades_csm_component" title="Permalink to this definition">¶</a></dt>
+<dt id="turbine_costsse.nrel_csm_tcc.blades_csm_component">
+<em class="property">class </em><code class="descclassname">turbine_costsse.nrel_csm_tcc.</code><code class="descname">blades_csm_component</code><a class="reference internal" href="_modules/turbine_costsse/nrel_csm_tcc.html#blades_csm_component"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#turbine_costsse.nrel_csm_tcc.blades_csm_component" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>
-<div class="section" id="module-turbine_costsse.nrel_csm_tcc.hub_csm_component">
-<span id="referenced-sub-system-modules-hub"></span><h3>4.2.2. Referenced Sub-System Modules (Hub)<a class="headerlink" href="#module-turbine_costsse.nrel_csm_tcc.hub_csm_component" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="module-turbine_costsse.nrel_csm_tcc">
+<span id="referenced-sub-system-modules-hub"></span><h3>4.2.2. Referenced Sub-System Modules (Hub)<a class="headerlink" href="#module-turbine_costsse.nrel_csm_tcc" title="Permalink to this headline">¶</a></h3>
 <dl class="class">
-<dt id="turbine_costsse.nrel_csm_tcc.hub_csm_component.hub_csm_component">
-<em class="property">class </em><tt class="descclassname">turbine_costsse.nrel_csm_tcc.hub_csm_component.</tt><tt class="descname">hub_csm_component</tt><a class="reference internal" href="_modules/turbine_costsse/nrel_csm_tcc/hub_csm_component.html#hub_csm_component"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#turbine_costsse.nrel_csm_tcc.hub_csm_component.hub_csm_component" title="Permalink to this definition">¶</a></dt>
+<dt id="turbine_costsse.nrel_csm_tcc.hub_csm_component">
+<em class="property">class </em><code class="descclassname">turbine_costsse.nrel_csm_tcc.</code><code class="descname">hub_csm_component</code><a class="reference internal" href="_modules/turbine_costsse/nrel_csm_tcc.html#hub_csm_component"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#turbine_costsse.nrel_csm_tcc.hub_csm_component" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>
 <div class="section" id="id1">
 <h3>4.2.3. Referenced Sub-System Modules (Nacelle)<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
-<span class="target" id="module-turbine_costsse.nrel_csm_tcc.nacelle_csm_component"></span><dl class="class">
-<dt id="turbine_costsse.nrel_csm_tcc.nacelle_csm_component.nacelle_csm_component">
-<em class="property">class </em><tt class="descclassname">turbine_costsse.nrel_csm_tcc.nacelle_csm_component.</tt><tt class="descname">nacelle_csm_component</tt><a class="reference internal" href="_modules/turbine_costsse/nrel_csm_tcc/nacelle_csm_component.html#nacelle_csm_component"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#turbine_costsse.nrel_csm_tcc.nacelle_csm_component.nacelle_csm_component" title="Permalink to this definition">¶</a></dt>
+<span class="target" id="module-turbine_costsse.nrel_csm_tcc"></span><dl class="class">
+<dt id="turbine_costsse.nrel_csm_tcc.nacelle_csm_component">
+<em class="property">class </em><code class="descclassname">turbine_costsse.nrel_csm_tcc.</code><code class="descname">nacelle_csm_component</code><a class="reference internal" href="_modules/turbine_costsse/nrel_csm_tcc.html#nacelle_csm_component"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#turbine_costsse.nrel_csm_tcc.nacelle_csm_component" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>
 <div class="section" id="id2">
 <h3>4.2.4. Referenced Sub-System Modules (Tower)<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
-<span class="target" id="module-turbine_costsse.nrel_csm_tcc.tower_csm_component"></span><dl class="class">
-<dt id="turbine_costsse.nrel_csm_tcc.tower_csm_component.tower_csm_component">
-<em class="property">class </em><tt class="descclassname">turbine_costsse.nrel_csm_tcc.tower_csm_component.</tt><tt class="descname">tower_csm_component</tt><a class="reference internal" href="_modules/turbine_costsse/nrel_csm_tcc/tower_csm_component.html#tower_csm_component"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#turbine_costsse.nrel_csm_tcc.tower_csm_component.tower_csm_component" title="Permalink to this definition">¶</a></dt>
+<span class="target" id="module-turbine_costsse.nrel_csm_tcc"></span><dl class="class">
+<dt id="turbine_costsse.nrel_csm_tcc.tower_csm_component">
+<em class="property">class </em><code class="descclassname">turbine_costsse.nrel_csm_tcc.</code><code class="descname">tower_csm_component</code><a class="reference internal" href="_modules/turbine_costsse/nrel_csm_tcc.html#tower_csm_component"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#turbine_costsse.nrel_csm_tcc.tower_csm_component" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>
 <div class="section" id="id3">
 <h3>4.2.5. Referenced Turbine Cost Modules<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
-<span class="target" id="module-turbine_costsse.nrel_csm_tcc.nrel_csm_tcc"></span><dl class="class">
-<dt id="turbine_costsse.nrel_csm_tcc.nrel_csm_tcc.tcc_csm_assembly">
-<em class="property">class </em><tt class="descclassname">turbine_costsse.nrel_csm_tcc.nrel_csm_tcc.</tt><tt class="descname">tcc_csm_assembly</tt><a class="reference internal" href="_modules/turbine_costsse/nrel_csm_tcc/nrel_csm_tcc.html#tcc_csm_assembly"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#turbine_costsse.nrel_csm_tcc.nrel_csm_tcc.tcc_csm_assembly" title="Permalink to this definition">¶</a></dt>
+<span class="target" id="module-turbine_costsse.nrel_csm_tcc"></span><dl class="class">
+<dt id="turbine_costsse.nrel_csm_tcc.tcc_csm_assembly">
+<em class="property">class </em><code class="descclassname">turbine_costsse.nrel_csm_tcc.</code><code class="descname">tcc_csm_assembly</code><a class="reference internal" href="_modules/turbine_costsse/nrel_csm_tcc.html#tcc_csm_assembly"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#turbine_costsse.nrel_csm_tcc.tcc_csm_assembly" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="class">
-<dt id="turbine_costsse.nrel_csm_tcc.nrel_csm_tcc.tcc_csm_component">
-<em class="property">class </em><tt class="descclassname">turbine_costsse.nrel_csm_tcc.nrel_csm_tcc.</tt><tt class="descname">tcc_csm_component</tt><a class="reference internal" href="_modules/turbine_costsse/nrel_csm_tcc/nrel_csm_tcc.html#tcc_csm_component"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#turbine_costsse.nrel_csm_tcc.nrel_csm_tcc.tcc_csm_component" title="Permalink to this definition">¶</a></dt>
+<dt id="turbine_costsse.nrel_csm_tcc.tcc_csm_component">
+<em class="property">class </em><code class="descclassname">turbine_costsse.nrel_csm_tcc.</code><code class="descname">tcc_csm_component</code><a class="reference internal" href="_modules/turbine_costsse/nrel_csm_tcc.html#tcc_csm_component"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#turbine_costsse.nrel_csm_tcc.tcc_csm_component" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="class">
-<dt id="turbine_costsse.nrel_csm_tcc.nrel_csm_tcc.rotor_mass_adder">
-<em class="property">class </em><tt class="descclassname">turbine_costsse.nrel_csm_tcc.nrel_csm_tcc.</tt><tt class="descname">rotor_mass_adder</tt><a class="reference internal" href="_modules/turbine_costsse/nrel_csm_tcc/nrel_csm_tcc.html#rotor_mass_adder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#turbine_costsse.nrel_csm_tcc.nrel_csm_tcc.rotor_mass_adder" title="Permalink to this definition">¶</a></dt>
+<dt id="turbine_costsse.nrel_csm_tcc.rotor_mass_adder">
+<em class="property">class </em><code class="descclassname">turbine_costsse.nrel_csm_tcc.</code><code class="descname">rotor_mass_adder</code><a class="reference internal" href="_modules/turbine_costsse/nrel_csm_tcc.html#rotor_mass_adder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#turbine_costsse.nrel_csm_tcc.rotor_mass_adder" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>
@@ -292,7 +291,7 @@
 <h3>4.2.6. Referenced PPI Index Models (via commonse.config)<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
 <span class="target" id="module-commonse.csmPPI"></span><dl class="class">
 <dt>
-<em class="property">class </em><tt class="descclassname">commonse.csmPPI.</tt><tt class="descname">PPI</tt><a class="reference internal" href="_modules/commonse/csmPPI.html#PPI"><span class="viewcode-link">[source]</span></a></dt>
+<em class="property">class </em><code class="descclassname">commonse.csmPPI.</code><code class="descname">PPI</code><a class="reference internal" href="_modules/commonse/csmPPI.html#PPI"><span class="viewcode-link">[source]</span></a></dt>
 <dd></dd></dl>
 
 </div>
@@ -303,22 +302,22 @@
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">4. Documentation</a><ul>
 <li><a class="reference internal" href="#documentation-for-turbine-costsse">4.1. Documentation for Turbine_CostsSE</a><ul>
-<li><a class="reference internal" href="#module-turbine_costsse.turbine_costsse.rotor_costsse">4.1.1. Referenced Sub-System Modules (Rotor)</a></li>
-<li><a class="reference internal" href="#module-turbine_costsse.turbine_costsse.nacelle_costsse">4.1.2. Referenced Sub-System Modules (Nacelle)</a></li>
-<li><a class="reference internal" href="#module-turbine_costsse.turbine_costsse.tower_costsse">4.1.3. Referenced Sub-System Modules (Tower)</a></li>
-<li><a class="reference internal" href="#module-turbine_costsse.turbine_costsse.turbine_costsse">4.1.4. Referenced Turbine Cost Modules</a></li>
+<li><a class="reference internal" href="#module-turbine_costsse.turbine_costsse">4.1.1. Referenced Sub-System Modules (Rotor)</a></li>
+<li><a class="reference internal" href="#module-turbine_costsse.turbine_costsse">4.1.2. Referenced Sub-System Modules (Nacelle)</a></li>
+<li><a class="reference internal" href="#module-turbine_costsse.turbine_costsse">4.1.3. Referenced Sub-System Modules (Tower)</a></li>
+<li><a class="reference internal" href="#module-turbine_costsse.turbine_costsse">4.1.4. Referenced Turbine Cost Modules</a></li>
 <li><a class="reference internal" href="#module-commonse.csmPPI">4.1.5. Referenced PPI Index Models (via commonse.config)</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#documentation-for-nrel-csm-tcc">4.2. Documentation for NREL_CSM_TCC</a><ul>
-<li><a class="reference internal" href="#module-turbine_costsse.nrel_csm_tcc.blades_csm_component">4.2.1. Referenced Sub-System Modules (Blades)</a></li>
-<li><a class="reference internal" href="#module-turbine_costsse.nrel_csm_tcc.hub_csm_component">4.2.2. Referenced Sub-System Modules (Hub)</a></li>
+<li><a class="reference internal" href="#module-turbine_costsse.nrel_csm_tcc">4.2.1. Referenced Sub-System Modules (Blades)</a></li>
+<li><a class="reference internal" href="#module-turbine_costsse.nrel_csm_tcc">4.2.2. Referenced Sub-System Modules (Hub)</a></li>
 <li><a class="reference internal" href="#id1">4.2.3. Referenced Sub-System Modules (Nacelle)</a></li>
 <li><a class="reference internal" href="#id2">4.2.4. Referenced Sub-System Modules (Tower)</a></li>
 <li><a class="reference internal" href="#id3">4.2.5. Referenced Turbine Cost Modules</a></li>
@@ -335,12 +334,14 @@
   <h4>Next topic</h4>
   <p class="topless"><a href="theory.html"
                         title="next chapter">5. Theory</a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="_sources/documentation.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/documentation.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
       <input type="text" name="q" />
@@ -357,7 +358,7 @@
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -369,13 +370,13 @@
         <li class="right" >
           <a href="tutorial.html" title="3. Tutorial"
              >previous</a> |</li>
-        <li><a href="index.html">Turbine_CostsSE 0.1.0 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">Turbine_CostsSE 0.1.0 documentation</a> &raquo;</li> 
       </ul>
     </div>
-    <div class="footer">
+    <div class="footer" role="contentinfo">
         &copy; Copyright 2014, NREL.
-      Last updated on Oct 07, 2014.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+      Last updated on Nov 15, 2015.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
   </body>
 </html>

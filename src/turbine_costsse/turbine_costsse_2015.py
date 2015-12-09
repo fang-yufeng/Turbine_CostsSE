@@ -5,7 +5,7 @@ Created by Janine Freeman 2015 based on turbine_costsse.py 2012.
 Copyright (c) NREL. All rights reserved.
 """
 
-from openmdao.core import Component, Problem, Group
+from openmdao.api import Component, Problem, Group
 import numpy as np
 
 ###### Rotor
@@ -736,9 +736,9 @@ def example():
 
     prob.run()
    
-    print "The results for the NREL 5 MW Reference Turbine in an offshore 20 m water depth location are:"
+    #print(‘The results for the NREL 5 MW Reference Turbine in an offshore 20 m water depth location are’)
     for io in turbine.unknowns:
-        print io + ' ' + str(turbine.unknowns[io])
+        print(io + ' ' + str(turbine.unknowns[io]))
 
 
 if __name__ == "__main__":

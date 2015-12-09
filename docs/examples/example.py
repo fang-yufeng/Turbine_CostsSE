@@ -1,7 +1,7 @@
 # 1 ---------
 
 # A simple test of turbine_costsse model
-from turbine_costsse.turbine_costsse.turbine_costsse import Turbine_CostsSE
+from turbine_costsse.turbine_costsse import Turbine_CostsSE
 
 turbine = Turbine_CostsSE()
 
@@ -79,7 +79,7 @@ print
 # 6 ----------
 
 # A simple test of nrel_csm_tcc model
-from turbine_costsse.nrel_csm_tcc.nrel_csm_tcc import tcc_csm_assembly
+from turbine_costsse.nrel_csm_tcc import tcc_csm_assembly
 import numpy as np
 
 trb = tcc_csm_assembly()
@@ -95,6 +95,9 @@ trb.hub_height = 90.0
 trb.machine_rating = 5000.0
 trb.offshore = True
 trb.drivetrain_design = 'geared'
+trb.crane = True
+trb.advanced_bedplate = 0
+trb.advanced_tower = False
 
 # 7 ----------
 # 8 ----------

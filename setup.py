@@ -13,10 +13,11 @@ kwargs = {'author': 'Katherine Dykes',
  'install_requires': ['openmdao'],
  'keywords': ['openmdao'],
  'license' : 'Apache License, Version 2.0',
+ 'version' : '0.1.0',
  'name': 'Turbine_CostsSE',
  'package_data': {'Turbine_CostsSE': []},
  'package_dir': {'': 'src'},
- 'packages': ['turbine_costsse.turbine_costsse', 'turbine_costsse.nrel_csm_tcc','test'],
+ 'packages': ['turbine_costsse','test'],
  'zip_safe': False}
 
 

@@ -735,8 +735,8 @@ def example():
     prob['bearing_number'] = 2
 
     prob.run()
-   
-    #print(‘The results for the NREL 5 MW Reference Turbine in an offshore 20 m water depth location are’)
+
+    #print('The results for the NREL 5 MW Reference Turbine in an offshore 20 m water depth location are')
     for io in turbine.unknowns:
         print(io + ' ' + str(turbine.unknowns[io]))
 

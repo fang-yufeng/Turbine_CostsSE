@@ -52,7 +52,7 @@
 <span class="sd">Modified by Katherine Dykes 2012.</span>
 <span class="sd">Copyright (c) NREL. All rights reserved.</span>
 <span class="sd">&quot;&quot;&quot;</span>
-
+<span class="kn">import</span> <span class="nn">commonse</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">re</span>
@@ -176,13 +176,12 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">curr_mon</span> <span class="o">=</span> <span class="n">curr_mon</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">debug</span> <span class="o">=</span> <span class="n">debug</span>
 
-        <span class="n">thisdir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="n">__file__</span><span class="p">))</span>   
-        <span class="n">fullfile</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">thisdir</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">tblfile</span><span class="p">)</span>
+        <span class="n">fullfile</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">commonse</span><span class="o">.</span><span class="n">__path__</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">tblfile</span><span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">infile</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">fullfile</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span> <span class="c">#infile = open(self.tblfile)</span>
         <span class="k">except</span><span class="p">:</span>
-            <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span> <span class="p">(</span><span class="s">&quot;Error opening or reading </span><span class="si">%s</span><span class="se">\n</span><span class="s">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">tblfile</span><span class="p">)</span>
-            <span class="k">pass</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span> <span class="p">(</span><span class="s">&quot;Error opening or reading </span><span class="si">%s</span><span class="se">\n</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">fullfile</span><span class="p">)</span>
+            <span class="n">quit</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">debug</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span>
                 <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span> <span class="p">(</span><span class="s">&quot;Opened </span><span class="si">%s</span><span class="se">\n</span><span class="s">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">tblfile</span><span class="p">)</span>
@@ -372,7 +371,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &copy; Copyright 2014, NREL.
-      Last updated on Nov 15, 2015.
+      Last updated on Sep 03, 2017.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
   </body>

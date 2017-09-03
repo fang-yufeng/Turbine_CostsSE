@@ -116,3 +116,11 @@ The result is:
 
 It is also possible to output individual component masses and cost as in the Turbine_CostsSE model.
 
+
+.. only:: html
+
+    :bib:`Bibliography`
+
+.. bibliography:: references.bib
+    :style: unsrt
+

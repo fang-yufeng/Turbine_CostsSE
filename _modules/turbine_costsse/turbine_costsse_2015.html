@@ -700,7 +700,7 @@
 
 <span class="c">#-------------------------------------------------------------------------------</span></div>
 <span class="nd">@implement_base</span><span class="p">(</span><span class="n">BaseComponentCostModel</span><span class="p">)</span>
-<span class="k">class</span> <span class="nc">TowerCost2015</span><span class="p">(</span><span class="n">Component</span><span class="p">):</span>
+<div class="viewcode-block" id="TowerCost2015"><a class="viewcode-back" href="../../documentation.html#turbine_costsse.turbine_costsse_2015.TowerCost2015">[docs]</a><span class="k">class</span> <span class="nc">TowerCost2015</span><span class="p">(</span><span class="n">Component</span><span class="p">):</span>
 
     <span class="c"># variables</span>
     <span class="n">tower_mass</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;kg&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;tower mass [kg]&#39;</span><span class="p">)</span>
@@ -716,9 +716,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">cost</span> <span class="o">=</span> <span class="n">TowerCost2015</span>
    
 
-<span class="c">#-------------------------------------------------------------------------------</span>
+<span class="c">#-------------------------------------------------------------------------------</span></div>
 <span class="nd">@implement_base</span><span class="p">(</span><span class="n">FullTowerCostAggregator</span><span class="p">)</span>
-<span class="k">class</span> <span class="nc">TowerCostAdder2015</span><span class="p">(</span><span class="n">Component</span><span class="p">):</span>
+<div class="viewcode-block" id="TowerCostAdder2015"><a class="viewcode-back" href="../../documentation.html#turbine_costsse.turbine_costsse_2015.TowerCostAdder2015">[docs]</a><span class="k">class</span> <span class="nc">TowerCostAdder2015</span><span class="p">(</span><span class="n">Component</span><span class="p">):</span>
 
     <span class="c"># variables</span>
     <span class="n">tower_cost</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;USD&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;component cost&#39;</span><span class="p">)</span>
@@ -738,9 +738,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">cost</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">tower_transportMultiplier</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">tower_profitMultiplier</span><span class="p">)</span> <span class="o">*</span> <span class="p">((</span><span class="mi">1</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">tower_overheadCostMultiplier</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">tower_assemblyCostMultiplier</span><span class="p">)</span> <span class="o">*</span> <span class="n">partsCost</span><span class="p">)</span>
    
 
-<span class="c">#-------------------------------------------------------------------------------</span>
+<span class="c">#-------------------------------------------------------------------------------</span></div>
 <span class="nd">@implement_base</span><span class="p">(</span><span class="n">FullTowerCostModel</span><span class="p">)</span>
-<span class="k">class</span> <span class="nc">Tower_CostsSE_2015</span><span class="p">(</span><span class="n">Assembly</span><span class="p">):</span>
+<div class="viewcode-block" id="Tower_CostsSE_2015"><a class="viewcode-back" href="../../documentation.html#turbine_costsse.turbine_costsse_2015.Tower_CostsSE_2015">[docs]</a><span class="k">class</span> <span class="nc">Tower_CostsSE_2015</span><span class="p">(</span><span class="n">Assembly</span><span class="p">):</span>
 
     <span class="c"># variables</span>
     <span class="n">tower_mass</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;kg&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;tower mass [kg]&#39;</span><span class="p">)</span>
@@ -775,9 +775,9 @@
 
 
 
-<span class="c">#-------------------------------------------------------------------------------</span>
+<span class="c">#-------------------------------------------------------------------------------</span></div>
 <span class="nd">@implement_base</span><span class="p">(</span><span class="n">FullTurbineCostModel</span><span class="p">)</span>
-<span class="k">class</span> <span class="nc">Turbine_CostsSE_2015</span><span class="p">(</span><span class="n">Assembly</span><span class="p">):</span>
+<div class="viewcode-block" id="Turbine_CostsSE_2015"><a class="viewcode-back" href="../../documentation.html#turbine_costsse.turbine_costsse_2015.Turbine_CostsSE_2015">[docs]</a><span class="k">class</span> <span class="nc">Turbine_CostsSE_2015</span><span class="p">(</span><span class="n">Assembly</span><span class="p">):</span>
 
     <span class="c"># variables</span>
     <span class="n">blade_mass</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;kg&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;component mass [kg]&#39;</span><span class="p">)</span>
@@ -925,9 +925,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s">&#39;turbine_transportMultiplier&#39;</span><span class="p">,</span> <span class="s">&#39;tcc.turbine_transportMultiplier&#39;</span><span class="p">)</span>
 
 
-<span class="c">#-------------------------------------------------------------------------------</span>
+<span class="c">#-------------------------------------------------------------------------------</span></div>
 <span class="nd">@implement_base</span><span class="p">(</span><span class="n">FullTCCAggregator</span><span class="p">)</span>
-<span class="k">class</span> <span class="nc">TurbineCostAdder2015</span><span class="p">(</span><span class="n">Component</span><span class="p">):</span>
+<div class="viewcode-block" id="TurbineCostAdder2015"><a class="viewcode-back" href="../../documentation.html#turbine_costsse.turbine_costsse_2015.TurbineCostAdder2015">[docs]</a><span class="k">class</span> <span class="nc">TurbineCostAdder2015</span><span class="p">(</span><span class="n">Component</span><span class="p">):</span>
 
     <span class="c"># Variables</span>
     <span class="n">rotor_cost</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;USD&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;rotor cost&#39;</span><span class="p">)</span>
@@ -951,7 +951,7 @@
    
 
 <span class="c">#-------------------------------------------------------------------------------</span>
-
+</div>
 <span class="k">def</span> <span class="nf">example</span><span class="p">():</span>
 
     <span class="c"># simple test of module</span>

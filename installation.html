@@ -73,10 +73,14 @@ or download the releases and uncompress/unpack (Turbine_CostsSE.py-0.1.0.tar.gz 
 </div>
 <div class="highlight-python"><div class="highlight"><pre><span class="o">&gt;</span> <span class="kn">import</span> <span class="nn">turbine_costsse.turbine_costsse</span>
 <span class="o">&gt;</span> <span class="kn">import</span> <span class="nn">turbine_costsse.nrel_csm_tcc</span>
+<span class="o">&gt;</span> <span class="kn">import</span> <span class="nn">turbine_costsse.turbine_costsse_2015</span>
+<span class="o">&gt;</span> <span class="kn">import</span> <span class="nn">turbine_costsse.nrel_csm_tcc_2015</span>
 </pre></div>
 </div>
 <p>or run the unit tests which include functional and gradient tests.  Analytic gradients are provided for variables only so warnings will appear for missing gradients on model input parameters; these can be ignored.</p>
 <div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>python src/test/test_Turbine_CostsSE.py
+<span class="nv">$ </span>python src/test/test_Turbine_CostsSE_gradients.py
+<span class="nv">$ </span>python src/test/test_turbine_costsse_2015.py
 </pre></div>
 </div>
 <p>An &#8220;OK&#8221; signifies that all the tests passed.</p>

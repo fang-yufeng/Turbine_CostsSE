@@ -149,14 +149,14 @@ Referenced Sub-System Modules (Nacelle)
 
 Referenced Sub-System Modules (Tower)
 =====================================
-.. module:: turbine_costsse.turbine_costsse_2015
+.. module:: turbine_costsse.turbine_costsse
 .. class:: TowerCost2015
 .. class:: TowerCostAdder2015
 .. class:: Tower_CostsSE_2015
 
 Referenced Turbine Cost Modules
 ===============================
-.. module:: turbine_costsse.turbine_costsse_2015
+.. module:: turbine_costsse.turbine_costsse
 .. class:: Turbine_CostsSE_2015
 .. class:: TurbineCostAdder2015
 

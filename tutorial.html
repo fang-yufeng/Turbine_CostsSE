@@ -215,7 +215,9 @@
 <h2>3.3. Tutorial for Turbine_CostsSE_2015<a class="headerlink" href="#tutorial-for-turbine-costsse-2015" title="Permalink to this headline">¶</a></h2>
 <p>As an example of Turbine_CostsSE_2015, let us simulate using masses for major wind turbine components for the NREL 5MW Reference Model <a class="reference internal" href="#fast2009" id="id3">[8]</a> using the overall turbine cost model.  The hub and drivetrain component masses must also be provided and are calculated from Sunderland Model <a class="reference internal" href="#sunderland1993" id="id4">[3]</a>.</p>
 <p>The first step is to import the relevant files and set up the component.</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">turbine</span> <span class="o">=</span> <span class="n">Turbine_CostsSE_2015</span><span class="p">()</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">turbine_costsse.turbine_costsse_2015</span> <span class="kn">import</span> <span class="n">Turbine_CostsSE_2015</span>
+
+<span class="n">turbine</span> <span class="o">=</span> <span class="n">Turbine_CostsSE_2015</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>The turbine cost model relies on the mass inputs of all major turbine components.  These filter down to the individual component models through the rotor, nacelle and tower.</p>
@@ -315,6 +317,8 @@
 <p>As an example of NREL_CSM_TCC_2015, let us simulate using the key turbine configuration parameters of the NREL 5MW Reference Model as was done above.</p>
 <p>The first step is to again import the relevant files and set up the component.</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="c"># simple test of module</span>
+<span class="kn">from</span> <span class="nn">turbine_costsse.nrel_csm_tcc_2015</span> <span class="kn">import</span> <span class="n">nrel_csm_tcc_2015</span>
+
 <span class="n">trb</span> <span class="o">=</span> <span class="n">nrel_csm_tcc_2015</span><span class="p">()</span>
 </pre></div>
 </div>

@@ -666,6 +666,7 @@ class TurbineCostAdder2015(Component):
         partsCost = rotor_cost + nacelle_cost + tower_cost
 
         unknowns['turbine_cost'] = (1 + turbine_transportMultiplier + turbine_profitMultiplier) * ((1 + turbine_overheadCostMultiplier + turbine_assemblyCostMultiplier) * partsCost)
+        unknowns['turbine_cost_kW'] = unknowns['turbine_cost'] / params['machine_rating']
 
 
 

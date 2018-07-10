@@ -6,6 +6,7 @@ Copyright (c) NREL. All rights reserved.
 """
 
 from openmdao.api import Component, Problem, Group, IndepVarComp
+
 import numpy as np
 
 ###### Rotor

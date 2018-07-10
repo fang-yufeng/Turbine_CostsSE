@@ -7,7 +7,7 @@ Copyright (c) NREL. All rights reserved.
 
 import numpy as np
 
-from openmdao.core import Component, Problem, Group
+from openmdao.api import Component, Problem, Group, IndepVarComp
 
 from turbine_costsse_2015 import Turbine_CostsSE_2015
 
@@ -534,6 +534,10 @@ class nrel_csm_2015(Group):
 	  	  
 	  	  super(nrel_csm_2015, self).__init__()
 	  	  
+	  	  self.add('desvars', IndepVarComp([('rotor_diameter', 0.0),
+			    																 ('machine_rating', 0.0),							    																 
+			    																 ]),promotes=['*'])
+	  	  
 	  	  self.add('nrel_csm_mass', nrel_csm_mass_2015(), promotes=['*'])
 	  	  self.add('turbine_costs', Turbine_CostsSE_2015(), promotes=['*'])
 	  	  
@@ -566,10 +570,10 @@ def mass_example():
 
     prob.run()
    
-    print "The results for the NREL 5 MW Reference Turbine in an offshore 20 m water depth location are:"
+    print("The results for the NREL 5 MW Reference Turbine in an offshore 20 m water depth location are:")
     #print "Overall turbine mass is {0:.2f} kg".format(trb.turbine.params['turbine_mass'])
     for io in trb.unknowns:
-        print io + ' ' + str(trb.unknowns[io])
+        print(io + ' ' + str(trb.unknowns[io]))
 
 def cost_example():
 
@@ -599,9 +603,9 @@ def cost_example():
 
     prob.run()
 
-    print "The results for the NREL 5 MW Reference Turbine in an offshore 20 m water depth location are:"
+    print("The results for the NREL 5 MW Reference Turbine in an offshore 20 m water depth location are:")
     for io in trb.unknowns:
-        print io + ' ' + str(trb.unknowns[io])
+        print(io + ' ' + str(trb.unknowns[io]))
 
 if __name__ == "__main__":
 

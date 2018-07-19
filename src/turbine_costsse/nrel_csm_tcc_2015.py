@@ -144,7 +144,7 @@ class LowSpeedShaftMass(Component):
         self.add_param('lss_mass_intercept', 775., desc='B in the lss mass equation: A*(blade_mass*rated_power)^exp + B')
         
         # Outputs
-        self.add_output('low_speed_shaft_mass', 0.0, desc='component mass [kg]')
+        self.add_output('lss_mass', 0.0, desc='component mass [kg]')
     
     def solve_nonlinear(self, params, unknowns, resids):
         
@@ -155,7 +155,7 @@ class LowSpeedShaftMass(Component):
         lss_mass_intercept = params['lss_mass_intercept']
     
         # calculate the lss mass
-        unknowns['low_speed_shaft_mass'] = lss_mass_coeff * (blade_mass * machine_rating/1000.)**lss_mass_exp + lss_mass_intercept
+        unknowns['lss_mass'] = lss_mass_coeff * (blade_mass * machine_rating/1000.)**lss_mass_exp + lss_mass_intercept
 
 # --------------------------------------------------------------------
 class BearingMass(Component):
@@ -217,7 +217,7 @@ class HighSpeedSideMass(Component):
         self.add_param('hss_mass_coeff', 0.19894, desc= 'NREL CSM hss equation; removing intercept since it is negligible')
         
         # Outputs
-        self.add_output('high_speed_side_mass', 0.0, desc='component mass [kg]')
+        self.add_output('hss_mass', 0.0, desc='component mass [kg]')
     
     def solve_nonlinear(self, params, unknowns, resids):
         
@@ -225,7 +225,7 @@ class HighSpeedSideMass(Component):
         hss_mass_coeff = params['hss_mass_coeff']
         
         # TODO: this is in DriveSE; replace this with code in DriveSE and have DriveSE use this code??
-        unknowns['high_speed_side_mass'] = hss_mass_coeff * machine_rating
+        unknowns['hss_mass'] = hss_mass_coeff * machine_rating
 
 # --------------------------------------------------------------------
 class GeneratorMass(Component):
@@ -287,7 +287,7 @@ class YawSystemMass(Component):
         self.add_param('yaw_mass_exp', 3.314, desc= 'exp in the yaw mass equation: A*rotor_diameter^exp') #NREL CSM
         
         # Outputs
-        self.add_output('yaw_system_mass', 0.0, desc='component mass [kg]')
+        self.add_output('yaw_mass', 0.0, desc='component mass [kg]')
     
     def solve_nonlinear(self, params, unknowns, resids):
       
@@ -296,7 +296,7 @@ class YawSystemMass(Component):
         yaw_mass_exp = params['yaw_mass_exp']
     
         # calculate yaw system mass #TODO - 50% adder for non-bearing mass
-        unknowns['yaw_system_mass'] = 1.5 * (yaw_mass_coeff * rotor_diameter ** yaw_mass_exp) #JMF do we really want to expose all these?
+        unknowns['yaw_mass'] = 1.5 * (yaw_mass_coeff * rotor_diameter ** yaw_mass_exp) #JMF do we really want to expose all these?
 
 #TODO: no variable speed mass; ignore for now
 
@@ -312,7 +312,7 @@ class HydraulicCoolingMass(Component):
         self.add_param('hvac_mass_coeff', 0.08, desc= 'hvac linear coeff') #NREL CSM
         
         # Outputs
-        self.add_output('hydraulic_cooling_mass', 0.0, desc='component mass [kg]')
+        self.add_output('hvac_mass', 0.0, desc='component mass [kg]')
     
     def solve_nonlinear(self, params, unknowns, resids):
         
@@ -320,7 +320,7 @@ class HydraulicCoolingMass(Component):
         hvac_mass_coeff = params['hvac_mass_coeff']
         
         # calculate hvac system mass
-        unknowns['hydraulic_cooling_mass'] = hvac_mass_coeff * machine_rating
+        unknowns['hvac_mass'] = hvac_mass_coeff * machine_rating
 
 # --------------------------------------------------------------------
 class NacelleCoverMass(Component):
@@ -335,7 +335,7 @@ class NacelleCoverMass(Component):
         self.add_param('cover_mass_intercept', 428.19, desc= 'B in the spinner mass equation: A*rotor_diameter + B')
         
         # Outputs
-        self.add_output('nacelle_cover_mass', 0.0, desc='component mass [kg]')
+        self.add_output('cover_mass', 0.0, desc='component mass [kg]')
     
     def solve_nonlinear(self, params, unknowns, resids):
         
@@ -344,7 +344,7 @@ class NacelleCoverMass(Component):
         cover_mass_intercept = params['cover_mass_intercept']
         
         # calculate nacelle cover mass
-        unknowns['nacelle_cover_mass'] = cover_mass_coeff * machine_rating + cover_mass_intercept
+        unknowns['cover_mass'] = cover_mass_coeff * machine_rating + cover_mass_intercept
 
 # TODO: ignoring controls and electronics mass for now
 
@@ -358,7 +358,7 @@ class OtherMainframeMass(Component):
         
         # Variables
         self.add_param('bedplate_mass', 0.0, desc='component mass [kg]')
-        self.add_param('nacelle_platforms_mass_coeff', 0.125, desc='nacelle platforms mass coeff as a function of bedplate mass [kg/kg]') #default from old CSM
+        self.add_param('platforms_mass_coeff', 0.125, desc='nacelle platforms mass coeff as a function of bedplate mass [kg/kg]') #default from old CSM
         self.add_param('crane', False, desc='flag for presence of onboard crane')
         self.add_param('crane_weight', 3000., desc='weight of onboard crane')
         #TODO: there is no base hardware mass model in the old model. Cost is not dependent on mass.
@@ -369,12 +369,12 @@ class OtherMainframeMass(Component):
     def solve_nonlinear(self, params, unknowns, resids):
         
         bedplate_mass = params['bedplate_mass']
-        nacelle_platforms_mass_coeff = params['nacelle_platforms_mass_coeff']
+        platforms_mass_coeff = params['platforms_mass_coeff']
         crane = params['crane']
         crane_weight = params['crane_weight']
         
         # calculate nacelle cover mass           
-        nacelle_platforms_mass = nacelle_platforms_mass_coeff * bedplate_mass
+        platforms_mass = platforms_mass_coeff * bedplate_mass
 
         # --- crane ---        
         if (crane):
@@ -382,7 +382,7 @@ class OtherMainframeMass(Component):
         else:
             crane_mass = 0.  
         
-        unknowns['other_mass'] = nacelle_platforms_mass + crane_mass
+        unknowns['other_mass'] = platforms_mass + crane_mass
 
 # --------------------------------------------------------------------
 class TransformerMass(Component):
@@ -447,15 +447,15 @@ class turbine_mass_adder(Component):
         self.add_param('pitch_system_mass', 0.0, desc='component mass [kg]')
         self.add_param('spinner_mass', 0.0, desc='component mass [kg]')
         # nacelle
-        self.add_param('low_speed_shaft_mass', 0.0, desc='component mass [kg]')
+        self.add_param('lss_mass', 0.0, desc='component mass [kg]')
         self.add_param('main_bearing_mass', 0.0, desc='component mass [kg]')
         self.add_param('gearbox_mass', 0.0, desc='component mass [kg]')
-        self.add_param('high_speed_side_mass', 0.0, desc='component mass [kg]')
+        self.add_param('hss_mass', 0.0, desc='component mass [kg]')
         self.add_param('generator_mass', 0.0, desc='component mass [kg]')
         self.add_param('bedplate_mass', 0.0, desc='component mass [kg]')
-        self.add_param('yaw_system_mass', 0.0, desc='component mass [kg]')
-        self.add_param('hydraulic_cooling_mass', 0.0, desc='component mass [kg]')
-        self.add_param('nacelle_cover_mass', 0.0, desc='component mass [kg]')
+        self.add_param('yaw_mass', 0.0, desc='component mass [kg]')
+        self.add_param('hvac_mass', 0.0, desc='component mass [kg]')
+        self.add_param('cover_mass', 0.0, desc='component mass [kg]')
         self.add_param('other_mass', 0.0, desc='component mass [kg]')
         self.add_param('transformer_mass', 0.0, desc='component mass [kg]')
         # tower
@@ -477,15 +477,15 @@ class turbine_mass_adder(Component):
         hub_mass = params['hub_mass']
         pitch_system_mass = params['pitch_system_mass']
         spinner_mass = params['spinner_mass']
-        low_speed_shaft_mass = params['low_speed_shaft_mass']
+        lss_mass = params['lss_mass']
         main_bearing_mass = params['main_bearing_mass']
         gearbox_mass = params['gearbox_mass']
-        high_speed_side_mass = params['high_speed_side_mass']
+        hss_mass = params['hss_mass']
         generator_mass = params['generator_mass']
         bedplate_mass = params['bedplate_mass']
-        yaw_system_mass = params['yaw_system_mass']
-        hydraulic_cooling_mass = params['hydraulic_cooling_mass']
-        nacelle_cover_mass = params['nacelle_cover_mass']
+        yaw_mass = params['yaw_mass']
+        hvac_mass = params['hvac_mass']
+        cover_mass = params['cover_mass']
         other_mass = params['other_mass']
         transformer_mass = params['transformer_mass']
         tower_mass = params['tower_mass']
@@ -495,10 +495,10 @@ class turbine_mass_adder(Component):
         
         unknowns['hub_system_mass'] = hub_mass + pitch_system_mass + spinner_mass
         unknowns['rotor_mass'] = blade_mass * blade_number + unknowns['hub_system_mass']
-        unknowns['nacelle_mass'] = low_speed_shaft_mass + bearing_number * main_bearing_mass + \
-                            gearbox_mass + high_speed_side_mass + generator_mass + \
-                            bedplate_mass + yaw_system_mass + hydraulic_cooling_mass + \
-                            nacelle_cover_mass + other_mass + transformer_mass
+        unknowns['nacelle_mass'] = lss_mass + bearing_number * main_bearing_mass + \
+                            gearbox_mass + hss_mass + generator_mass + \
+                            bedplate_mass + yaw_mass + hvac_mass + \
+                            cover_mass + other_mass + transformer_mass
         unknowns['turbine_mass'] = unknowns['rotor_mass'] + unknowns['nacelle_mass'] + tower_mass
 
 # --------------------------------------------------------------------
